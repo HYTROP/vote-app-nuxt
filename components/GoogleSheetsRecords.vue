@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import { _API_KEY, _GOOGLE_SHEETS_KEY, sheetRange } from '../API/Api';
 
+import StarsRate from './StarsRate.vue';
+
 const records = ref([]);
 const imageSrc = ref('');
 const showModal = ref(false);
@@ -34,11 +36,15 @@ onMounted(async () => {
 <template>
 	<div class="p-10 sticky top-0 left-0">
 		<h2 class="text-xl font-bold mb-4">Участники конкурса</h2>
-		<div class="overflow-scroll scrollbar-hide">
+		<div class="overflow-scroll scrollbar-hide relative">
 			<div v-if="showModal" class="modal">
 				<span class="close" @click="closeModal">&times;</span>
 				<img class="modal-content" :src="imageSrc" />
+				<div class="flex items-center absolute top-3/4 right-[43%]">
+					<StarsRate />
+				</div>
 			</div>
+
 			<table class="border border-black">
 				<thead>
 					<tr>
@@ -87,7 +93,7 @@ onMounted(async () => {
 						<td class="border border-black px-4 py-2">
 							{{ record[4] }}
 						</td>
-						<td class="border border-black px-4 py-2">
+						<td class="border border-black px-4 py-2 min-w-[200px]">
 							{{ record[5] }}
 						</td>
 						<td class="border border-black px-4 py-10 w-auto">
@@ -96,7 +102,7 @@ onMounted(async () => {
 							</div>
 						</td>
 
-						<td class="border border-black px-4 py-2 w-auto">
+						<td class="border border-black px-4 py-2 min-w-[350px]">
 							{{ record[7] }}
 						</td>
 						<td class="border border-black px-4 py-2">
@@ -108,10 +114,10 @@ onMounted(async () => {
 						<td class="border border-black px-4 py-2">
 							{{ record[10] }}
 						</td>
-						<td class="border border-black px-4 py-2">
+						<td class="border border-black px-4 py-2 min-w-[180px]">
 							{{ record[11] }}
 						</td>
-						<td class="border border-black px-4 py-2">
+						<td class="border border-black px-4 py-2 min-w-[200px]">
 							{{ record[12] }}
 						</td>
 						<td class="border border-black px-4 py-2">
@@ -132,7 +138,7 @@ onMounted(async () => {
 						<td class="border border-black px-4 py-2">
 							{{ record[18] }}
 						</td>
-						<td class="border border-black px-4 py-2">
+						<td class="border border-black px-4 py-2 whitespace-nowrap">
 							{{ record[19] }}
 						</td>
 						<td class="border border-black px-4 py-2">
