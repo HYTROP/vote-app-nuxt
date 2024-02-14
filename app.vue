@@ -1,9 +1,10 @@
-<script setup>
-import GoogleSheetsRecords from './components/GoogleSheetsRecords.vue';
-</script>
+<script setup></script>
 
 <template>
 	<div>
+		<!-- <GoogleDriveRec /> -->
 		<GoogleSheetsRecords />
 	</div>
 </template>
+
+<style scoped></style>
