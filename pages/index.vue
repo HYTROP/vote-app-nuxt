@@ -26,7 +26,7 @@ const selectedPhotoUrl = computed(() => {
 	return selectedPhoto ? getPhotoUrl(selectedPhoto.id) : null;
 });
 const getPhotoUrl = (photoId) => {
-	return `https://lh3.googleusercontent.com/d/${photoId}=s4620`;
+	return `https://lh3.googleusercontent.com/d/${photoId}=s2620`;
 };
 
 const openModal = (photoId) => {

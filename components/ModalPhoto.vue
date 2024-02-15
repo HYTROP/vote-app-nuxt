@@ -35,9 +35,12 @@ const { closeModal } = defineEmits(['closeModal']);
 }
 
 .modal-content {
-	margin: 10% auto;
-	width: calc(100% - 50%);
-	/* min-width: 700px; */
+	max-width: 80%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 6% auto;
+	max-height: 1000px;
 }
 
 .close {
@@ -58,7 +61,7 @@ const { closeModal } = defineEmits(['closeModal']);
 }
 
 .modal-image {
-	width: 100%;
-	height: auto;
+	max-width: 90vw;
+	max-height: 90vh;
 }
 </style>
