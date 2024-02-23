@@ -1,35 +1,30 @@
 <template>
 	<div v-if="show" class="modal">
+		<span class="close" @click="closeModal">×</span>
 		<div class="modal-content">
-			<span class="close" @click="closeModal">×</span>
 			<img :src="imageUrl" class="modal-image" />
-		</div>
-		<div class="infoText">
-			<p class="text-white text-xl">{{ info }}</p>
+
+			<div class="ml-[5%]">
+				<p class="text-white text-md mb-4">
+					{{ props.info[0] }}
+				</p>
+				<p class="text-white text-sm">
+					{{ props.info[3] }}
+				</p>
+				<p class="text-white text-md">
+					{{ props.info[4] }}
+				</p>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-
-const currentPhoto = ref(0);
-
-const images = ref([]);
-
-const showNext = () => {
-	if (currentPhoto.value < images.value.length - 1) {
-		currentPhoto.value++;
-	}
-};
-
-const showPrev = () => {
-	if (currentIndex.value > 0) {
-		currentIndex.value--;
-	}
-};
-
 const props = defineProps({
+	closeModal: {
+		type: Function,
+		default: () => {},
+	},
 	show: {
 		type: Boolean,
 		default: false,
@@ -38,53 +33,35 @@ const props = defineProps({
 		type: String,
 		default: '',
 	},
-
 	info: {
-		type: String,
-		default: '',
+		type: Array,
+		default: () => [],
 	},
 });
-
-onMounted(() => {
-	window.addEventListener('keydown', (event) => {
-		if (event.key === 'ArrowRight') {
-			showNext();
-		} else if (event.key === 'ArrowLeft') {
-			showPrev();
-		}
-	});
-});
-
-const nextImage = () => {
-	showNext();
-};
-
-const prevImage = () => {
-	showPrev();
-};
-
-const { closeModal } = defineEmits(['closeModal']);
 </script>
 
 <style scoped>
-/* Стили для модального окна */
 .modal {
 	position: fixed;
-	z-index: 1;
+	z-index: 2;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.8);
+	background-color: rgba(0, 0, 0, 0.9);
 }
 
 .modal-content {
-	max-width: 80%;
+	max-width: 70%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 6% auto;
-	max-height: 1000px;
+	margin: 7% auto;
+}
+
+.modal-image {
+	max-width: 70vw;
+	max-height: 80vh;
 }
 
 .close {
@@ -92,30 +69,16 @@ const { closeModal } = defineEmits(['closeModal']);
 	top: 20px;
 	right: 40px;
 	color: #aaaaaa;
-	font-size: 48px;
+	font-size: 52px;
 	font-weight: bold;
 	cursor: pointer;
 }
-.infoText {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	bottom: 40px;
-	left: 40px;
-	color: #aaaaaa;
-	font-size: 12px;
-}
 
-/* .close:hover,
+.close:hover,
 .close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
-} */
-
-.modal-image {
-	max-width: 90vw;
-	max-height: 80vh;
 }
 
 .modal-content:before,
@@ -126,20 +89,25 @@ const { closeModal } = defineEmits(['closeModal']);
 	top: 50%;
 	width: 30px;
 	height: 30px;
-	background: #ffffff;
+	background: #929292;
 	transform: translateY(-50%);
 	cursor: pointer;
 }
 
 /* Стили для стрелки влево */
 .modal-content:before {
-	left: 10px; /* Установите расположение по вашему усмотрению */
+	width: 40px;
+	height: 40px;
+	left: 40px;
 	clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+	color: #000;
 }
 
 /* Стили для стрелки вправо */
 .modal-content:after {
-	right: 10px; /* Установите расположение по вашему усмотрению */
+	width: 40px;
+	height: 40px;
+	right: 40px;
 	clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }
 </style>
