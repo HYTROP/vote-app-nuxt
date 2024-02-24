@@ -16,6 +16,7 @@ const folderId = '1HTf8I35XQflhavhCRBJSKFqMxZsOLxJu';
 const params = {
 	q: `'${folderId}' in parents`,
 	key: _API_KEY,
+	pageSize: 1000,
 };
 // ---------------------
 
@@ -27,10 +28,6 @@ onMounted(async () => {
 			{ params }
 		);
 		photos.value = responseDrive.data.files;
-		// console.log(
-		// 	'photos:',
-		// 	photos.value.map((item) => item.id)
-		// );
 	} catch (error) {
 		console.error('Ошибка при получении записей из Google DRIVE:', error);
 	}
@@ -45,7 +42,6 @@ onMounted(async () => {
 			const result = item;
 			const separate = result[6].split('/');
 			const nameUrl = decodeURIComponent(separate[separate.length - 1]);
-			// console.log('nameUrl:', nameUrl);
 
 			photos.value.map((photo) => {
 				if (photo.name === nameUrl) {
