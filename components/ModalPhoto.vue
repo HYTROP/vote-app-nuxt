@@ -73,7 +73,6 @@ const props = defineProps({
 .modal-image {
 	max-width: 70vw;
 	max-height: 80vh;
-	all: calc();
 }
 @media (max-width: 768px) {
 	.modal-image {
