@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.1",
+    "axios": "^1.6.7",
     "nuxt": "^3.10.1",
     "preline": "^2.0.3",
     "tailwind-scrollbar-hide": "^1.1.7",
