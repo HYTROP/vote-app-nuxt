@@ -4,7 +4,7 @@
 		<div class="modal-content">
 			<img :src="imageUrl" class="modal-image" />
 
-			<div class="ml-[5%]">
+			<div class="sm:ml-0 mt-4 md:lg:ml-[5%]">
 				<p class="text-white text-md mb-4">
 					{{ props.info[0] }}
 				</p>
@@ -43,7 +43,7 @@ const props = defineProps({
 <style scoped>
 .modal {
 	position: fixed;
-	z-index: 2;
+	z-index: 20;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -58,12 +58,28 @@ const props = defineProps({
 	justify-content: center;
 	margin: 7% auto;
 }
+@media (max-width: 768px) {
+	.modal-content {
+		display: flex;
+		flex-flow: column;
+		align-items: center;
+		justify-content: center;
+		/* width: 100vw; */
+		height: 100vh;
+		margin: 0 auto;
+	}
+}
 
 .modal-image {
 	max-width: 70vw;
 	max-height: 80vh;
 }
-
+@media (max-width: 768px) {
+	.modal-image {
+		max-width: 85vw;
+		max-height: 85vh;
+	}
+}
 .close {
 	position: absolute;
 	top: 20px;
@@ -72,6 +88,13 @@ const props = defineProps({
 	font-size: 52px;
 	font-weight: bold;
 	cursor: pointer;
+}
+
+@media (max-width: 768px) {
+	.close {
+		width: 40px;
+		height: 40px;
+	}
 }
 
 .close:hover,
@@ -92,6 +115,13 @@ const props = defineProps({
 	background: #929292;
 	transform: translateY(-50%);
 	cursor: pointer;
+}
+
+@media (max-width: 768px) {
+	.modal-content:before,
+	.modal-content:after {
+		display: none;
+	}
 }
 
 /* Стили для стрелки влево */

@@ -82,20 +82,20 @@ const closeModal = () => {
 </script>
 
 <template>
-	<div>
-		<div class="top-0 left-[10%] fixed h-20 z-10">
-			<h1 class="text-2xl font-bold m-6">ГАЛЕРЕЯ /</h1>
-		</div>
+	<div class="grid grid-flow-cols-1 sm:grid-flow-cols-1 sm:items-center">
+		<h1 class="text-xl font-bold m-2 lg:flex md:grid-cols-2 md:m-2">
+			ГАЛЕРЕЯ /
+		</h1>
 
 		<div
-			class="grid grid-flow-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 m-20"
+			class="grid grid-flow-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:m-20 sm:m-3"
 			v-auto-animate>
 			<div v-for="record in recordsArr" :key="record">
 				<div class="flex items-center justify-center">
 					<img
 						:src="record[6]"
 						@click="openModal(record[6])"
-						class="shadow-2xl hover:scale-110 transition duration-400 mb-3 group-hover:stroke-white"
+						class="shadow-2xl md:hover:scale-110 transition duration-400 mb-3"
 						alt="photo" />
 				</div>
 				<div>
