@@ -1,15 +1,22 @@
 <template>
 	<div v-if="show" class="modal">
 		<span class="close" @click="closeModal">×</span>
+
 		<div class="modal-content">
 			<img :src="imageUrl" class="modal-image" />
 
-			<div class="sm:ml-0 mt-4 md:lg:ml-[5%]">
-				<p class="text-white text-md mb-4">
+			<span class="prev" @click="prevImage">&#10094;</span>
+			<span class="next" @click="nextImage">&#10095;</span>
+
+			<div class="sm:ml-0 mt-4 max-w-[500px]">
+				<p class="text-white text-md mb-1">
 					{{ props.info[0] }}
 				</p>
-				<p class="text-white text-sm">
+				<p class="text-white text-sm mb-1">
 					{{ props.info[3] }}
+				</p>
+				<p class="text-white text-sm mb-1 w-1/2 lg:whitespace-nowrap">
+					{{ props.info[5] }}
 				</p>
 				<p class="text-white text-md">
 					{{ props.info[4] }}
@@ -37,7 +44,22 @@ const props = defineProps({
 		type: Array,
 		default: () => [],
 	},
+	photos: {
+		type: Array,
+		default: () => [],
+	},
 });
+
+const prevImage = () => {
+	if (props.imageUrl[6] > 0) {
+		props.imageUrl[6]--;
+	}
+};
+const nextImage = () => {
+	if (props.imageUrl[6] < props.imageUrl[7] - 1) {
+		props.imageUrl[6]++;
+	}
+};
 </script>
 
 <style scoped>
@@ -52,11 +74,12 @@ const props = defineProps({
 }
 
 .modal-content {
-	max-width: 70%;
+	max-width: 90%;
 	display: flex;
+	flex-flow: column;
 	align-items: center;
 	justify-content: center;
-	margin: 7% auto;
+	margin: 8% auto;
 }
 @media (max-width: 768px) {
 	.modal-content {
@@ -64,7 +87,6 @@ const props = defineProps({
 		flex-flow: column;
 		align-items: center;
 		justify-content: center;
-		/* width: 100vw; */
 		height: 100vh;
 		margin: 0 auto;
 	}
@@ -72,7 +94,7 @@ const props = defineProps({
 
 .modal-image {
 	max-width: 70vw;
-	max-height: 80vh;
+	max-height: 70vh;
 }
 @media (max-width: 768px) {
 	.modal-image {
@@ -104,40 +126,32 @@ const props = defineProps({
 	cursor: pointer;
 }
 
-.modal-content:before,
-.modal-content:after {
-	content: '';
-	display: block;
+.prev,
+.next {
 	position: absolute;
 	top: 50%;
-	width: 30px;
-	height: 30px;
-	background: #929292;
-	transform: translateY(-50%);
+	width: auto;
+	margin-top: -22px;
+	padding: 16px;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+	transition: 0.6s ease;
+	border-radius: 0 3px 3px 0;
+	user-select: none;
 	cursor: pointer;
 }
 
-@media (max-width: 768px) {
-	.modal-content:before,
-	.modal-content:after {
-		display: none;
-	}
+.prev {
+	left: 0;
 }
 
-/* Стили для стрелки влево */
-.modal-content:before {
-	width: 40px;
-	height: 40px;
-	left: 40px;
-	clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
-	color: #000;
+.next {
+	right: 0;
 }
 
-/* Стили для стрелки вправо */
-.modal-content:after {
-	width: 40px;
-	height: 40px;
-	right: 40px;
-	clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+.prev:hover,
+.next:hover {
+	background-color: rgba(0, 0, 0, 0.8);
 }
 </style>

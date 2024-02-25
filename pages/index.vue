@@ -43,14 +43,8 @@ onMounted(async () => {
 			const separate = result[6].split('/');
 			const nameUrl = decodeURIComponent(separate[separate.length - 1]);
 
-			photos.value.map((photo) => {
-				if (photo.name === nameUrl) {
-					result[6] = getPhotoUrl(photo.id);
-				}
-			});
-
-			// const obj = photos.value.find((photo) => photo.name === nameUrl);
-			// result[6] = getPhotoUrl(obj.id);
+			const obj = photos.value.find((photo) => photo.name === nameUrl);
+			result[6] = getPhotoUrl(obj.id);
 
 			return result;
 		});
@@ -67,6 +61,7 @@ const openModal = (photoId) => {
 	// record[6] inside foo
 	showModal.value = true;
 	selectedPhotoId.value = photoId;
+
 	const findPerson = recordsArr.value.find((item) => item[6] === photoId);
 	personInfo.value = findPerson;
 };
@@ -95,10 +90,10 @@ const closeModal = () => {
 						alt="photo" />
 				</div>
 				<div>
-					<p class="text-sm m-3 text-neutral-700">
+					<p class="text-sm ml-3 sm:m-3 text-neutral-700">
 						{{ record[0] }}
 					</p>
-					<p class="text-sm m-3 text-neutral-500">({{ record[4] }})</p>
+					<p class="text-sm ml-3 sm:m-3 text-neutral-500">({{ record[4] }})</p>
 				</div>
 			</div>
 
