@@ -23,6 +23,7 @@
 				</p>
 			</div>
 		</div>
+		<StarsRate />
 	</div>
 </template>
 
