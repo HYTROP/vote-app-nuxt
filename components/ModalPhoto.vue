@@ -3,23 +3,23 @@
 		<span class="close" @click="closeModal">×</span>
 
 		<div class="modal-content">
-			<img :src="imageUrl" class="modal-image" />
+			<img :src="selectedPhotoURL" alt="photo" class="modal-image" />
 
 			<span class="prev" @click="prevImage">&#10094;</span>
 			<span class="next" @click="nextImage">&#10095;</span>
 
 			<div class="sm:ml-0 mt-4 max-w-[500px]">
 				<p class="text-white text-md mb-1">
-					{{ props.info[0] }}
+					{{ info[0] }}
 				</p>
 				<p class="text-white text-sm mb-1">
-					{{ props.info[3] }}
+					{{ info[3] }}
 				</p>
-				<p class="text-white text-sm mb-1 w-1/2 lg:whitespace-nowrap">
-					{{ props.info[5] }}
+				<p class="text-white text-sm mb-1">
+					{{ info[5] }}
 				</p>
 				<p class="text-white text-md">
-					{{ props.info[4] }}
+					{{ info[4] }}
 				</p>
 			</div>
 		</div>
@@ -28,38 +28,15 @@
 
 <script setup>
 const props = defineProps({
-	closeModal: {
-		type: Function,
-		default: () => {},
-	},
-	show: {
-		type: Boolean,
-		default: false,
-	},
-	imageUrl: {
-		type: String,
-		default: '',
-	},
-	info: {
-		type: Array,
-		default: () => [],
-	},
-	photos: {
-		type: Array,
-		default: () => [],
-	},
+	nextImage: Function,
+	prevImage: Function,
+	closeModal: Function,
+	show: Boolean,
+	selectedPhotoURL: String,
+	info: Array,
 });
 
-const prevImage = () => {
-	if (props.imageUrl[6] > 0) {
-		props.imageUrl[6]--;
-	}
-};
-const nextImage = () => {
-	if (props.imageUrl[6] < props.imageUrl[7] - 1) {
-		props.imageUrl[6]++;
-	}
-};
+const emit = defineEmits('prevImage', 'nextImage');
 </script>
 
 <style scoped>
