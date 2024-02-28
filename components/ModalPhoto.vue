@@ -1,12 +1,16 @@
 <template>
 	<div v-if="show" class="modal">
-		<span class="close" @click="closeModal">×</span>
+		<span @keyup.esc="closeModal" class="close" @click="closeModal">×</span>
 
 		<div class="modal-content">
 			<img :src="selectedPhotoURL" alt="photo" class="modal-image" />
 
-			<span class="prev" @click="prevImage">&#10094;</span>
-			<span class="next" @click="nextImage">&#10095;</span>
+			<span @keyup.left="prevImage" class="prev" @click="prevImage"
+				>&#10094;</span
+			>
+			<span @keyup.right="prevImage" class="next" @click="nextImage"
+				>&#10095;</span
+			>
 
 			<div class="sm:ml-0 mt-4 max-w-[500px]">
 				<p class="text-white text-md mb-1">
@@ -22,8 +26,8 @@
 					{{ info[4] }}
 				</p>
 			</div>
+			<StarsRate class="m-4" />
 		</div>
-		<StarsRate />
 	</div>
 </template>
 
@@ -42,6 +46,7 @@ const emit = defineEmits('prevImage', 'nextImage');
 
 <style scoped>
 .modal {
+	overflow: auto;
 	position: fixed;
 	z-index: 20;
 	left: 0;

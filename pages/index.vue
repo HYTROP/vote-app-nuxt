@@ -6,17 +6,21 @@ import { paramsSheets } from '../API/Api';
 
 import { _API_KEY, _GOOGLE_SHEETS_KEY, sheetRange } from '../API/Api';
 
-const recordsArr = ref([]); // Sheets data
-const photos = ref([]); // Drive data
+const recordsArr = ref({});
+const photos = ref([]);
 
-const showModal = ref(false); // Modal show
-const selectedPhotoURL = ref(''); // Selected photo modal
+const showModal = ref(false);
+const selectedPhotoURL = ref('');
 const currentIndex = ref(0);
-const personInfo = ref([]); // Person info for modal
+const personInfo = ref([]);
+
+const filters = reactive({
+	sortBy: 'record[6]',
+});
 
 // ---------------------
 
-onMounted(async () => {
+const fetchDriveItems = async () => {
 	try {
 		// -------------------- Google Drive
 		const responseDrive = await axios.get(
@@ -27,7 +31,9 @@ onMounted(async () => {
 	} catch (error) {
 		console.error('Ошибка при получении записей из Google DRIVE:', error);
 	}
+};
 
+const fetchSheetsItems = async () => {
 	try {
 		// -------------------- Google Sheets
 		const responseSheets = await axios.get(
@@ -35,23 +41,65 @@ onMounted(async () => {
 			{ paramsSheets }
 		);
 
+		// преобразование ссылки на фото
 		recordsArr.value = responseSheets.data.values.map((item) => {
 			const result = item;
 			const separate = result[6].split('/');
 			const nameUrl = decodeURIComponent(separate[separate.length - 1]);
 
 			const obj = photos.value.find((photo) => photo.name === nameUrl);
+
 			result[6] = getPhotoUrl(obj.id);
 
 			return result;
 		});
+
+		const convertToObjects = (arr) => {
+			const keys = [
+				'fio',
+				'email',
+				'phone',
+				'age',
+				'nomination',
+				'info',
+				'photo',
+				'bio',
+				'city',
+			];
+			const arrayOfObjects = arr.map((subArray) => {
+				const obj = {};
+				subArray.forEach((value, index) => {
+					obj[keys[index]] = value;
+				});
+				return obj;
+			});
+			return arrayOfObjects;
+		};
+
+		const newRecordsArr = convertToObjects(recordsArr.value);
+
+		console.log(newRecordsArr.map((item) => item));
 	} catch (error) {
 		console.error('Ошибка при получении записей из Google SHEETS:', error);
 	}
-});
+};
 
 const getPhotoUrl = (id) => {
 	return `https://lh3.googleusercontent.com/d/${id}=s1620`;
+};
+
+onMounted(async () => {
+	// const localStorageFavorites = localStorage.getItem('favourites');
+	// favorites.value = localStorageFavorites
+	// 	? JSON.parse(localStorageFavorites)
+	// 	: [];
+
+	await fetchDriveItems();
+	await fetchSheetsItems();
+});
+
+const onChangeSelect = (event) => {
+	filters.sortBy = event.target.value;
 };
 
 const openModal = (recordURL, index) => {
@@ -59,15 +107,18 @@ const openModal = (recordURL, index) => {
 	selectedPhotoURL.value = recordURL;
 
 	currentIndex.value = index; // получаем индекс текущей фотографии
-	console.log('currentIndex', currentIndex.value);
 
 	const findPerson = recordsArr.value.find((item) => item[6] === recordURL);
 	personInfo.value = findPerson;
+
+	document.body.style.overflow = 'hidden';
 };
 
 const closeModal = () => {
 	showModal.value = false;
 	selectedPhotoURL.value = null;
+
+	document.body.style.overflow = 'auto';
 };
 
 const nextImage = () => {
@@ -78,7 +129,6 @@ const nextImage = () => {
 	}
 	selectedPhotoURL.value = recordsArr.value[currentIndex.value][6];
 	personInfo.value = recordsArr.value[currentIndex.value];
-	console.log('nextImage', currentIndex.value);
 };
 
 const prevImage = () => {
@@ -89,32 +139,44 @@ const prevImage = () => {
 	}
 	selectedPhotoURL.value = recordsArr.value[currentIndex.value][6];
 	personInfo.value = recordsArr.value[currentIndex.value];
-	console.log('prevImage', currentIndex.value);
 };
+
+watch(filters, fetchSheetsItems);
 </script>
 
 <template>
 	<div class="grid grid-flow-cols-1 sm:grid-flow-cols-1 sm:items-center">
 		<h1 class="text-xl font-bold m-2 lg:flex md:grid-cols-2 md:m-2">
-			ГАЛЕРЕЯ /
+			ГАЛЕРЕЯ / {{ photos.length }}
 		</h1>
 
+		<select @change="onChangeSelect" class="w-[120px] bg-neutral-200/20">
+			<option value="all">Все</option>
+			<option value="paint">Живопись</option>
+			<option value="draw">Рисунок</option>
+			<option value="photo">Фотография</option>
+			<option value="dpi">ДПИ</option>
+		</select>
+
 		<div
-			class="grid grid-flow-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:m-20 sm:m-3"
+			class="grid grid-flow-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:m-20 sm:m-3"
 			v-auto-animate>
-			<div v-for="(record, index) in recordsArr" :key="index">
-				<div class="flex justify-center items-center">
+			<div
+				v-for="(record, index) in recordsArr"
+				:key="index"
+				class="grid items-center m-2 box-sizing overflow-hidden">
+				<div class="">
 					<img
 						:src="record[6]"
 						@click="openModal(record[6], index)"
-						class="shadow-2xl md:hover:scale-110 transition duration-400 mb-3 sm:max-h-[143px] sm:max-w-[190px] cursor-pointer"
+						class="md:hover:scale-110 transition duration-400 mb-3 sm:max-h-[143px] sm:max-w-[190px] cursor-pointer"
 						alt="photo" />
 				</div>
 				<div>
-					<p class="text-sm ml-3 sm:m-3 text-neutral-700">
+					<p class="text-sm text-neutral-700 max-w-[160px]">
 						{{ record[0] }}
 					</p>
-					<p class="text-sm ml-3 sm:m-3 text-neutral-500">({{ record[4] }})</p>
+					<p class="text-sm text-neutral-500">({{ record[4] }})</p>
 				</div>
 			</div>
 
