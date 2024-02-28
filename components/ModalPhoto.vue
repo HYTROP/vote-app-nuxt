@@ -14,19 +14,18 @@
 
 			<div class="sm:ml-0 mt-4 max-w-[500px]">
 				<p class="text-white text-md mb-1">
-					{{ info[0] }}
+					{{ info.fio }}
 				</p>
 				<p class="text-white text-sm mb-1">
-					{{ info[3] }}
+					{{ info.age }}
 				</p>
 				<p class="text-white text-sm mb-1">
-					{{ info[5] }}
+					{{ info.info }}
 				</p>
 				<p class="text-white text-md">
-					{{ info[4] }}
+					{{ info.nomination }}
 				</p>
 			</div>
-			<StarsRate class="m-4" />
 		</div>
 	</div>
 </template>
@@ -38,7 +37,7 @@ const props = defineProps({
 	closeModal: Function,
 	show: Boolean,
 	selectedPhotoURL: String,
-	info: Array,
+	info: Object,
 });
 
 const emit = defineEmits('prevImage', 'nextImage');

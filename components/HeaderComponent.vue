@@ -2,7 +2,7 @@
 	<header
 		class="flex flex-wrap sm:justify-start sm:flex-nowrap z-10 w-full bg-indigo-600/90 text-sm py-3 sm:py-0 sticky top-0">
 		<nav
-			class="relative max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8"
+			class="relative w-full mx-auto px-4 sm:flex sm:items-center sm:px-6 lg:px-8"
 			aria-label="Global">
 			<div class="flex items-center justify-between">
 				<NuxtLink class="flex-none text-xl font-semibold text-white"

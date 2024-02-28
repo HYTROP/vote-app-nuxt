@@ -6,8 +6,9 @@ import { paramsSheets } from '../API/Api';
 
 import { _API_KEY, _GOOGLE_SHEETS_KEY, sheetRange } from '../API/Api';
 
-const recordsArr = ref({});
-const photos = ref([]);
+const recordsArr = ref([]);
+const filteredDataArr = ref([]);
+const photosDrive = ref([]);
 
 const showModal = ref(false);
 const selectedPhotoURL = ref('');
@@ -15,8 +16,15 @@ const currentIndex = ref(0);
 const personInfo = ref([]);
 
 const filters = reactive({
-	sortBy: 'record[6]',
+	all: 'Все',
+	draw: 'Живопись',
+	paint: 'Рисунок',
+	photo: 'Фото',
+	dpi: 'ДПИ',
 });
+const selectedFilters = ref('Все');
+
+// const filterData = ref(recordsArr.value);
 
 // ---------------------
 
@@ -27,7 +35,7 @@ const fetchDriveItems = async () => {
 			'https://www.googleapis.com/drive/v3/files',
 			{ params }
 		);
-		photos.value = responseDrive.data.files;
+		photosDrive.value = responseDrive.data.files;
 	} catch (error) {
 		console.error('Ошибка при получении записей из Google DRIVE:', error);
 	}
@@ -47,38 +55,12 @@ const fetchSheetsItems = async () => {
 			const separate = result[6].split('/');
 			const nameUrl = decodeURIComponent(separate[separate.length - 1]);
 
-			const obj = photos.value.find((photo) => photo.name === nameUrl);
+			const obj = photosDrive.value.find((photo) => photo.name === nameUrl);
 
 			result[6] = getPhotoUrl(obj.id);
 
 			return result;
 		});
-
-		const convertToObjects = (arr) => {
-			const keys = [
-				'fio',
-				'email',
-				'phone',
-				'age',
-				'nomination',
-				'info',
-				'photo',
-				'bio',
-				'city',
-			];
-			const arrayOfObjects = arr.map((subArray) => {
-				const obj = {};
-				subArray.forEach((value, index) => {
-					obj[keys[index]] = value;
-				});
-				return obj;
-			});
-			return arrayOfObjects;
-		};
-
-		const newRecordsArr = convertToObjects(recordsArr.value);
-
-		console.log(newRecordsArr.map((item) => item));
 	} catch (error) {
 		console.error('Ошибка при получении записей из Google SHEETS:', error);
 	}
@@ -96,10 +78,51 @@ onMounted(async () => {
 
 	await fetchDriveItems();
 	await fetchSheetsItems();
+
+	const convertToObjects = (arr) => {
+		const keys = [
+			'fio',
+			'email',
+			'phone',
+			'age',
+			'nomination',
+			'info',
+			'photo',
+			'bio',
+			'city',
+		];
+		const arrayOfObjects = arr.map((subArray) => {
+			const obj = {};
+			subArray.forEach((value, index) => {
+				obj[keys[index]] = value;
+			});
+			return obj;
+		});
+		return arrayOfObjects;
+	};
+
+	recordsArr.value = convertToObjects(recordsArr.value);
+	filteredDataArr.value = recordsArr.value;
+
+	// console.log(filteredDataArr.value.map((item) => item.nomination));
 });
 
-const onChangeSelect = (event) => {
-	filters.sortBy = event.target.value;
+const filterOptions = [
+	'Все',
+	'Живопись',
+	'Рисунок',
+	'Фотография',
+	'ДПИ (Декоративно-прикладное искусство)',
+];
+
+const filterData = () => {
+	filteredDataArr.value = recordsArr.value.filter((item) => {
+		if (selectedFilters.value === 'Все') {
+			return recordsArr.value;
+		} else {
+			return item.nomination === selectedFilters.value;
+		}
+	});
 };
 
 const openModal = (recordURL, index) => {
@@ -108,7 +131,9 @@ const openModal = (recordURL, index) => {
 
 	currentIndex.value = index; // получаем индекс текущей фотографии
 
-	const findPerson = recordsArr.value.find((item) => item[6] === recordURL);
+	const findPerson = filteredDataArr.value.find(
+		(item) => item.photo === recordURL
+	);
 	personInfo.value = findPerson;
 
 	document.body.style.overflow = 'hidden';
@@ -122,13 +147,13 @@ const closeModal = () => {
 };
 
 const nextImage = () => {
-	if (currentIndex.value < recordsArr.value.length - 1) {
+	if (currentIndex.value < filteredDataArr.value.length - 1) {
 		currentIndex.value++;
 	} else {
 		currentIndex.value = 0;
 	}
-	selectedPhotoURL.value = recordsArr.value[currentIndex.value][6];
-	personInfo.value = recordsArr.value[currentIndex.value];
+	selectedPhotoURL.value = filteredDataArr.value[currentIndex.value].photo;
+	personInfo.value = filteredDataArr.value[currentIndex.value];
 };
 
 const prevImage = () => {
@@ -147,36 +172,44 @@ watch(filters, fetchSheetsItems);
 <template>
 	<div class="grid grid-flow-cols-1 sm:grid-flow-cols-1 sm:items-center">
 		<h1 class="text-xl font-bold m-2 lg:flex md:grid-cols-2 md:m-2">
-			ГАЛЕРЕЯ / {{ photos.length }}
+			ГАЛЕРЕЯ / {{ selectedFilters }}
 		</h1>
 
-		<select @change="onChangeSelect" class="w-[120px] bg-neutral-200/20">
-			<option value="all">Все</option>
+		<!-- select -->
+		<select
+			v-model="selectedFilters"
+			@change="filterData"
+			class="w-[150px] bg-neutral-200/0 mt-3 mb-3 border-2 p-2 border-indigo-400 rounded-lg truncate">
+			<option v-for="option in filterOptions" :key="option">
+				{{ option }}
+			</option>
+			<!-- <option value="all">Все</option>
 			<option value="paint">Живопись</option>
 			<option value="draw">Рисунок</option>
 			<option value="photo">Фотография</option>
-			<option value="dpi">ДПИ</option>
+			<option value="dpi">ДПИ</option> -->
 		</select>
 
+		<!-- grid -->
 		<div
 			class="grid grid-flow-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:m-20 sm:m-3"
 			v-auto-animate>
 			<div
-				v-for="(record, index) in recordsArr"
-				:key="index"
+				v-for="(record, index) in filteredDataArr"
+				:key="record.id"
 				class="grid items-center m-2 box-sizing overflow-hidden">
 				<div class="">
 					<img
-						:src="record[6]"
-						@click="openModal(record[6], index)"
+						:src="record.photo"
+						@click="openModal(record.photo, index)"
 						class="md:hover:scale-110 transition duration-400 mb-3 sm:max-h-[143px] sm:max-w-[190px] cursor-pointer"
 						alt="photo" />
 				</div>
 				<div>
 					<p class="text-sm text-neutral-700 max-w-[160px]">
-						{{ record[0] }}
+						{{ record.fio }}
 					</p>
-					<p class="text-sm text-neutral-500">({{ record[4] }})</p>
+					<p class="text-sm text-neutral-500">({{ record.nomination }})</p>
 				</div>
 			</div>
 
