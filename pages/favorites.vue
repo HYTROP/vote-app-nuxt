@@ -10,6 +10,16 @@
 	</div>
 </template>
 
-<script setup></script>
+<script setup>
+useHead({
+	title: 'Палитра талантов | Избранное',
+	meta: [
+		{
+			name: 'description',
+			content: 'Избранное',
+		},
+	],
+});
+</script>
 
 <style scoped></style>

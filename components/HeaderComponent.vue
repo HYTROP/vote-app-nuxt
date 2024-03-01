@@ -1,18 +1,19 @@
 <template>
 	<header
+		v-auto-animate
 		class="flex flex-wrap sm:justify-start sm:flex-nowrap z-10 w-full bg-indigo-600/90 text-sm py-3 sm:py-0 sticky top-0">
 		<nav
 			class="relative w-full mx-auto px-4 sm:flex sm:items-center sm:px-6 lg:px-8"
 			aria-label="Global">
 			<div class="flex items-center justify-between">
-				<NuxtLink class="flex-none text-xl font-semibold text-white"
-					>Палитра талантов 2024</NuxtLink
-				>
+				<NuxtLink to="/" class="flex-none text-xl font-semibold text-white"
+					>Палитра талантов 2024
+				</NuxtLink>
 				<!-- бургер -->
-				<div class="sm:hidden" v-auto-animate>
+				<div class="sm:hidden">
 					<button
 						@click="toggleMenu"
-						:class="isMenuOpen ? 'open' : ''"
+						:class="!isMenuOpen ? 'open' : ''"
 						type="button"
 						class="hs-collapse-toggle size-9 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-white/20 text-white hover:border-white/40 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
 						data-hs-collapse="#navbar-collapse-with-animation"
@@ -52,10 +53,10 @@
 				<!-- бургер end -->
 			</div>
 			<div
-				:class="!isMenuOpen ? 'open' : ''"
 				@click="closeMenu"
+				:class="!isMenuOpen ? 'open' : 'hidden'"
 				id="navbar-collapse-with-animation"
-				class="hs-collapse overflow-hidden transition-all duration-300 basis-full grow open">
+				class="hs-collapse overflow-hidden transition-all duration-500 basis-full grow">
 				<div
 					class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:ps-7">
 					<NuxtLink
@@ -101,7 +102,7 @@
 	</header>
 </template>
 <script setup>
-const isMenuOpen = ref(false);
+const isMenuOpen = ref(true);
 const toggleMenu = () => {
 	isMenuOpen.value = !isMenuOpen.value;
 };
@@ -109,3 +110,11 @@ const closeMenu = () => {
 	isMenuOpen.value = false;
 };
 </script>
+
+<style scoped>
+@media (min-width: 640px) {
+	#navbar-collapse-with-animation {
+		display: block;
+	}
+}
+</style>

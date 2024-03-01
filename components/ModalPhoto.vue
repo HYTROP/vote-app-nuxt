@@ -2,28 +2,39 @@
 	<div v-if="show" class="modal">
 		<span @keyup.esc="closeModal" class="close" @click="closeModal">×</span>
 
-		<div class="modal-content">
-			<img :src="selectedPhotoURL" alt="photo" class="modal-image" />
-
-			<span @keyup.left="prevImage" class="prev" @click="prevImage"
+		<div class="">
+			<span @keyup.left="prevImage" class="prev z-20" @click="prevImage"
 				>&#10094;</span
 			>
-			<span @keyup.right="prevImage" class="next" @click="nextImage"
+			<span @keyup.right="prevImage" class="next z-20" @click="nextImage"
 				>&#10095;</span
 			>
+		</div>
 
-			<div class="sm:ml-0 mt-4 max-w-[500px]">
+		<div
+			class="flex justify-center items-center pt-8 pr-8 pb-0 pl-8 sm:justify-center md:max-h-[80%]">
+			<div class="md:max-w-[80%]">
+				<img :src="selectedPhotoURL" alt="photo" class="md:max-h-[75vh]" />
+				<LikeBtn class="p-2 w-10 h-10" />
+			</div>
+		</div>
+
+		<div class="flex pl-10 pr-10">
+			<div class="sm:ml-0 mt-4">
 				<p class="text-white text-md mb-1">
 					{{ info.fio }}
 				</p>
 				<p class="text-white text-sm mb-1">
 					{{ info.age }}
 				</p>
-				<p class="text-white text-sm mb-1">
+				<p class="text-white text-sm mb-1 w-max-[200px]">
 					{{ info.info }}
 				</p>
-				<p class="text-white text-md">
+				<p class="text-white text-sm">
 					{{ info.nomination }}
+				</p>
+				<p class="text-white text-sm">
+					{{ info.city }}
 				</p>
 			</div>
 		</div>
@@ -55,15 +66,7 @@ const emit = defineEmits('prevImage', 'nextImage');
 	background-color: rgba(0, 0, 0, 0.9);
 }
 
-.modal-content {
-	max-width: 90%;
-	display: flex;
-	flex-flow: column;
-	align-items: center;
-	justify-content: center;
-	margin: 8% auto;
-}
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
 	.modal-content {
 		display: flex;
 		flex-flow: column;
@@ -72,38 +75,31 @@ const emit = defineEmits('prevImage', 'nextImage');
 		height: 100vh;
 		margin: 0 auto;
 	}
-}
+} */
 
-.modal-image {
+/* .modal-image {
 	max-width: 70vw;
 	max-height: 70vh;
 }
 @media (max-width: 768px) {
 	.modal-image {
-		max-width: 85vw;
-		max-height: 85vh;
+		max-width: 60vw;
+		max-height: 60vh;
 	}
-}
+} */
 .close {
 	position: absolute;
-	top: 20px;
-	right: 40px;
+	top: 0px;
+	right: 0px;
 	color: #aaaaaa;
 	font-size: 52px;
 	font-weight: bold;
 	cursor: pointer;
 }
 
-@media (max-width: 768px) {
-	.close {
-		width: 40px;
-		height: 40px;
-	}
-}
-
 .close:hover,
 .close:focus {
-	color: #000;
+	color: #f4a6a6;
 	text-decoration: none;
 	cursor: pointer;
 }

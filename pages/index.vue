@@ -24,8 +24,6 @@ const filters = reactive({
 });
 const selectedFilters = ref('Все');
 
-// const filterData = ref(recordsArr.value);
-
 // ---------------------
 
 const fetchDriveItems = async () => {
@@ -160,56 +158,64 @@ const prevImage = () => {
 	if (currentIndex.value > 0) {
 		currentIndex.value--;
 	} else {
-		currentIndex.value = recordsArr.value.length - 1;
+		currentIndex.value = filteredDataArr.value.length - 1;
 	}
-	selectedPhotoURL.value = recordsArr.value[currentIndex.value][6];
-	personInfo.value = recordsArr.value[currentIndex.value];
+	selectedPhotoURL.value = filteredDataArr.value[currentIndex.value].photo;
+	personInfo.value = filteredDataArr.value[currentIndex.value];
 };
 
 watch(filters, fetchSheetsItems);
+
+useHead({
+	title: 'Палитра талантов | Галерея',
+	meta: [
+		{
+			name: 'description',
+			content: 'Галерея',
+		},
+	],
+});
 </script>
 
 <template>
-	<div class="grid grid-flow-cols-1 sm:grid-flow-cols-1 sm:items-center">
+	<div>
 		<h1 class="text-xl font-bold m-2 lg:flex md:grid-cols-2 md:m-2">
 			ГАЛЕРЕЯ / {{ selectedFilters }}
 		</h1>
 
-		<!-- select -->
+		<!-- selector -->
 		<select
 			v-model="selectedFilters"
 			@change="filterData"
-			class="w-[150px] bg-neutral-200/0 mt-3 mb-3 border-2 p-2 border-indigo-400 rounded-lg truncate">
+			class="w-[150px] bg-neutral-200/0 m-2 border-2 p-1 border-indigo-400 rounded-lg truncate">
 			<option v-for="option in filterOptions" :key="option">
 				{{ option }}
 			</option>
-			<!-- <option value="all">Все</option>
-			<option value="paint">Живопись</option>
-			<option value="draw">Рисунок</option>
-			<option value="photo">Фотография</option>
-			<option value="dpi">ДПИ</option> -->
 		</select>
 
 		<!-- grid -->
 		<div
-			class="grid grid-flow-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:m-20 sm:m-3"
+			class="grid grid-flow-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:m-2 gap-8 sm:m-3"
 			v-auto-animate>
 			<div
 				v-for="(record, index) in filteredDataArr"
 				:key="record.id"
-				class="grid items-center m-2 box-sizing overflow-hidden">
-				<div class="">
-					<img
-						:src="record.photo"
-						@click="openModal(record.photo, index)"
-						class="md:hover:scale-110 transition duration-400 mb-3 sm:max-h-[143px] sm:max-w-[190px] cursor-pointer"
-						alt="photo" />
+				class="overflow-hidden border p-2 border-neutral-300 rounded-lg shadow-md flex flex-col justify-between max-h-[283px]">
+				<div
+					@click="openModal(record.photo, index)"
+					class="sm:max-h-[223px] sm:max-w-[317px] mb-8 cursor-pointer md:hover:scale-110 transition duration-400 overflow-hidden">
+					<img :src="record.photo" alt="photo" class="justify-items-stretch" />
 				</div>
-				<div>
-					<p class="text-sm text-neutral-700 max-w-[160px]">
-						{{ record.fio }}
-					</p>
-					<p class="text-sm text-neutral-500">({{ record.nomination }})</p>
+				<div class="flex justify-between">
+					<div>
+						<p class="text-sm text-neutral-700 max-w-[160px]">
+							{{ record.fio }}
+						</p>
+						<p class="text-sm text-neutral-500 max-w-[136px] truncate">
+							{{ record.nomination }}
+						</p>
+					</div>
+					<LikeBtn class="m-2 relative right-0 z-20 w-6 h-6" />
 				</div>
 			</div>
 
