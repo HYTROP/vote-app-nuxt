@@ -203,7 +203,7 @@ useHead({
 				class="overflow-hidden border p-2 border-neutral-300 rounded-lg shadow-md flex flex-col justify-between max-h-[283px]">
 				<div
 					@click="openModal(record.photo, index)"
-					class="sm:max-h-[223px] sm:max-w-[317px] mb-8 cursor-pointer md:hover:scale-110 transition duration-400 overflow-hidden">
+					class="sm:max-h-[223px] sm:max-w-[317px] mb-8 cursor-pointer md:hover:scale-110 transition duration-500 overflow-hidden">
 					<img :src="record.photo" alt="photo" class="justify-items-stretch" />
 				</div>
 				<div class="flex justify-between">
@@ -215,7 +215,8 @@ useHead({
 							{{ record.nomination }}
 						</p>
 					</div>
-					<LikeBtn class="m-2 relative right-0 z-20 w-6 h-6" />
+					<LikeBtn
+						class="m-2 relative right-0 z-20 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out" />
 				</div>
 			</div>
 
