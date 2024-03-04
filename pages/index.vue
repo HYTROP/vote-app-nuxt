@@ -101,8 +101,6 @@ onMounted(async () => {
 
 	recordsArr.value = convertToObjects(recordsArr.value);
 	filteredDataArr.value = recordsArr.value;
-
-	// console.log(filteredDataArr.value.map((item) => item.nomination));
 });
 
 const filterOptions = [
@@ -164,7 +162,7 @@ const prevImage = () => {
 	personInfo.value = filteredDataArr.value[currentIndex.value];
 };
 
-watch(filters, fetchSheetsItems);
+// watch(filters, fetchSheetsItems);
 
 useHead({
 	title: 'Палитра талантов | Галерея',

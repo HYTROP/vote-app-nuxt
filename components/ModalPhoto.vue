@@ -3,12 +3,8 @@
 		<span @keyup.esc="closeModal" class="close" @click="closeModal">×</span>
 
 		<div class="">
-			<span @keyup.left="prevImage" class="prev z-20" @click="prevImage"
-				>&#10094;</span
-			>
-			<span @keyup.right="prevImage" class="next z-20" @click="nextImage"
-				>&#10095;</span
-			>
+			<span class="prev z-20" @click="prevImage">&#10094;</span>
+			<span class="next z-20" @click="nextImage">&#10095;</span>
 		</div>
 
 		<div
@@ -66,27 +62,6 @@ const emit = defineEmits('prevImage', 'nextImage');
 	background-color: rgba(0, 0, 0, 0.9);
 }
 
-/* @media (max-width: 768px) {
-	.modal-content {
-		display: flex;
-		flex-flow: column;
-		align-items: center;
-		justify-content: center;
-		height: 100vh;
-		margin: 0 auto;
-	}
-} */
-
-/* .modal-image {
-	max-width: 70vw;
-	max-height: 70vh;
-}
-@media (max-width: 768px) {
-	.modal-image {
-		max-width: 60vw;
-		max-height: 60vh;
-	}
-} */
 .close {
 	position: absolute;
 	top: 0px;
