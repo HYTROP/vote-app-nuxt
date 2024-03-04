@@ -1,6 +1,5 @@
 <template>
 	<header
-		v-auto-animate
 		class="flex flex-wrap sm:justify-start sm:flex-nowrap z-10 w-full bg-indigo-600/90 text-sm py-3 sm:py-0 sticky top-0">
 		<nav
 			class="relative w-full mx-auto px-4 sm:flex sm:items-center sm:px-6 lg:px-8"
@@ -15,7 +14,7 @@
 						@click="toggleMenu"
 						:class="!isMenuOpen ? 'open' : ''"
 						type="button"
-						class="hs-collapse-toggle size-9 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-white/20 text-white hover:border-white/40 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+						class="hs-collapse-toggle size-9 flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-white/20 text-white hover:border-white/40 disabled:opacity-50 disabled:pointer-events-none"
 						data-hs-collapse="#navbar-collapse-with-animation"
 						aria-controls="navbar-collapse-with-animation"
 						aria-label="Toggle navigation">
@@ -69,13 +68,11 @@
 						class="font-medium text-white/[.8] hover:text-white sm:py-6"
 						>ИЗБРАННОЕ</NuxtLink
 					>
-
 					<NuxtLink
 						to="/results"
 						class="font-medium text-white/[.8] hover:text-white sm:py-6"
 						>РЕЗУЛЬТАТЫ</NuxtLink
 					>
-
 					<!-- LOGGING -->
 					<!-- <a
 						class="flex items-center gap-x-2 font-medium text-white/[.8] hover:text-white sm:border-s sm:border-white/[.3] sm:my-6 sm:ps-6"
@@ -103,6 +100,7 @@
 </template>
 <script setup>
 const isMenuOpen = ref(true);
+// const isMenuOpen = reactive(true);
 const toggleMenu = () => {
 	isMenuOpen.value = !isMenuOpen.value;
 };
