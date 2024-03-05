@@ -1,5 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+	app: {
+		head: {
+			charset: 'utf-8',
+			viewport: 'width=device-width, initial-scale=1',
+		},
+	},
 	modules: [
 		'@formkit/auto-animate/nuxt',
 		'@nuxtjs/tailwindcss',
@@ -13,16 +19,5 @@ export default defineNuxtConfig({
 			tailwindcss: {},
 			autoprefixer: {},
 		},
-	},
-	head: {
-		htmlAttrs: {
-			lang: 'ru',
-		},
-		meta: [
-			{ charset: 'utf-8' },
-			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-			{ hid: 'description', name: 'description', content: 'Nuxt.js project' },
-		],
-		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
 	},
 });

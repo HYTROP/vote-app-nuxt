@@ -196,7 +196,12 @@ useHead({
 				<div
 					@click="openModal(record.photo, index)"
 					class="sm:max-h-[223px] sm:max-w-[317px] mb-8 cursor-pointer md:hover:scale-110 transition duration-500 overflow-hidden">
-					<img :src="record.photo" alt="photo" class="justify-items-stretch" />
+					<NuxtImg
+						:src="record.photo"
+						loading="lazy"
+						quality="80"
+						alt="photo"
+						class="justify-items-stretch" />
 				</div>
 				<div class="flex justify-between">
 					<div>

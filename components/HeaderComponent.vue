@@ -100,12 +100,12 @@
 </template>
 <script setup>
 const isMenuOpen = ref(true);
-// const isMenuOpen = reactive(true);
+
 const toggleMenu = () => {
 	isMenuOpen.value = !isMenuOpen.value;
 };
 const closeMenu = () => {
-	isMenuOpen.value = false;
+	isMenuOpen.value = true;
 };
 </script>
 
