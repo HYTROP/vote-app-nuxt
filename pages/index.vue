@@ -34,7 +34,7 @@ const fetchDriveItems = async () => {
 		);
 		photosDrive.value = responseDrive.data.files;
 	} catch (error) {
-		console.error('Ошибка при получении записей из Google DRIVE:', error);
+		throw new Error('Ошибка при получении записей из Google DRIVE:', error);
 	}
 };
 
@@ -59,7 +59,7 @@ const fetchSheetsItems = async () => {
 			return result;
 		});
 	} catch (error) {
-		console.error('Ошибка при получении записей из Google SHEETS:', error);
+		throw new Error('Ошибка при получении записей из Google SHEETS:', error);
 	}
 };
 
@@ -206,7 +206,7 @@ useHead({
 						<p class="text-sm text-neutral-700 max-w-[160px]">
 							{{ record.fio }}
 						</p>
-						<p class="text-sm text-neutral-500 max-w-[136px] truncate">
+						<p class="text-sm text-neutral-500/90 max-w-[136px] truncate">
 							{{ record.nomination }}
 						</p>
 					</div>
