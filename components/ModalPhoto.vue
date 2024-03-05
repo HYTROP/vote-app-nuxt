@@ -10,7 +10,7 @@
 		<div
 			class="flex justify-center items-center pt-8 pr-8 pb-0 pl-8 sm:justify-center md:max-h-[80%]">
 			<div class="md:max-w-[80%]">
-				<NuxtImg :src="selectedPhotoURL" alt="photo" class="md:max-h-[75vh]" />
+				<img :src="selectedPhotoURL" alt="photo" class="md:max-h-[75vh]" />
 				<LikeBtn class="p-2 w-10 h-10" />
 			</div>
 		</div>
