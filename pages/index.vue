@@ -192,14 +192,14 @@ useHead({
 			<div
 				v-for="(record, index) in filteredDataArr"
 				:key="record.id"
-				class="overflow-hidden border p-2 border-neutral-300 rounded-lg shadow-md flex flex-col justify-between max-h-[283px]">
+				class="overflow-hidden border p-2 border-neutral-300 rounded-lg shadow-md flex flex-col justify-between max-h-[283px] sm:max-h-[253px]">
 				<div
 					@click="openModal(record.photo, index)"
 					class="sm:max-h-[223px] sm:max-w-[317px] mb-8 cursor-pointer md:hover:scale-110 transition duration-500 overflow-hidden">
 					<NuxtImg
 						:src="record.photo"
 						loading="lazy"
-						quality="80"
+						quality="30"
 						alt="photo"
 						class="justify-items-stretch" />
 				</div>

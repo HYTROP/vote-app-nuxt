@@ -3,35 +3,41 @@
 		<span @keyup.esc="closeModal" class="close" @click="closeModal">×</span>
 
 		<div class="">
-			<span class="prev z-20" @click="prevImage">&#10094;</span>
-			<span class="next z-20" @click="nextImage">&#10095;</span>
+			<span class="prev z-20 text-9xl" @click="prevImage">&#10094;</span>
+			<span class="next z-20 text-lg" @click="nextImage">&#10095;</span>
 		</div>
-
-		<div
-			class="flex justify-center items-center pt-8 pr-8 pb-0 pl-8 sm:justify-center md:max-h-[80%]">
-			<div class="md:max-w-[80%]">
-				<img :src="selectedPhotoURL" alt="photo" class="md:max-h-[75vh]" />
-				<LikeBtn class="p-2 w-10 h-10" />
+		<div class="flex-col justify-center items-center">
+			<div
+				class="flex justify-center items-center pt-20 pr-8 pb-0 pl-8 sm:justify-center md:max-h-[80%]">
+				<div class="md:max-w-[90%]">
+					<NuxtImg
+						loading="lazy"
+						quality="100"
+						:src="selectedPhotoURL"
+						alt="photo"
+						class="md:min-h-[45vh] md:min-w-[45vh] box-border" />
+					<LikeBtn class="p-2 w-10 h-10" />
+				</div>
 			</div>
-		</div>
 
-		<div class="flex pl-10 pr-10">
-			<div class="sm:ml-0 mt-4">
-				<p class="text-white text-md mb-1">
-					{{ info.fio }}
-				</p>
-				<p class="text-white text-sm mb-1">
-					{{ info.age }}
-				</p>
-				<p class="text-white text-sm mb-1 w-max-[200px]">
-					{{ info.info }}
-				</p>
-				<p class="text-white text-sm">
-					{{ info.nomination }}
-				</p>
-				<p class="text-white text-sm">
-					{{ info.city }}
-				</p>
+			<div class="flex pl-10 pr-10">
+				<div class="sm:ml-0 mt-4">
+					<p class="text-white text-md mb-1 max-w-[250px]">
+						{{ info.fio }}
+					</p>
+					<p class="text-white text-sm mb-1">
+						{{ info.age }}
+					</p>
+					<p class="text-white text-sm mb-1 max-w-[250px]">
+						{{ info.info }}
+					</p>
+					<p class="text-white text-sm mb-1 max-w-[250px]">
+						{{ info.nomination }}
+					</p>
+					<p class="text-white text-sm mb-4 max-w-[250px]">
+						{{ info.city }}
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -88,7 +94,7 @@ const emit = defineEmits('prevImage', 'nextImage');
 	padding: 16px;
 	color: white;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 28px;
 	transition: 0.6s ease;
 	border-radius: 0 3px 3px 0;
 	user-select: none;
