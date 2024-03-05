@@ -66,8 +66,8 @@
 					<NuxtLink
 						to="/favorites"
 						class="font-medium text-white/[.8] hover:text-white sm:py-6"
-						>ИЗБРАННОЕ ({{ favorites.length }})</NuxtLink
-					>
+						>ИЗБРАННОЕ
+					</NuxtLink>
 					<NuxtLink
 						to="/results"
 						class="font-medium text-white/[.8] hover:text-white sm:py-6"
