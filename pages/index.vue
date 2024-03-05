@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive, watch } from 'vue';
 import axios from 'axios';
 import { params } from '../API/Api';
 import { paramsSheets } from '../API/Api';
@@ -162,7 +162,7 @@ const prevImage = () => {
 	personInfo.value = filteredDataArr.value[currentIndex.value];
 };
 
-// watch(filters, fetchSheetsItems);
+watch(filters, fetchSheetsItems);
 
 useHead({
 	title: 'Палитра талантов | Галерея',
