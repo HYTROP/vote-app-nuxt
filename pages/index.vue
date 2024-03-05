@@ -198,6 +198,8 @@ useHead({
 					class="sm:max-h-[223px] sm:max-w-[317px] mb-8 cursor-pointer md:hover:scale-110 transition duration-500 overflow-hidden">
 					<NuxtImg
 						:src="record.photo"
+						preload
+						quality="80"
 						alt="photo"
 						class="justify-items-stretch" />
 				</div>
