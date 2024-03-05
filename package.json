@@ -7,30 +7,34 @@
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
-		"postinstall": "nuxt prepare",
-		"start": "nuxt start"
+		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
 		"@formkit/auto-animate": "^0.8.1",
+		"@jridgewell/sourcemap-codec": "^1.4.15",
 		"@ladjs/consolidate": "^1.0.3",
 		"@nuxtjs/pwa": "^3.3.5",
 		"axios": "^1.6.7",
-		"babel": "^6.23.0",
+		"consolidate": "^1.0.3",
+		"defu": "^6.1.4",
 		"firebase": "^10.8.1",
 		"firebase-admin": "^12.0.0",
+		"lodash": "^4.17.21",
 		"preline": "^2.0.3",
 		"tailwind-scrollbar-hide": "^1.1.7",
 		"vite": "^5.1.4",
 		"vue": "^3.4.15"
 	},
 	"devDependencies": {
+		"@babel/cli": "^7.23.9",
+		"@babel/plugin-transform-class-properties": "^7.23.3",
 		"@nuxtjs/tailwindcss": "^6.11.4",
 		"@vueuse/core": "^10.9.0",
 		"@vueuse/nuxt": "^10.9.0",
 		"autoprefixer": "^10.4.17",
 		"eslint": "^8.57.0",
 		"nuxt": "^3.10.3",
-		"nuxt-vite": "^0.3.5",
+		"nuxt-vite": "^0.0.27",
 		"postcss": "^8.4.35",
 		"tailwindcss": "^3.4.1"
 	}

@@ -1,5 +1,4 @@
 <script setup>
-import { ref, onMounted, reactive, watch } from 'vue';
 import axios from 'axios';
 import { params } from '../API/Api';
 import { paramsSheets } from '../API/Api';
@@ -69,11 +68,6 @@ const getPhotoUrl = (id) => {
 };
 
 onMounted(async () => {
-	// const localStorageFavorites = localStorage.getItem('favourites');
-	// favorites.value = localStorageFavorites
-	// 	? JSON.parse(localStorageFavorites)
-	// 	: [];
-
 	await fetchDriveItems();
 	await fetchSheetsItems();
 
