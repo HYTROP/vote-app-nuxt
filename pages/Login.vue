@@ -87,7 +87,6 @@ const router = useRouter();
 const email = ref('');
 const password = ref('');
 const errorMsg = ref('');
-const successMsg = ref('');
 
 async function signIn() {
 	try {
