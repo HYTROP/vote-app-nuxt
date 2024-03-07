@@ -96,7 +96,7 @@ async function signIn() {
 			password: password.value,
 		});
 		if (error) throw error;
-		const successMsg = 'Вы вошли в аккаунт';
+
 		router.push('/');
 	} catch (error) {
 		errorMsg.value = error.message;
