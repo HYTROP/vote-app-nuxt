@@ -124,6 +124,9 @@ async function signUp() {
 			lastName: lastName.value,
 			email: email.value,
 			password: password.value,
+			options: {
+				emailRedirectTo: 'https://vote-app-nuxt.vercel.app/login',
+			},
 		});
 
 		if (error) throw error;
@@ -141,7 +144,7 @@ async function signUp() {
 
 		setTimeout(() => {
 			router.push('/login');
-		}, 2500);
+		}, 2000);
 
 		// clear form
 		firstName.value = '';

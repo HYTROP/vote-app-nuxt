@@ -2,10 +2,10 @@
 	<header
 		class="flex flex-wrap sm:justify-start sm:flex-nowrap z-10 w-full bg-indigo-600/90 text-sm py-3 sm:py-0 sticky top-0">
 		<nav
-			class="relative w-full mx-auto px-4 sm:flex sm:items-center sm:px-6 lg:px-8"
+			class="relative w-full mx-auto px-4 sm:flex sm:items-center"
 			aria-label="Global">
 			<div class="flex items-center justify-between">
-				<NuxtLink to="/" class="flex-none text-xl font-semibold text-white"
+				<NuxtLink to="/" class="flex-none text-xl font-semibold text-white m-2"
 					>Палитра талантов 2024
 				</NuxtLink>
 				<!-- бургер -->
@@ -57,7 +57,7 @@
 				id="navbar-collapse-with-animation"
 				class="hs-collapse overflow-hidden transition-all duration-500 basis-full grow">
 				<div
-					class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:ps-7">
+					class="flex flex-col gap-y-4 gap-x-0 mt-4 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-6 sm:mt-0">
 					<NuxtLink
 						to="/"
 						class="sm:flex font-medium text-white/[.8] hover:text-white sm:py-6"

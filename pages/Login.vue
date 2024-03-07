@@ -27,7 +27,7 @@
 							type="email"
 							autocomplete="email"
 							required="true"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" />
+							class="py-3 px-4 block w-full rounded-lg text-sm border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 focus:ring-1 text-gray-800" />
 					</div>
 				</div>
 
@@ -54,11 +54,9 @@
 							type="password"
 							autocomplete="current-password"
 							required="true"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2" />
+							class="py-3 px-4 block w-full rounded-lg text-sm border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 focus:ring-1 text-gray-800" />
 					</div>
 				</div>
-
-				<!-- {{ errorMsg }} -->
 
 				<div>
 					<button
@@ -70,7 +68,7 @@
 						Нет аккаунта?
 						<NuxtLink
 							to="/signup"
-							class="text-indigo-600 decoration-2 hover:underline font-medium focus:outline-none focus:ring-1 focus:ring-indigo-200"
+							class="text-indigo-600 decoration-2 hover:underline font-small focus:outline-none focus:ring-1 focus:ring-indigo-200"
 							>Регистрация</NuxtLink
 						>
 					</div>
