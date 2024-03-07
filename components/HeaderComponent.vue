@@ -61,8 +61,8 @@
 					<NuxtLink
 						to="/"
 						class="sm:flex font-medium text-white/[.8] hover:text-white sm:py-6"
-						>ГАЛЕРЕЯ</NuxtLink
-					>
+						>ГАЛЕРЕЯ
+					</NuxtLink>
 					<NuxtLink
 						to="/favorites"
 						class="font-medium text-white/[.8] hover:text-white sm:py-6"
@@ -71,12 +71,13 @@
 					<NuxtLink
 						to="/results"
 						class="font-medium text-white/[.8] hover:text-white sm:py-6"
-						>РЕЗУЛЬТАТЫ</NuxtLink
-					>
+						>РЕЗУЛЬТАТЫ
+					</NuxtLink>
 					<!-- LOGGING -->
-					<!-- <a
-						class="flex items-center gap-x-2 font-medium text-white/[.8] hover:text-white sm:border-s sm:border-white/[.3] sm:my-6 sm:ps-6"
-						href="#">
+					<NuxtLink
+						v-if="!user"
+						to="/login"
+						class="flex items-center gap-x-2 font-medium text-white/[.8] hover:text-white sm:border-s sm:border-white/[.3] sm:my-6 sm:ps-6">
 						<svg
 							class="flex-shrink-0 size-4"
 							xmlns="http://www.w3.org/2000/svg"
@@ -91,14 +92,38 @@
 							<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
 							<circle cx="12" cy="7" r="4" />
 						</svg>
-						Log in
-					</a> -->
+						Войти
+					</NuxtLink>
+					<button
+						v-if="user"
+						@click="logOut"
+						type="button"
+						class="flex items-center gap-x-2 font-medium text-white/[.8] hover:text-white sm:border-s sm:border-white/[.3] sm:my-6 sm:ps-6">
+						Выход &#8594;
+					</button>
 				</div>
 			</div>
 		</nav>
 	</header>
 </template>
 <script setup>
+const user = useSupabaseUser();
+const client = useSupabaseClient();
+const router = useRouter();
+const errorMsg = ref(null);
+// console.log(user);
+
+async function logOut() {
+	try {
+		const { error } = await client.auth.signOut();
+		if (error) throw error;
+		router.push('/login');
+	} catch (error) {
+		console.log(error);
+		errorMsg.value = error.message;
+	}
+}
+
 const isMenuOpen = ref(true);
 
 const toggleMenu = () => {

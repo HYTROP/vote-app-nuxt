@@ -11,7 +11,19 @@ export default defineNuxtConfig({
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
 		'@nuxt/image',
+		'@nuxtjs/supabase',
 	],
+
+	supabase: {
+		// redirect: false,
+		redirectOptions: {
+			login: '/signup',
+			callback: '/login',
+			include: undefined,
+			exclude: [],
+			cookieRedirect: false,
+		},
+	},
 
 	css: ['~/assets/css/tailwind.css'],
 	postcss: {
