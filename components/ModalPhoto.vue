@@ -1,6 +1,21 @@
+<script setup>
+defineProps({
+	nextImage: Function,
+	prevImage: Function,
+	closeModal: Function,
+	show: Boolean,
+	selectedPhotoURL: String,
+	info: Object,
+});
+
+const closeModal = inject('closeModal');
+const nextImage = inject('nextImage');
+const prevImage = inject('prevImage');
+</script>
+
 <template>
 	<div v-if="show" class="modal">
-		<span @keyup.esc="closeModal" class="close" @click="closeModal">×</span>
+		<span class="close" @click="closeModal">×</span>
 
 		<div class="">
 			<span class="prev z-20 text-9xl" @click="prevImage">&#10094;</span>
@@ -42,19 +57,6 @@
 		</div>
 	</div>
 </template>
-
-<script setup>
-const props = defineProps({
-	nextImage: Function,
-	prevImage: Function,
-	closeModal: Function,
-	show: Boolean,
-	selectedPhotoURL: String,
-	info: Object,
-});
-
-const emit = defineEmits('prevImage', 'nextImage');
-</script>
 
 <style scoped>
 .modal {
