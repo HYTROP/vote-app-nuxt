@@ -60,17 +60,17 @@
 					class="flex flex-col gap-y-4 gap-x-0 mt-4 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-6 sm:mt-0">
 					<NuxtLink
 						to="/"
-						class="sm:flex font-medium text-white/[.8] hover:text-white sm:py-6"
+						class="sm:flex font-medium text-white/[.9] hover:text-white sm:py-6"
 						>ГАЛЕРЕЯ
 					</NuxtLink>
 					<NuxtLink
 						to="/favorites"
-						class="font-medium text-white/[.8] hover:text-white sm:py-6"
+						class="font-medium text-white/[.9] hover:text-white sm:py-6"
 						>ИЗБРАННОЕ
 					</NuxtLink>
 					<NuxtLink
 						to="/results"
-						class="font-medium text-white/[.8] hover:text-white sm:py-6"
+						class="font-medium text-white/[.9] hover:text-white sm:py-6"
 						>РЕЗУЛЬТАТЫ
 					</NuxtLink>
 					<!-- LOGGING -->

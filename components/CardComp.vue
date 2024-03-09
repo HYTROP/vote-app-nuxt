@@ -4,6 +4,8 @@ defineProps({
 	photo: String,
 	fio: String,
 	nomination: String,
+	onClickFavorite: Function,
+	isFavorite: Boolean,
 });
 const openModal = inject('openModal');
 </script>
@@ -31,6 +33,8 @@ const openModal = inject('openModal');
 				</p>
 			</div>
 			<LikeBtn
+				@click="onClickFavorite"
+				:isFavorite="isFavorite"
 				class="m-2 relative right-0 z-20 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out" />
 		</div>
 	</div>

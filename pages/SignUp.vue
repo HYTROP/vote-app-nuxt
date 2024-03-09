@@ -142,9 +142,11 @@ async function signUp() {
 		// }
 		successMsg.value = 'На ваш email было отправлено письмо для подтверждения!';
 
-		setTimeout(() => {
+		const timer = setTimeout(() => {
 			router.push('/login');
 		}, 2000);
+
+		clearTimeout(timer);
 
 		// clear form
 		firstName.value = '';

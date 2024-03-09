@@ -6,6 +6,7 @@ defineProps({
 	show: Boolean,
 	selectedPhotoURL: String,
 	info: Object,
+	onClickFavorite: Function,
 });
 
 const closeModal = inject('closeModal');
@@ -17,7 +18,7 @@ const prevImage = inject('prevImage');
 	<div v-if="show" class="modal">
 		<span class="close" @click="closeModal">×</span>
 
-		<div class="">
+		<div>
 			<span class="prev z-20 text-9xl" @click="prevImage">&#10094;</span>
 			<span class="next z-20 text-lg" @click="nextImage">&#10095;</span>
 		</div>
@@ -31,7 +32,10 @@ const prevImage = inject('prevImage');
 						:src="selectedPhotoURL"
 						alt="photo"
 						class="md:min-h-[45vh] md:min-w-[45vh] box-border" />
-					<LikeBtn class="p-2 w-10 h-10" />
+
+					<LikeBtn
+						@click="onClickFavorite"
+						class="m-2 relative right-0 z-20 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out" />
 				</div>
 			</div>
 

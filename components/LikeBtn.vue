@@ -33,17 +33,17 @@
 	</div>
 </template>
 
-<script>
-export default {
-	data() {
-		return {
-			liked: false,
-		};
-	},
-	methods: {
-		toggleLike() {
-			this.liked = !this.liked;
-		},
-	},
-};
+<script setup>
+defineProps({
+	isFavorite: Boolean,
+});
+const liked = ref(false);
+
+const isFavorite = ref(false);
+
+function toggleLike() {
+	liked.value = !liked.value;
+	isFavorite.value = liked.value;
+	console.log('liked', isFavorite.value);
+}
 </script>

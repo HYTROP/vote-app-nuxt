@@ -1,4 +1,5 @@
 <script setup>
+const appConfig = useAppConfig();
 import axios from 'axios';
 import { params } from '../API/Api';
 import { paramsSheets } from '../API/Api';
@@ -13,15 +14,6 @@ const showModal = ref(false);
 const selectedPhotoURL = ref('');
 const currentIndex = ref(0);
 const personInfo = ref([]);
-
-const filters = reactive({
-	all: 'Все',
-	draw: 'Живопись',
-	paint: 'Рисунок',
-	photo: 'Фото',
-	dpi: 'ДПИ',
-});
-const selectedFilters = ref('Все');
 
 // ---------------------
 
@@ -67,6 +59,31 @@ const getPhotoUrl = (id) => {
 	return `https://lh3.googleusercontent.com/d/${id}=s1620`;
 };
 
+const fetchFavorites = async () => {
+	try {
+		const { data: favorites } = await client.from('favorites').select('*');
+		filteredDataArr.value = filteredDataArr.value.map((item) => {
+			const favoriteItem = favorites.find((obj) => obj.parentId === item.id);
+
+			if (!favoriteItem) {
+				return item;
+			}
+
+			return {
+				...item,
+				isFavorite: true,
+				favoriteId: favoriteItem.id,
+			};
+		});
+
+		// if (data) {
+		//   store.commit('setFavorites', data);
+		// }
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 onMounted(async () => {
 	await fetchDriveItems();
 	await fetchSheetsItems();
@@ -94,7 +111,15 @@ onMounted(async () => {
 	};
 
 	recordsArr.value = convertToObjects(recordsArr.value);
-	filteredDataArr.value = recordsArr.value;
+	// filteredDataArr.value = recordsArr.value;
+
+	filteredDataArr.value = recordsArr.value.map((obj) => {
+		return {
+			...obj,
+			isFavorite: false,
+			favoriteId: null,
+		};
+	});
 });
 
 const filterOptions = [
@@ -105,6 +130,7 @@ const filterOptions = [
 	'ДПИ (Декоративно-прикладное искусство)',
 ];
 
+const selectedFilters = ref(filterOptions[0]);
 const filterData = () => {
 	filteredDataArr.value = recordsArr.value.filter((item) => {
 		if (selectedFilters.value === 'Все') {
@@ -161,7 +187,27 @@ provide('openModal', openModal);
 provide('nextImage', nextImage);
 provide('prevImage', prevImage);
 
-watch(filters, fetchSheetsItems);
+const client = useSupabaseClient();
+
+const onClickFavorite = async (item) => {
+	try {
+		if (!item.isFavorite) {
+			const obj = {
+				parentId: item.id,
+				item,
+			};
+			const { data } = await client.from('favorites').insert(obj);
+
+			item.favoriteId = data.id;
+		} else {
+			item.favoriteId = false;
+
+			await client.from('favorites').delete().match({ id: item.favoriteId });
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 useHead({
 	title: 'Палитра талантов | Галерея',
@@ -177,15 +223,15 @@ useHead({
 <template>
 	<div>
 		<h1 class="text-xl font-bold m-2 lg:flex md:grid-cols-2 md:m-2">
-			ГАЛЕРЕЯ / {{ selectedFilters }}
+			Галерея /
+			{{ selectedFilters }}
 		</h1>
 
-		<!-- selector -->
 		<select
 			v-model="selectedFilters"
 			@change="filterData"
-			class="w-[150px] bg-neutral-200/0 m-2 border-2 p-1 border-indigo-400 rounded-lg truncate">
-			<option v-for="option in filterOptions" :key="option">
+			class="w-[150px] m-2 border-2 p-1 border-indigo-400 rounded-lg appearance-auto">
+			<option v-for="option in filterOptions" :key="option" class="border-none">
 				{{ option }}
 			</option>
 		</select>
@@ -193,6 +239,7 @@ useHead({
 		<!-- grid -->
 		<CardList
 			:dataArray="filteredDataArr"
+			@onClickFavorite="onClickFavorite"
 			:showModal="showModal"
 			@openModal="openModal"
 			:personInfo="personInfo"

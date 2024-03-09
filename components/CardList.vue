@@ -1,6 +1,8 @@
 <script setup>
 defineProps({
 	dataArray: Array,
+	isFavorite: Boolean, // for favorites
+	onClickFavorite: Function,
 	personInfo: Object, //for modal
 	showModal: Boolean, // for modal
 	selectedPhotoURL: String, // for modal
@@ -17,6 +19,8 @@ defineProps({
 			:photo="record.photo"
 			:fio="record.fio"
 			:nomination="record.nomination"
+			:onClickFavorite="() => $emit('onClickFavorite', record)"
+			:isFavorite="record.isFavorite"
 			:index="index"
 			:showModal="showModal" />
 		<!-- <div
@@ -48,6 +52,8 @@ defineProps({
 		</div> -->
 
 		<ModalPhoto
+			:onClickFavorite="() => $emit('addToFavorites', record)"
+			:isFavorite="isFavorite"
 			:info="personInfo"
 			:show="showModal"
 			:selectedPhotoURL="selectedPhotoURL" />
