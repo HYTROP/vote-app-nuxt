@@ -35,7 +35,7 @@ const prevImage = inject('prevImage');
 
 					<LikeBtn
 						@click="onClickFavorite"
-						class="m-2 relative right-0 z-20 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out" />
+						class="m-2 relative right-0 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out" />
 				</div>
 			</div>
 

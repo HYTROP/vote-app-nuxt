@@ -196,13 +196,20 @@ const onClickFavorite = async (item) => {
 				parentId: item.id,
 				item,
 			};
-			const { data } = await client.from('favorites').insert(obj);
+			const { data } = await client
+				.from('favorites')
+				.upsert([obj], { returning: 'representation' })
+				.select();
 
-			item.favoriteId = data.id;
+			if (error) {
+				throw error;
+			}
+
+			item.favoriteId = data[0].id;
 		} else {
-			item.favoriteId = false;
+			await client.from('favorites').delete().match({ parentId: item.id });
 
-			await client.from('favorites').delete().match({ id: item.favoriteId });
+			item.favoriteId = false;
 		}
 	} catch (error) {
 		console.error(error);
@@ -221,13 +228,14 @@ useHead({
 </script>
 
 <template>
-	<div>
+	<div v-auto-animate>
 		<h1 class="text-xl font-bold m-2 lg:flex md:grid-cols-2 md:m-2">
 			Галерея /
-			{{ selectedFilters }}
+			{{ selectedFilters }} ({{ filteredDataArr.length }})
 		</h1>
 
 		<select
+			v-if="filteredDataArr.length > 0"
 			v-model="selectedFilters"
 			@change="filterData"
 			class="w-[150px] m-2 border-2 p-1 border-indigo-400 rounded-lg appearance-auto">
@@ -235,6 +243,8 @@ useHead({
 				{{ option }}
 			</option>
 		</select>
+
+		<Spinner v-if="recordsArr.length === 0" />
 
 		<!-- grid -->
 		<CardList

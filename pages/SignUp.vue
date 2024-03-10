@@ -131,15 +131,6 @@ async function signUp() {
 
 		if (error) throw error;
 
-		// if (data) {
-		// 	const user = {
-		// 		firstName: firstName.value,
-		// 		lastName: lastName.value,
-		// 		email: email.value,
-		// 	};
-
-		// 	store.commit('setCurrentUser', user);
-		// }
 		successMsg.value = 'На ваш email было отправлено письмо для подтверждения!';
 
 		const timer = setTimeout(() => {
