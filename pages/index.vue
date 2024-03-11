@@ -204,7 +204,7 @@ useHead({
 
 		<label
 			for="filterSelect"
-			class="ml-3 flex text-sm font-medium text-gray-700"></label>
+			class="ml-3 bg-neutral-200/0 flex text-sm font-medium text-gray-700"></label>
 		<select
 			id="filterSelect"
 			v-if="filteredDataArr.length > 0"
