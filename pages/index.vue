@@ -210,8 +210,8 @@ useHead({
 			v-if="filteredDataArr.length > 0"
 			v-model="selectedFilters"
 			@change="filterData"
-			class="w-[150px] m-2 border p-1 border-indigo-500 rounded-lg appearance-auto bg-neutral-200/0">
-			<option v-for="option in filterOptions" :key="option">
+			class="w-[150px] m-2 border-2 p-1 border-indigo-400 rounded-lg appearance-auto bg-neutral-200/0">
+			<option v-for="option in filterOptions" :key="option" class="border-none">
 				{{ option }}
 			</option>
 		</select>
