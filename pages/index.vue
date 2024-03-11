@@ -204,13 +204,13 @@ useHead({
 
 		<label
 			for="filterSelect"
-			class="ml-3 bg-neutral-200/0 flex text-sm font-medium text-gray-700"></label>
+			class="ml-3 flex text-sm font-medium text-gray-700"></label>
 		<select
 			id="filterSelect"
 			v-if="filteredDataArr.length > 0"
 			v-model="selectedFilters"
 			@change="filterData"
-			class="w-[150px] m-2 border-1 p-1 border-indigo-400 rounded-lg appearance-auto">
+			class="w-[150px] m-2 border-1 p-1 border-indigo-400 rounded-lg appearance-auto bg-neutral-200/0">
 			<option v-for="option in filterOptions" :key="option" class="border-none">
 				{{ option }}
 			</option>
