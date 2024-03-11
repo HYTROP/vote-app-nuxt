@@ -44,7 +44,7 @@
 											id="last-name"
 											name="last-name"
 											v-model="lastName"
-											class="py-3 px-4 block w-full rounded-lg text-md border border-gray-300 focus:ring-indigo-500 focus: text-gray-800"
+											class="py-3 px-4 block w-full rounded-lg text-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800"
 											required
 											aria-describedby="email-error" />
 									</div>
@@ -59,7 +59,7 @@
 											id="email"
 											name="email"
 											v-model="email"
-											class="py-3 px-4 block w-full rounded-lg text-sm border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 focus:ring-1 text-gray-800"
+											class="py-3 px-4 block w-full rounded-lg text-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800"
 											required
 											aria-describedby="email-error" />
 									</div>
@@ -82,7 +82,7 @@
 											v-model="password"
 											id="password"
 											name="password"
-											class="py-3 px-4 block w-full rounded-lg text-sm border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 focus:ring-1 text-gray-800"
+											class="py-3 px-4 block w-full rounded-lg text-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800"
 											minlength="6"
 											required
 											aria-describedby="password-error" />
@@ -94,7 +94,7 @@
 								</div>
 								<button
 									type="submit"
-									class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-1 focus:ring-gray-600">
+									class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-gray-600">
 									Зарегистрироваться
 								</button>
 							</div>
