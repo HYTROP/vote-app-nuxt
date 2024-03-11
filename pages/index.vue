@@ -17,7 +17,7 @@ const personInfo = ref([]);
 
 // ---------------------
 
-const fetchDriveItems = async () => {
+const fetchItems = async () => {
 	try {
 		// -------------------- Google Drive
 		const responseDrive = await axios.get(
@@ -25,20 +25,13 @@ const fetchDriveItems = async () => {
 			{ params }
 		);
 		photosDrive.value = responseDrive.data.files;
-	} catch (error) {
-		throw new Error('Ошибка при получении записей из Google DRIVE:', error);
-	}
-};
 
-const fetchSheetsItems = async () => {
-	try {
 		// -------------------- Google Sheets
 		const responseSheets = await axios.get(
 			`https://sheets.googleapis.com/v4/spreadsheets/${_GOOGLE_SHEETS_KEY}/values/${sheetRange}?key=${_API_KEY}`,
 			{ paramsSheets }
 		);
-
-		// преобразование ссылки на фото
+		// декодирование ссылки на фото
 		recordsArr.value = responseSheets.data.values.map((item) => {
 			const result = item;
 			const separate = result[6].split('/');
@@ -51,7 +44,7 @@ const fetchSheetsItems = async () => {
 			return result;
 		});
 	} catch (error) {
-		throw new Error('Ошибка при получении записей из Google SHEETS:', error);
+		throw new Error('Ошибка при получении записей:', error);
 	}
 };
 
@@ -59,34 +52,8 @@ const getPhotoUrl = (id) => {
 	return `https://lh3.googleusercontent.com/d/${id}=s1620`;
 };
 
-const fetchFavorites = async () => {
-	try {
-		const { data: favorites } = await client.from('favorites').select('*');
-		filteredDataArr.value = filteredDataArr.value.map((item) => {
-			const favoriteItem = favorites.find((obj) => obj.parentId === item.id);
-
-			if (!favoriteItem) {
-				return item;
-			}
-
-			return {
-				...item,
-				isFavorite: true,
-				favoriteId: favoriteItem.id,
-			};
-		});
-
-		// if (data) {
-		//   store.commit('setFavorites', data);
-		// }
-	} catch (error) {
-		console.error(error);
-	}
-};
-
 onMounted(async () => {
-	await fetchDriveItems();
-	await fetchSheetsItems();
+	await fetchItems();
 
 	const convertToObjects = (arr) => {
 		const keys = [
@@ -193,7 +160,7 @@ const onClickFavorite = async (item) => {
 	try {
 		if (!item.isFavorite) {
 			const obj = {
-				parentId: item.id,
+				component_id: item.id,
 				item,
 			};
 			const { data } = await client
@@ -202,12 +169,13 @@ const onClickFavorite = async (item) => {
 				.select();
 
 			if (error) {
-				throw error;
+				console.error(error);
+				return;
 			}
 
 			item.favoriteId = data[0].id;
 		} else {
-			await client.from('favorites').delete().match({ parentId: item.id });
+			await client.from('favorites').delete().match({ component_id: item.id });
 
 			item.favoriteId = false;
 		}
@@ -234,7 +202,11 @@ useHead({
 			{{ selectedFilters }} ({{ filteredDataArr.length }})
 		</h1>
 
+		<label
+			for="filterSelect"
+			class="ml-3 flex text-sm font-medium text-gray-700"></label>
 		<select
+			id="filterSelect"
 			v-if="filteredDataArr.length > 0"
 			v-model="selectedFilters"
 			@change="filterData"

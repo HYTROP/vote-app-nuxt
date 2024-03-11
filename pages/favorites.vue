@@ -11,6 +11,31 @@
 </template>
 
 <script setup>
+const client = useSupabase();
+
+const fetchFavorites = async () => {
+	try {
+		const { data: favorites } = await client.from('favorites').select('*');
+		filteredDataArr.value = filteredDataArr.value.map((item) => {
+			const favoriteItem = favorites.find((obj) => obj.parentId === item.id);
+
+			if (!favoriteItem) {
+				return item;
+			}
+
+			return {
+				...item,
+				isFavorite: true,
+				favoriteId: favoriteItem.id,
+			};
+		});
+	} catch (error) {
+		console.error(error);
+	}
+};
+onMounted(async () => {
+	// await fetchFavorites();
+});
 useHead({
 	title: 'Палитра талантов | Избранное',
 	meta: [

@@ -1,4 +1,6 @@
 <script setup>
+import Skeleton from './Skeleton.vue';
+
 defineProps({
 	index: Number,
 	photo: String,
