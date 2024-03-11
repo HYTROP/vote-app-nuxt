@@ -1,8 +1,8 @@
 <template>
 	<header
-		class="flex flex-wrap sm:justify-start sm:flex-nowrap z-10 w-full bg-indigo-600/90 text-sm py-3 sm:py-0 sticky top-0">
+		class="flex flex-wrap sm:justify-start sm:flex-nowrap z-10 w-full bg-indigo-600/90 text-sm py-3 sm:py-0 sticky top-0 backdrop-blur-lg">
 		<nav
-			class="relative w-full mx-auto px-4 sm:flex sm:items-center backdrop-blur-sm"
+			class="relative w-full mx-auto px-4 sm:flex sm:items-center"
 			aria-label="Global">
 			<div class="flex items-center justify-between">
 				<NuxtLink to="/" class="flex-none text-xl font-semibold text-white m-2"
