@@ -27,7 +27,7 @@
 							type="email"
 							autocomplete="email"
 							required="true"
-							class="py-3 px-4 block w-full rounded-lg text-sm border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 focus:ring-1 text-gray-800" />
+							class="py-3 px-4 block w-full rounded-lg text-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800" />
 					</div>
 				</div>
 
@@ -54,7 +54,7 @@
 							type="password"
 							autocomplete="current-password"
 							required="true"
-							class="py-3 px-4 block w-full rounded-lg text-sm border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 focus:ring-1 text-gray-800" />
+							class="py-3 px-4 block w-full rounded-lg text-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800" />
 					</div>
 				</div>
 
