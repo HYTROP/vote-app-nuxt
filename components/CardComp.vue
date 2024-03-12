@@ -21,7 +21,7 @@ const openModal = inject('openModal');
 			<Skeleton v-if="!photo" />
 			<NuxtImg
 				:src="photo"
-				sizes="xs:20vw sm:100vw md:50vw lg:33vw xl:25vw 2xl:20vw"
+				sizes="xs:100vw sm:100vw md:50vw lg:33vw xl:25vw 2xl:20vw"
 				quality="10"
 				loading="lazy"
 				alt="photo"
