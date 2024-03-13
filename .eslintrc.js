@@ -3,7 +3,7 @@ module.exports = {
 	env: {
 		node: true,
 	},
-	extends: ['eslint:recommended'],
+	extends: ['eslint:recommended, plugin:nuxt/recommended, prettier'],
 	parserOptions: {
 		sourceType: 'module',
 	},
