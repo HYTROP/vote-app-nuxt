@@ -117,11 +117,12 @@
 	</header>
 </template>
 <script setup>
+const { recordsArr } = inject('dataProvider');
+
 const user = useSupabaseUser();
 const supabase = useSupabaseClient();
 const router = useRouter();
 const errorMsg = ref(null);
-// console.log(user);
 
 async function logOut() {
 	try {

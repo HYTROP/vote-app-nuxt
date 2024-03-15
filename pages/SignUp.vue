@@ -125,19 +125,68 @@ const successMsg = ref('');
 
 async function signUp() {
 	try {
-		const { data, error } = await supabase.auth.signUp({
-			firstName: firstName.value,
-			lastName: lastName.value,
-			email: email.value,
-			password: password.value,
-			options: {
-				emailRedirectTo: 'https://vote-app-nuxt.vercel.app/login',
+		// const { data: userData, error } = await supabase.auth.signUp({
+		// 	firstName: firstName.value,
+		// 	lastName: lastName.value,
+		// 	email: email.value,
+		// 	password: password.value,
+		// 	options: {
+		// 		emailRedirectTo: 'https://vote-app-nuxt.vercel.app/login',
+		// 	},
+		// });
+		const userData = {
+			id: 'd1ccdfe6-2ba6-4898-b8d3-e5719321c0af',
+			aud: 'authenticated',
+			role: 'authenticated',
+			email: 'scirrell@ya.ru',
+			email_confirmed_at: '2024-03-07T22:42:02.783688Z',
+			phone: '',
+			confirmation_sent_at: '2024-03-07T22:41:12.193816Z',
+			confirmed_at: '2024-03-07T22:42:02.783688Z',
+			last_sign_in_at: '2024-03-15T15:49:35.13573933Z',
+			app_metadata: {
+				provider: 'email',
+				providers: ['email'],
 			},
-		});
+			user_metadata: {
+				email: 'scirrell@ya.ru',
+				email_verified: false,
+				phone_verified: false,
+				sub: 'd1ccdfe6-2ba6-4898-b8d3-e5719321c0af',
+			},
+			identities: [
+				{
+					identity_id: '2efece2c-22bc-4f1a-969e-d0032058a6a0',
+					id: 'd1ccdfe6-2ba6-4898-b8d3-e5719321c0af',
+					user_id: 'd1ccdfe6-2ba6-4898-b8d3-e5719321c0af',
+					identity_data: {
+						email: 'scirrell@ya.ru',
+						email_verified: false,
+						phone_verified: false,
+						sub: 'd1ccdfe6-2ba6-4898-b8d3-e5719321c0af',
+					},
+					provider: 'email',
+					last_sign_in_at: '2024-03-07T22:41:12.19045Z',
+					created_at: '2024-03-07T22:41:12.190503Z',
+					updated_at: '2024-03-07T22:41:12.190503Z',
+					email: 'scirrell@ya.ru',
+				},
+			],
+			created_at: '2024-03-07T22:41:12.187659Z',
+			updated_at: '2024-03-15T15:49:35.13764Z',
+			is_anonymous: false,
+		};
 
-		if (error) {
-			throw error;
-		}
+		// if (error) {
+		// 	throw error;
+		// }
+
+		const { data: userFavorites } = await supabase
+			.from('favorites')
+			.insert({
+				userID: userData.id,
+			})
+			.select();
 
 		successMsg.value = 'На ваш email было отправлено письмо для подтверждения!';
 

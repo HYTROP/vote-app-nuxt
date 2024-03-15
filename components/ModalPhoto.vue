@@ -1,60 +1,64 @@
 <script setup>
 defineProps({
-	nextImage: Function,
-	prevImage: Function,
-	closeModal: Function,
-	show: Boolean,
-	selectedPhotoURL: String,
-	info: Object,
 	onClickFavorite: Function,
+	showModal: Boolean,
+	record: Object,
 });
 
-const closeModal = inject('closeModal');
-const nextImage = inject('nextImage');
-const prevImage = inject('prevImage');
+const { closeModal } = inject('modalActions');
+const { nextImage } = inject('modalActions');
+const { prevImage } = inject('modalActions');
+const { selectedPhotoURL } = inject('modalActions');
+const { showModal } = inject('modalActions');
 </script>
 
 <template>
-	<div v-if="show" class="modal">
+	<div v-if="showModal" class="modal">
 		<span class="close" @click="closeModal">×</span>
 
 		<div>
-			<span class="prev z-20 text-9xl" @click="prevImage">&#10094;</span>
+			<span class="prev z-20 text-lg" @click="prevImage">&#10094;</span>
 			<span class="next z-20 text-lg" @click="nextImage">&#10095;</span>
 		</div>
 		<div class="flex-col justify-center items-center">
 			<div
-				class="flex justify-center items-center pt-20 pr-8 pb-0 pl-8 sm:justify-center md:max-h-[80%]">
+				class="flex justify-center items-center pt-20 pr-8 pb-0 pl-8 sm:justify-center md:max-h-[80%]"
+			>
 				<div class="md:max-w-[90%]">
 					<NuxtImg
+						v-if="selectedPhotoURL"
+						:src="selectedPhotoURL"
 						loading="lazy"
 						quality="100"
-						:src="selectedPhotoURL"
 						alt="photo"
-						class="md:min-h-[45vh] md:min-w-[45vh] box-border" />
-
-					<LikeBtn
-						@click="onClickFavorite"
-						class="m-2 relative right-0 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out" />
+						class="md:min-h-[45vh] md:min-w-[45vh] box-border"
+					/>
+					<div class="flex justify-around">
+						<LikeBtn
+							@click="onClickFavorite"
+							class="m-2 relative right-0 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
+						/>
+						<Rating class="text-xl text-yellow-100" />
+					</div>
 				</div>
 			</div>
 
 			<div class="flex pl-10 pr-10">
 				<div class="sm:ml-0 mt-4">
 					<p class="text-white text-md mb-1 max-w-[250px]">
-						{{ info.fio }}
+						{{ record.fio }}
 					</p>
 					<p class="text-white text-sm mb-1">
-						{{ info.age }}
+						{{ record.age }}
 					</p>
 					<p class="text-white text-sm mb-1 max-w-[250px]">
-						{{ info.info }}
+						{{ record.info }}
 					</p>
 					<p class="text-white text-sm mb-1 max-w-[250px]">
-						{{ info.nomination }}
+						{{ record.nomination }}
 					</p>
 					<p class="text-white text-sm mb-4 max-w-[250px]">
-						{{ info.city }}
+						{{ record.city }}
 					</p>
 				</div>
 			</div>

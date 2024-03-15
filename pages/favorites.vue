@@ -1,25 +1,43 @@
 <template>
-  <div>
-    <h1>FAVORITES</h1>
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad ipsum totam
-      error nulla quibusdam soluta quae enim assumenda dignissimos. Dolorem ea
-      consectetur quos, pariatur dignissimos explicabo recusandae sequi mollitia
-      porro!
-    </p>
-  </div>
+	<div>
+		<h1
+			class="text-xl text-neutral-800 font-bold m-2 lg:flex md:grid-cols-2 md:mx-2"
+		>
+			Избранное /
+		</h1>
+
+		<p v-if="favoritesItems.length === 0" class="text-2xl text-center">
+			В избранном пока ничего нет
+		</p>
+		<LoaderSpin class="w-14 h-20" v-if="favoritesItems.length === 0" />
+
+		<CardList :dataArray="favoritesItems" />
+
+		<!-- <ModalPhoto
+			:onClickFavorite="() => $emit('addToFavorites', record)"
+			:isFavorite="isFavorite"
+			:info="personInfo"
+			:selectedPhotoURL="selectedPhotoURL"
+		/> -->
+	</div>
 </template>
 
 <script setup>
+const favoritesItems = ref([]);
+
+const { recordsArr } = inject('dataProvider');
+
+favoritesItems.value = recordsArr.value.filter((item) => item.isFavorite);
+
 useHead({
-  title: 'Палитра талантов | Избранное',
-  meta: [
-    {
-      name: 'description',
-      content: 'Избранное'
-    }
-  ]
-})
+	title: 'Палитра талантов | Избранное',
+	meta: [
+		{
+			name: 'description',
+			content: 'Избранное',
+		},
+	],
+});
 </script>
 
 <style scoped></style>

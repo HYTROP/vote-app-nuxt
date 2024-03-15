@@ -14,6 +14,7 @@
 		"@jridgewell/sourcemap-codec": "^1.4.15",
 		"@ladjs/consolidate": "^1.0.3",
 		"@nuxtjs/pwa": "^3.3.5",
+		"@supabase/supabase-js": "^2.39.8",
 		"axios": "^1.6.7",
 		"consolidate": "^1.0.3",
 		"defu": "^6.1.4",
