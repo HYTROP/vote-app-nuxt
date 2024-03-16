@@ -117,8 +117,6 @@
 	</header>
 </template>
 <script setup>
-const { recordsArr } = inject('dataProvider');
-
 const user = useSupabaseUser();
 const supabase = useSupabaseClient();
 const router = useRouter();

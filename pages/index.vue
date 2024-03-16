@@ -10,9 +10,14 @@ const currentIndex = ref(0);
 definePageMeta({
 	middleware: ['auth'],
 });
+
 // ---------------------
 
 watch(recordsArr, () => {
+	filterDataFunc();
+});
+
+onMounted(() => {
 	filterDataFunc();
 });
 
@@ -23,9 +28,7 @@ const filterOptions = [
 	'Фотография',
 	'ДПИ (Декоративно-прикладное искусство)',
 ];
-
 const selectedFilters = ref(filterOptions[0]);
-
 const filterDataFunc = () => {
 	filteredDataArr.value = recordsArr.value.filter((item) => {
 		if (selectedFilters.value === 'Все') {
@@ -36,8 +39,8 @@ const filterDataFunc = () => {
 	});
 };
 
+// ---------------------
 const openModal = (modalPhotoURL, index) => {
-	console.log('CLICK MODAL');
 	showModal.value = true;
 	selectedPhotoURL.value = modalPhotoURL;
 
@@ -50,7 +53,6 @@ const openModal = (modalPhotoURL, index) => {
 
 	document.body.style.overflow = 'hidden';
 };
-
 const closeModal = () => {
 	showModal.value = false;
 	selectedPhotoURL.value = null;
@@ -63,7 +65,6 @@ const nextImage = () => {
 	const currentIndexInArr = filteredDataArr.value.findIndex(
 		(item) => item.photo === currentPhotoURL,
 	);
-
 	const nextIndex =
 		currentIndexInArr < filteredDataArr.value.length - 1
 			? currentIndexInArr + 1
@@ -78,7 +79,6 @@ const prevImage = () => {
 	const currentIndexInArr = filteredDataArr.value.findIndex(
 		(item) => item.photo === currentPhotoURL,
 	);
-
 	const prevIndex =
 		currentIndexInArr > 0
 			? currentIndexInArr - 1
@@ -98,6 +98,7 @@ provide('modalActions', {
 	selectedPhotoURL,
 	currentIndex,
 });
+//---------------------
 
 useHead({
 	title: 'Палитра талантов | Галерея',
@@ -132,10 +133,10 @@ useHead({
 			</option>
 		</select>
 
-		<LoaderSpin v-if="recordsArr.length === 0" class="w-20 h-14" />
+		<LoaderSpin v-if="!filteredDataArr.length" class="w-20 h-14" />
 
 		<!-- grid -->
-		<CardList :data-array="filteredDataArr" />
+		<CardList v-else :dataArray="filteredDataArr" />
 	</div>
 </template>
 

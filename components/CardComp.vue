@@ -1,36 +1,15 @@
 <script setup>
-import Skeleton from './Skeleton.vue';
-
-defineProps({
-	index: Number,
+const props = defineProps({
 	record: Object,
+	onClickFavorite: Function,
+	isFavorite: Boolean,
 });
 
-const supabase = useSupabaseClient();
-const user = useSupabaseUser();
-
-const { favoritesURLs } = inject('dataProvider');
+onMounted(() => {
+	// console.log('RECORD', props.record);
+});
 
 const { openModal } = inject('modalActions');
-
-const onClickFavorite = async (item) => {
-	const updatedURLs = item.isFavorite
-		? favoritesURLs.value.filter((url) => url !== item.photo)
-		: [...favoritesURLs.value, item.photo];
-
-	const { data, error } = await supabase
-		.from('favorites')
-		.update({ favoritePhotoURLs: updatedURLs })
-		.eq('userID', user.value.id)
-		.select('*')
-		.single();
-
-	if (error) {
-		throw error;
-	}
-	item.isFavorite = data.favoritePhotoURLs.includes(item.photo);
-	favoritesURLs.value = updatedURLs;
-};
 </script>
 
 <template>
@@ -43,7 +22,6 @@ const onClickFavorite = async (item) => {
 		>
 			<Skeleton v-if="!record.photo" />
 			<NuxtImg
-				v-if="record.photo"
 				:src="record.photo"
 				sizes="xs:100vw sm:100vw md:50vw lg:33vw xl:25vw 2xl:20vw"
 				quality="10"
@@ -63,7 +41,7 @@ const onClickFavorite = async (item) => {
 			</div>
 			<div>
 				<LikeBtn
-					@click="onClickFavorite"
+					@click="onClickFavorite(record)"
 					:isFavorite="record.isFavorite"
 					class="m-2 relative right-0 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
 				/>

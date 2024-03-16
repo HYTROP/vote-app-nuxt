@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
 	isFavorite: Boolean,
 });
 </script>

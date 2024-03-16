@@ -4,7 +4,6 @@
 
 <script setup>
 import axios from 'axios';
-
 import {
 	params,
 	paramsSheets,
@@ -20,7 +19,10 @@ const favoritesURLs = ref([]);
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
-provide('dataProvider', { favoritesURLs, recordsArr });
+provide('dataProvider', {
+	recordsArr,
+	favoritesURLs,
+});
 
 const fetchItems = async () => {
 	try {
@@ -46,51 +48,52 @@ const fetchItems = async () => {
 
 			return result;
 		});
+
+		const convertToObjects = (arr) => {
+			const keys = [
+				'fio',
+				'email',
+				'phone',
+				'age',
+				'nomination',
+				'info',
+				'photo',
+				'bio',
+				'city',
+			];
+			const arrayOfObjects = arr.map((subArray) => {
+				const obj = {};
+				subArray.forEach((value, index) => {
+					obj[keys[index]] = value;
+				});
+				obj.isFavorite = favoritesURLs.value.includes(obj.photo);
+				return obj;
+			});
+			return arrayOfObjects;
+		};
+		recordsArr.value = convertToObjects(recordsArr.value);
 	} catch (error) {
 		throw new Error('Ошибка при получении записей:', error);
 	}
+};
+const getPhotoUrl = (id) => {
+	return `https://lh3.googleusercontent.com/d/${id}=s1620`;
 };
 const fetchFavorites = async () => {
 	const { data } = await supabase
 		.from('favorites')
 		.select('favoritePhotoURLs')
-		.eq('userID', user.value.id)
+		.eq('userID', user.value?.id)
 		.single();
 
-	favoritesURLs.value = data.favoritePhotoURLs;
-};
-
-const getPhotoUrl = (id) => {
-	return `https://lh3.googleusercontent.com/d/${id}=s1620`;
+	favoritesURLs.value = data?.favoritePhotoURLs;
 };
 
 onMounted(async () => {
 	await fetchFavorites();
 	await fetchItems();
 
-	const convertToObjects = (arr) => {
-		const keys = [
-			'fio',
-			'email',
-			'phone',
-			'age',
-			'nomination',
-			'info',
-			'photo',
-			'bio',
-			'city',
-		];
-		const arrayOfObjects = arr.map((subArray) => {
-			const obj = {};
-			subArray.forEach((value, index) => {
-				obj[keys[index]] = value;
-			});
-			obj.isFavorite = favoritesURLs.value.includes(obj.photo);
-			return obj;
-		});
-		return arrayOfObjects;
-	};
-	recordsArr.value = convertToObjects(recordsArr.value);
+	// console.log('recordsArr', recordsArr.value);
 });
 
 useHead({

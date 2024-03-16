@@ -3,6 +3,7 @@ defineProps({
 	onClickFavorite: Function,
 	showModal: Boolean,
 	record: Object,
+	isFavorite: Boolean,
 });
 
 const { closeModal } = inject('modalActions');
@@ -10,6 +11,7 @@ const { nextImage } = inject('modalActions');
 const { prevImage } = inject('modalActions');
 const { selectedPhotoURL } = inject('modalActions');
 const { showModal } = inject('modalActions');
+const { personInfo } = inject('modalActions');
 </script>
 
 <template>
@@ -26,9 +28,7 @@ const { showModal } = inject('modalActions');
 			>
 				<div class="md:max-w-[90%]">
 					<NuxtImg
-						v-if="selectedPhotoURL"
 						:src="selectedPhotoURL"
-						loading="lazy"
 						quality="100"
 						alt="photo"
 						class="md:min-h-[45vh] md:min-w-[45vh] box-border"
@@ -36,6 +36,7 @@ const { showModal } = inject('modalActions');
 					<div class="flex justify-around">
 						<LikeBtn
 							@click="onClickFavorite"
+							:isFavorite="record.isFavorite"
 							class="m-2 relative right-0 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
 						/>
 						<Rating class="text-xl text-yellow-100" />
@@ -46,19 +47,19 @@ const { showModal } = inject('modalActions');
 			<div class="flex pl-10 pr-10">
 				<div class="sm:ml-0 mt-4">
 					<p class="text-white text-md mb-1 max-w-[250px]">
-						{{ record.fio }}
+						{{ personInfo.fio }}
 					</p>
 					<p class="text-white text-sm mb-1">
-						{{ record.age }}
+						{{ personInfo.age }}
 					</p>
 					<p class="text-white text-sm mb-1 max-w-[250px]">
-						{{ record.info }}
+						{{ personInfo.info }}
 					</p>
 					<p class="text-white text-sm mb-1 max-w-[250px]">
-						{{ record.nomination }}
+						{{ personInfo.nomination }}
 					</p>
 					<p class="text-white text-sm mb-4 max-w-[250px]">
-						{{ record.city }}
+						{{ personInfo.city }}
 					</p>
 				</div>
 			</div>
@@ -75,7 +76,7 @@ const { showModal } = inject('modalActions');
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.9);
+	background-color: rgba(0, 0, 0, 0.819);
 }
 
 .close {
