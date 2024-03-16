@@ -11,6 +11,7 @@ definePageMeta({
 onMounted(() => {
 	filterDataFunc();
 });
+// ---------------------
 
 watch(recordsArr, () => {
 	filterDataFunc();
