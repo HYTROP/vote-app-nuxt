@@ -1,6 +1,7 @@
 <script setup>
 const { recordsArr } = inject('dataProvider');
 const filteredDataArr = ref([]);
+provide('filteredDataArr', filteredDataArr);
 
 definePageMeta({
 	middleware: ['auth'],
@@ -23,6 +24,7 @@ const filterOptions = [
 	'ДПИ (Декоративно-прикладное искусство)',
 ];
 const selectedFilters = ref(filterOptions[0]);
+
 const filterDataFunc = () => {
 	filteredDataArr.value = recordsArr.value.filter((item) => {
 		if (selectedFilters.value === 'Все') {
@@ -49,8 +51,7 @@ useHead({
 		<h1
 			class="text-xl text-neutral-800 font-bold m-2 lg:flex md:grid-cols-2 md:mx-2"
 		>
-			Галерея /
-			{{ selectedFilters }} ({{ filteredDataArr.length }})
+			Галерея / {{ selectedFilters }} ({{ filteredDataArr.length }})
 		</h1>
 
 		<label for="filterSelect" class="flex text-sm text-gray-700" />

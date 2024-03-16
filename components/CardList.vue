@@ -14,7 +14,6 @@ const user = useSupabaseUser();
 const { favoritesURLs } = inject('dataProvider');
 
 const onClickFavorite = async (item) => {
-	console.log('CLICK FAVORITE', item);
 	const updatedURLs = item.isFavorite
 		? favoritesURLs.value.filter((url) => url !== item.photo)
 		: [...favoritesURLs.value, item.photo];
