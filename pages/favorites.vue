@@ -6,17 +6,16 @@
 			Избранное /
 		</h1>
 
-		<p v-if="favoritesItems.length === 0" class="text-2xl text-center">
+		<!-- <p v-if="favoritesItems.length" class="text-2xl text-center">
 			В избранном пока ничего нет
 		</p>
-		<LoaderSpin class="w-14 h-20" v-if="favoritesItems.length === 0" />
+		<LoaderSpin class="w-14 h-20" v-if="favoritesItems.length" /> -->
 
 		<CardList :dataArray="favoritesItems" />
 
 		<!-- <ModalPhoto
-			:onClickFavorite="() => $emit('addToFavorites', record)"
+			:onClickFavorite="onClickFavorite"
 			:isFavorite="isFavorite"
-			:info="personInfo"
 			:selectedPhotoURL="selectedPhotoURL"
 		/> -->
 	</div>

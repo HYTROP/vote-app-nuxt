@@ -1,5 +1,7 @@
 <template>
-	<NuxtLayout />
+	<NuxtLayout>
+		<NuxtPage />
+	</NuxtLayout>
 </template>
 
 <script setup>
@@ -79,6 +81,10 @@ const fetchItems = async () => {
 const getPhotoUrl = (id) => {
 	return `https://lh3.googleusercontent.com/d/${id}=s1620`;
 };
+
+if (user.value) {
+	fetchItems();
+}
 const fetchFavorites = async () => {
 	const { data } = await supabase
 		.from('favorites')
@@ -95,6 +101,71 @@ onMounted(async () => {
 
 	// console.log('recordsArr', recordsArr.value);
 });
+
+const showModal = ref(false);
+const personInfo = ref([]);
+const selectedPhotoURL = ref('');
+const currentIndex = ref(0);
+// ---------------------
+const openModal = (modalPhotoURL, index) => {
+	showModal.value = true;
+	selectedPhotoURL.value = modalPhotoURL;
+
+	currentIndex.value = index;
+
+	const findPerson = filteredDataArr.value.find(
+		(item) => item.photo === modalPhotoURL,
+	);
+	personInfo.value = findPerson;
+
+	document.body.style.overflow = 'hidden';
+};
+const closeModal = () => {
+	showModal.value = false;
+	selectedPhotoURL.value = null;
+
+	document.body.style.overflow = 'auto';
+};
+
+const nextImage = () => {
+	const currentPhotoURL = selectedPhotoURL.value;
+	const currentIndexInArr = filteredDataArr.value.findIndex(
+		(item) => item.photo === currentPhotoURL,
+	);
+	const nextIndex =
+		currentIndexInArr < filteredDataArr.value.length - 1
+			? currentIndexInArr + 1
+			: 0;
+
+	selectedPhotoURL.value = filteredDataArr.value[nextIndex].photo;
+	personInfo.value = filteredDataArr.value[nextIndex];
+};
+
+const prevImage = () => {
+	const currentPhotoURL = selectedPhotoURL.value;
+	const currentIndexInArr = filteredDataArr.value.findIndex(
+		(item) => item.photo === currentPhotoURL,
+	);
+	const prevIndex =
+		currentIndexInArr > 0
+			? currentIndexInArr - 1
+			: filteredDataArr.value.length - 1;
+
+	selectedPhotoURL.value = filteredDataArr.value[prevIndex].photo;
+	personInfo.value = filteredDataArr.value[prevIndex];
+};
+
+provide('modalActions', {
+	showModal,
+	openModal,
+	closeModal,
+	nextImage,
+	prevImage,
+	personInfo,
+	selectedPhotoURL,
+	currentIndex,
+});
+//---------------------
 
 useHead({
 	title: 'Палитра талантов',

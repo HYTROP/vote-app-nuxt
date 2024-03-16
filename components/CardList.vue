@@ -48,7 +48,6 @@ const onClickFavorite = async (item) => {
 
 			<ModalPhoto
 				:showModal="showModal"
-				:photo="record.photo"
 				:onClickFavorite="onClickFavorite"
 				:isFavorite="record.isFavorite"
 			/>

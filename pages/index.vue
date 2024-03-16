@@ -2,22 +2,16 @@
 const { recordsArr } = inject('dataProvider');
 const filteredDataArr = ref([]);
 
-const showModal = ref(false);
-const personInfo = ref([]);
-const selectedPhotoURL = ref('');
-const currentIndex = ref(0);
-
 definePageMeta({
 	middleware: ['auth'],
 });
 
 // ---------------------
-
-watch(recordsArr, () => {
+onMounted(() => {
 	filterDataFunc();
 });
 
-onMounted(() => {
+watch(recordsArr, () => {
 	filterDataFunc();
 });
 
@@ -38,67 +32,6 @@ const filterDataFunc = () => {
 		}
 	});
 };
-
-// ---------------------
-const openModal = (modalPhotoURL, index) => {
-	showModal.value = true;
-	selectedPhotoURL.value = modalPhotoURL;
-
-	currentIndex.value = index;
-
-	const findPerson = filteredDataArr.value.find(
-		(item) => item.photo === modalPhotoURL,
-	);
-	personInfo.value = findPerson;
-
-	document.body.style.overflow = 'hidden';
-};
-const closeModal = () => {
-	showModal.value = false;
-	selectedPhotoURL.value = null;
-
-	document.body.style.overflow = 'auto';
-};
-
-const nextImage = () => {
-	const currentPhotoURL = selectedPhotoURL.value;
-	const currentIndexInArr = filteredDataArr.value.findIndex(
-		(item) => item.photo === currentPhotoURL,
-	);
-	const nextIndex =
-		currentIndexInArr < filteredDataArr.value.length - 1
-			? currentIndexInArr + 1
-			: 0;
-
-	selectedPhotoURL.value = filteredDataArr.value[nextIndex].photo;
-	personInfo.value = filteredDataArr.value[nextIndex];
-};
-
-const prevImage = () => {
-	const currentPhotoURL = selectedPhotoURL.value;
-	const currentIndexInArr = filteredDataArr.value.findIndex(
-		(item) => item.photo === currentPhotoURL,
-	);
-	const prevIndex =
-		currentIndexInArr > 0
-			? currentIndexInArr - 1
-			: filteredDataArr.value.length - 1;
-
-	selectedPhotoURL.value = filteredDataArr.value[prevIndex].photo;
-	personInfo.value = filteredDataArr.value[prevIndex];
-};
-
-provide('modalActions', {
-	showModal,
-	openModal,
-	closeModal,
-	nextImage,
-	prevImage,
-	personInfo,
-	selectedPhotoURL,
-	currentIndex,
-});
-//---------------------
 
 useHead({
 	title: 'Палитра талантов | Галерея',
@@ -133,10 +66,10 @@ useHead({
 			</option>
 		</select>
 
-		<LoaderSpin v-if="!filteredDataArr.length" class="w-20 h-14" />
+		<LoaderSpin v-if="!recordsArr.length" class="w-20 h-14" />
 
 		<!-- grid -->
-		<CardList v-else :dataArray="filteredDataArr" />
+		<CardList v-if="filteredDataArr.length > 0" :dataArray="filteredDataArr" />
 	</div>
 </template>
 
