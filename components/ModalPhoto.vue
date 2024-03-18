@@ -2,16 +2,23 @@
 defineProps({
 	onClickFavorite: Function,
 	showModal: Boolean,
-	record: Object,
 	isFavorite: Boolean,
 });
 
-const { closeModal } = inject('modalActions');
-const { nextImage } = inject('modalActions');
-const { prevImage } = inject('modalActions');
-const { selectedPhotoURL } = inject('modalActions');
-const { showModal } = inject('modalActions');
-const { personInfo } = inject('modalActions');
+onMounted(() => {
+	// console.log('record', record);
+});
+
+const {
+	closeModal,
+	nextImage,
+	prevImage,
+	selectedPhotoURL,
+	personInfo,
+	showModal,
+} = inject('modalActions');
+
+// const filteredDataArr = inject('filteredDataProvider');
 </script>
 
 <template>
@@ -76,7 +83,7 @@ const { personInfo } = inject('modalActions');
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.819);
+	background-color: rgba(0, 0, 0, 0.87);
 }
 
 .close {
