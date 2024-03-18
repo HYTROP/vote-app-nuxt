@@ -6,7 +6,7 @@ defineProps({
 });
 
 onMounted(() => {
-	// console.log('record', record);
+	// console.log('record', personInfo);
 });
 
 const {
@@ -42,8 +42,8 @@ const {
 					/>
 					<div class="flex justify-around">
 						<LikeBtn
-							@click="onClickFavorite"
-							:isFavorite="isFavorite"
+							@click="onClickFavorite(personInfo)"
+							:isFavorite="personInfo.isFavorite"
 							class="m-2 relative right-0 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
 						/>
 						<Rating class="text-xl text-yellow-100" />
