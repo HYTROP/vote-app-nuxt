@@ -17,8 +17,6 @@ const {
 	personInfo,
 	showModal,
 } = inject('modalActions');
-
-// const filteredDataArr = inject('filteredDataProvider');
 </script>
 
 <template>
