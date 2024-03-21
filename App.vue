@@ -17,6 +17,7 @@ import {
 const photosDrive = ref([]);
 const recordsArr = ref([]);
 const favoritesURLs = ref([]);
+const filteredDataArr = ref([]);
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
@@ -96,17 +97,48 @@ const fetchFavorites = async () => {
 };
 
 onMounted(async () => {
+	if (recordsArr.value.length === 0) await fetchItems();
 	await fetchFavorites();
-	await fetchItems();
+	filterDataFunc();
+});
 
-	// console.log('recordsArr', recordsArr.value);
+// ---------------------
+
+const filterOptions = [
+	'Все',
+	'Живопись',
+	'Рисунок',
+	'Фотография',
+	'ДПИ (Декоративно-прикладное искусство)',
+];
+const selectedFilters = ref(filterOptions[0]);
+
+const filterDataFunc = () => {
+	filteredDataArr.value = recordsArr.value.filter((item) => {
+		if (selectedFilters.value === 'Все') {
+			return recordsArr.value;
+		} else {
+			return item.nomination === selectedFilters.value;
+		}
+	});
+	// console.log('filteredDataArr:', filteredDataArr.value);
+};
+// ---------------------
+
+provide('filteredDataProvider', {
+	filteredDataArr,
+	selectedFilters,
+	filterOptions,
+	filterDataFunc,
 });
 
 const showModal = ref(false);
 const personInfo = ref([]);
 const selectedPhotoURL = ref('');
 const currentIndex = ref(0);
+
 // ---------------------
+
 const openModal = (modalPhotoURL, index) => {
 	showModal.value = true;
 	selectedPhotoURL.value = modalPhotoURL;
