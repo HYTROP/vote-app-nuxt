@@ -6,7 +6,7 @@ const rating = ref(0);
 const updateRating = async (newValue) => {
 	try {
 		const { data, error } = await supabase
-			.from('ratings')
+			.from('rating')
 			.update({ rating: newValue })
 			.eq('userId', user.value.id);
 	} catch (error) {
