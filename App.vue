@@ -6,6 +6,7 @@
 
 <script setup>
 import axios from 'axios';
+
 import {
 	params,
 	paramsSheets,
@@ -90,18 +91,8 @@ const fetchFavorites = async () => {
 		.eq('userID', user.value?.id)
 		.single();
 
-	favoritesURLs.value = data?.favoritePhotoURLs;
+	favoritesURLs.value = data.favoritePhotoURLs;
 };
-
-// onMounted(async () => {
-// 	console.log('ON MOUNTED', user.value);
-// 	if (user.value) {
-// 		await fetchItems();
-// 		filterDataFunc();
-// 		await fetchFavorites();
-// 	}
-// 	if (recordsArr.value.length === 0) await fetchItems();
-// });
 
 watchEffect(async () => {
 	if (user.value) {

@@ -115,6 +115,7 @@
 </template>
 
 <script setup>
+const router = useRouter();
 const supabase = useSupabaseClient();
 
 const firstName = ref('');
@@ -132,7 +133,8 @@ async function signUp() {
 			email: email.value,
 			password: password.value,
 			options: {
-				emailRedirectTo: 'https://vote-app-nuxt.vercel.app/login',
+				emailRedirectTo: 'http://localhost:3000/login',
+				//  'https://vote-app-nuxt.vercel.app/login'
 			},
 		});
 		// console.log(userData);
@@ -159,7 +161,7 @@ async function signUp() {
 		successMsg.value = 'На ваш email было отправлено письмо для подтверждения!';
 
 		setTimeout(() => {
-			router.push('/login');
+			router.push({ path: '/login' });
 		}, 2000);
 
 		// clear form
