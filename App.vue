@@ -83,9 +83,6 @@ const getPhotoUrl = (id) => {
 	return `https://lh3.googleusercontent.com/d/${id}=s1620`;
 };
 
-if (user.value) {
-	fetchItems();
-}
 const fetchFavorites = async () => {
 	const { data } = await supabase
 		.from('favorites')
@@ -96,10 +93,22 @@ const fetchFavorites = async () => {
 	favoritesURLs.value = data?.favoritePhotoURLs;
 };
 
-onMounted(async () => {
-	if (recordsArr.value.length === 0) await fetchItems();
-	await fetchFavorites();
-	filterDataFunc();
+// onMounted(async () => {
+// 	console.log('ON MOUNTED', user.value);
+// 	if (user.value) {
+// 		await fetchItems();
+// 		filterDataFunc();
+// 		await fetchFavorites();
+// 	}
+// 	if (recordsArr.value.length === 0) await fetchItems();
+// });
+
+watchEffect(async () => {
+	if (user.value) {
+		await fetchItems();
+		filterDataFunc();
+		await fetchFavorites();
+	}
 });
 
 // ---------------------
