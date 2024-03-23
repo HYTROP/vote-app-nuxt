@@ -17,17 +17,15 @@ const loadCardPoints = async (cardID) => {
 			.from('UserPoints')
 			.select('points')
 			.eq('cardID', cardID)
-			.eq('userID', user.value.id)
-			.single();
+			.eq('userID', user.value.id);
 
 		if (error) {
 			throw error;
 		}
 
-		console.log('data', data);
-
-		if (data) {
-			points.value = data.points;
+		if (data && data.length > 0) {
+			// Если есть данные, берем первый объект и присваиваем соответствующее значение points
+			points.value = data[0].points;
 		} else {
 			points.value = 0;
 		}
@@ -79,14 +77,12 @@ const setCardPoints = async (cardID, pointsValue) => {
 
 const decreasePoints = () => {
 	if (points.value > 0) {
-		console.log('points -', points.value);
 		setCardPoints(props.cardID, +points.value - 1);
 	}
 };
 
 const increasePoints = () => {
 	if (points.value < 10) {
-		console.log('points +', points.value);
 		setCardPoints(props.cardID, +points.value + 1);
 	}
 };
@@ -108,9 +104,6 @@ const increasePoints = () => {
 			>
 				+
 			</button>
-			<!-- <button class="px-4 py-1 bg-neutral-600 rounded-lg cursor-pointer">
-				OK
-			</button> -->
 		</div>
 	</div>
 </template>

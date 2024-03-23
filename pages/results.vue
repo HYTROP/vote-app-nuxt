@@ -6,14 +6,11 @@
 			Результаты /
 		</h1>
 
-		<CardList :dataArray="resultsPoints" />
+		<!-- <CardList :dataArray="resultsPoints" /> -->
 	</div>
 </template>
 
 <script setup>
-const user = useSupabaseUser();
-const supabase = useSupabaseClient();
-
 useHead({
 	title: 'Палитра талантов | Результаты',
 	meta: [

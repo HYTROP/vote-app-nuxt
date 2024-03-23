@@ -88,16 +88,20 @@ const fetchFavorites = async () => {
 	const { data } = await supabase
 		.from('favorites')
 		.select('favoritePhotoURLs')
-		.eq('userID', user.value?.id)
+		.eq('userID', user.value.id)
 		.single();
 
 	favoritesURLs.value = data.favoritePhotoURLs;
 };
 
+onMounted(async () => {
+	await fetchItems();
+	filterDataFunc();
+});
+
 watchEffect(async () => {
 	if (user.value) {
 		await fetchItems();
-		filterDataFunc();
 		await fetchFavorites();
 	}
 });

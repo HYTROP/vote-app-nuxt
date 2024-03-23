@@ -42,7 +42,6 @@ useHead({
 
 		<LoaderSpin v-if="!filteredDataArr.length" class="w-20 h-14" />
 
-		<!-- grid -->
 		<CardList :dataArray="filteredDataArr" />
 	</div>
 </template>

@@ -77,7 +77,7 @@
 									<label for="password" class="block text-sm mb-2 text-black"
 										>Придумайте пароль
 										<span class="text-xs text-neutral-600">
-											(больше 6 символов)
+											(6 или более символов)
 										</span>
 									</label>
 									<div class="relative">
@@ -97,6 +97,7 @@
 								<div class="text-green-600 animate__animated animate__fadeIn">
 									{{ successMsg }}
 								</div>
+								<LoaderSpin />
 								<button
 									type="submit"
 									class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-gray-600"
@@ -133,8 +134,7 @@ async function signUp() {
 			email: email.value,
 			password: password.value,
 			options: {
-				emailRedirectTo: 'http://localhost:3000/login',
-				//  'https://vote-app-nuxt.vercel.app/login'
+				emailRedirectTo: 'https://vote-app-nuxt.vercel.app/login',
 			},
 		});
 		// console.log(userData);
