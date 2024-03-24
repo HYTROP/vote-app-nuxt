@@ -137,7 +137,6 @@ async function signUp() {
 				emailRedirectTo: 'https://vote-app-nuxt.vercel.app/login',
 			},
 		});
-		// console.log(userData);
 
 		if (error) {
 			throw error;

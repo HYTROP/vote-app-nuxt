@@ -125,7 +125,6 @@ const filterDataFunc = () => {
 			return item.nomination === selectedFilters.value;
 		}
 	});
-	// console.log('filteredDataArr:', filteredDataArr.value);
 };
 // ---------------------
 

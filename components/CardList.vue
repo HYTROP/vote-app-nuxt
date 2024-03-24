@@ -4,10 +4,6 @@ const props = defineProps({
 	showModal: Boolean,
 });
 
-onMounted(() => {
-	// console.log('dataArray cardlist:', props.dataArray);
-});
-
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 

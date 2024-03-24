@@ -5,10 +5,6 @@ const props = defineProps({
 	isFavorite: Boolean,
 });
 
-onMounted(async () => {
-	// console.log('RECORD', props.record);
-});
-
 const { openModal } = inject('modalActions');
 </script>
 

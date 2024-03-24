@@ -52,7 +52,6 @@ const setCardPoints = async (cardID, pointsValue) => {
 			.select('*')
 			.eq('cardID', cardID)
 			.eq('userID', user.value.id);
-		console.log('existingPoints', existingPoints);
 
 		if (existingPoints.length > 0) {
 			// Если запись уже существует, обновляем количество баллов

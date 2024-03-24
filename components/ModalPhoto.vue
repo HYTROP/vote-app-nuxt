@@ -5,10 +5,6 @@ defineProps({
 	isFavorite: Boolean,
 });
 
-onMounted(() => {
-	// console.log('record', personInfo);
-});
-
 const {
 	closeModal,
 	nextImage,

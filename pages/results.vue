@@ -83,7 +83,6 @@ data.forEach((item) => {
 	}
 	cardAverages[item.cardID].push(item.points);
 });
-// console.log('cardAverages', cardAverages);
 
 // среднее арифметическое
 for (const cardID in cardAverages) {
@@ -106,10 +105,7 @@ const matchItems = sortedItemsByPoints.filter((item) => {
 	return item.points > 0; // Пример фильтрации элементов с ненулевыми баллами
 });
 
-// console.log('matchItems', matchItems);
-
 const filterNominationsPoints = () => {
-	console.log('filterNominationsPoints');
 	filteredItems.value = matchItems.filter((item) => {
 		if (selectFilter.value === 'Все') {
 			return matchItems;
