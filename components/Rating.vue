@@ -1,36 +1,105 @@
 <script setup>
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
-const rating = ref(0);
+const points = ref(0);
 
-const updateRating = async (newValue) => {
+const props = defineProps({
+	cardID: String,
+});
+
+onMounted(() => {
+	loadCardPoints(props.cardID);
+});
+
+const loadCardPoints = async (cardID) => {
 	try {
 		const { data, error } = await supabase
-			.from('ratings')
-			.update({ rating: newValue })
-			.eq('userId', user.value.id);
+			.from('UserPoints')
+			.select('points')
+			.eq('cardID', cardID)
+			.eq('userID', user.value.id);
+
+		if (error) {
+			throw error;
+		}
+
+		if (data && data.length > 0) {
+			// Если есть данные, берем первый объект и присваиваем соответствующее значение points
+			points.value = data[0].points;
+		} else {
+			points.value = 0;
+		}
 	} catch (error) {
-		console.error('Error updating rating:', error.message);
+		console.error('Error loading card points:', error.message);
 	}
 };
 
-onMounted(() => {});
+// Обновляем данные о баллах при изменении cardID
+watch(
+	() => props.cardID,
+	async (newVal, oldVal) => {
+		if (newVal !== oldVal) {
+			await loadCardPoints(newVal);
+		}
+	},
+);
+
+const setCardPoints = async (cardID, pointsValue) => {
+	try {
+		// Проверяем, существует ли запись для этого cardID
+		const { data: existingPoints, error } = await supabase
+			.from('UserPoints')
+			.select('*')
+			.eq('cardID', cardID)
+			.eq('userID', user.value.id);
+		console.log('existingPoints', existingPoints);
+
+		if (existingPoints.length > 0) {
+			// Если запись уже существует, обновляем количество баллов
+			await supabase
+				.from('UserPoints')
+				.update({ points: pointsValue })
+				.eq('cardID', cardID)
+				.eq('userID', user.value.id);
+		} else {
+			// Если записи нет, создаем новую
+			await supabase
+				.from('UserPoints')
+				.insert([
+					{ cardID: cardID, userID: user.value.id, points: pointsValue },
+				]);
+		}
+		points.value = pointsValue;
+	} catch (error) {
+		console.error('Error setting card points:', error.message);
+	}
+};
+
+const decreasePoints = () => {
+	if (points.value > 0) {
+		setCardPoints(props.cardID, +points.value - 1);
+	}
+};
+
+const increasePoints = () => {
+	if (points.value < 10) {
+		setCardPoints(props.cardID, +points.value + 1);
+	}
+};
 </script>
 
 <template>
 	<div class="flex m-1">
 		<div class="flex items-center">
 			<button
-				type="submit"
-				@click="rating = Math.max(0, rating - 1)"
+				@click="decreasePoints"
 				class="px-4 py-1 bg-neutral-600 rounded-lg cursor-pointer"
 			>
 				-
 			</button>
-			<span class="mx-4">{{ rating }}</span>
+			<span class="mx-4">{{ points }}</span>
 			<button
-				type="submit"
-				@click="rating = Math.min(10, rating + 1)"
+				@click="increasePoints"
 				class="px-4 py-1 bg-neutral-600 rounded-lg cursor-pointer"
 			>
 				+

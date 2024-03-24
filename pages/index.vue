@@ -1,40 +1,12 @@
 <script setup>
-const { recordsArr } = inject('dataProvider');
-const filteredDataArr = ref([]);
-provide('filteredDataArr', filteredDataArr);
-
 definePageMeta({
 	middleware: ['auth'],
 });
 
 // ---------------------
-onMounted(() => {
-	filterDataFunc();
-});
-// ---------------------
 
-watch(recordsArr, () => {
-	filterDataFunc();
-});
-
-const filterOptions = [
-	'Все',
-	'Живопись',
-	'Рисунок',
-	'Фотография',
-	'ДПИ (Декоративно-прикладное искусство)',
-];
-const selectedFilters = ref(filterOptions[0]);
-
-const filterDataFunc = () => {
-	filteredDataArr.value = recordsArr.value.filter((item) => {
-		if (selectedFilters.value === 'Все') {
-			return recordsArr.value;
-		} else {
-			return item.nomination === selectedFilters.value;
-		}
-	});
-};
+const { filteredDataArr, filterDataFunc, selectedFilters, filterOptions } =
+	inject('filteredDataProvider');
 
 useHead({
 	title: 'Палитра талантов | Галерея',
@@ -68,10 +40,9 @@ useHead({
 			</option>
 		</select>
 
-		<LoaderSpin v-if="!recordsArr.length" class="w-20 h-14" />
+		<LoaderSpin v-if="!filteredDataArr.length" class="w-20 h-14" />
 
-		<!-- grid -->
-		<CardList v-if="filteredDataArr.length > 0" :dataArray="filteredDataArr" />
+		<CardList :dataArray="filteredDataArr" />
 	</div>
 </template>
 

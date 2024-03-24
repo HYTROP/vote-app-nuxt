@@ -6,6 +6,7 @@
 
 <script setup>
 import axios from 'axios';
+
 import {
 	params,
 	paramsSheets,
@@ -17,6 +18,7 @@ import {
 const photosDrive = ref([]);
 const recordsArr = ref([]);
 const favoritesURLs = ref([]);
+const filteredDataArr = ref([]);
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
@@ -82,31 +84,65 @@ const getPhotoUrl = (id) => {
 	return `https://lh3.googleusercontent.com/d/${id}=s1620`;
 };
 
-if (user.value) {
-	fetchItems();
-}
 const fetchFavorites = async () => {
 	const { data } = await supabase
 		.from('favorites')
 		.select('favoritePhotoURLs')
-		.eq('userID', user.value?.id)
+		.eq('userID', user.value.id)
 		.single();
 
-	favoritesURLs.value = data?.favoritePhotoURLs;
+	favoritesURLs.value = data.favoritePhotoURLs;
 };
 
 onMounted(async () => {
-	await fetchFavorites();
 	await fetchItems();
+	filterDataFunc();
+});
 
-	// console.log('recordsArr', recordsArr.value);
+watchEffect(async () => {
+	if (user.value) {
+		await fetchItems();
+		await fetchFavorites();
+	}
+});
+
+// ---------------------
+
+const filterOptions = [
+	'Все',
+	'Живопись',
+	'Рисунок',
+	'Фотография',
+	'ДПИ (Декоративно-прикладное искусство)',
+];
+const selectedFilters = ref(filterOptions[0]);
+
+const filterDataFunc = () => {
+	filteredDataArr.value = recordsArr.value.filter((item) => {
+		if (selectedFilters.value === 'Все') {
+			return recordsArr.value;
+		} else {
+			return item.nomination === selectedFilters.value;
+		}
+	});
+	// console.log('filteredDataArr:', filteredDataArr.value);
+};
+// ---------------------
+
+provide('filteredDataProvider', {
+	filteredDataArr,
+	selectedFilters,
+	filterOptions,
+	filterDataFunc,
 });
 
 const showModal = ref(false);
 const personInfo = ref([]);
 const selectedPhotoURL = ref('');
 const currentIndex = ref(0);
+
 // ---------------------
+
 const openModal = (modalPhotoURL, index) => {
 	showModal.value = true;
 	selectedPhotoURL.value = modalPhotoURL;

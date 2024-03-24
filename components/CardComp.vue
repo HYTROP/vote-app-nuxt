@@ -5,7 +5,7 @@ const props = defineProps({
 	isFavorite: Boolean,
 });
 
-onMounted(() => {
+onMounted(async () => {
 	// console.log('RECORD', props.record);
 });
 
