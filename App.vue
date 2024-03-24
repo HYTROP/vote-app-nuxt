@@ -97,6 +97,7 @@ const fetchFavorites = async () => {
 onMounted(async () => {
 	await fetchItems();
 	filterDataFunc();
+	await fetchFavorites();
 });
 
 watchEffect(async () => {
