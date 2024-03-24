@@ -90,7 +90,7 @@ for (const cardID in cardAverages) {
 	const pointsArray = cardAverages[cardID];
 	const average =
 		pointsArray.reduce((acc, curr) => acc + curr, 0) / pointsArray.length;
-	cardAverages[cardID] = average;
+	cardAverages[cardID] = average.toFixed(1);
 }
 // Добавление поля points к каждому элементу item
 const itemsWithPoints = recordsArr.value.map((item) => {
