@@ -20,10 +20,6 @@ const favoritesItems = ref([]);
 
 const { recordsArr } = inject('dataProvider');
 
-favoritesItems.value = recordsArr.value.filter(
-	(item) => item.isFavorite || false,
-);
-
 watchEffect(() => {
 	favoritesItems.value = recordsArr.value.filter(
 		(item) => item.isFavorite || false,
