@@ -125,6 +125,7 @@ const filterOptionsPoints = [
 const selectFilter = ref(filterOptionsPoints[0]);
 
 watchEffect(() => {
+	data;
 	// filterNominationsPoints();
 	selectFilter.value = filterOptionsPoints[0];
 });
