@@ -101,10 +101,8 @@ onMounted(async () => {
 });
 
 watchEffect(async () => {
-	if (user.value) {
-		await fetchItems();
-		await fetchFavorites();
-	}
+	await fetchItems();
+	await fetchFavorites();
 });
 
 // ---------------------
