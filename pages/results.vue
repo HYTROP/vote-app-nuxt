@@ -130,10 +130,9 @@ watchEffect(() => {
 });
 
 onMounted(() => {
-	recordsArr;
-	filteredItems.value = matchItems;
 	filterNominationsPoints();
 });
+
 useHead({
 	title: 'Палитра талантов | Результаты',
 	meta: [
