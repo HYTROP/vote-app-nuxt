@@ -19,9 +19,11 @@
 const favoritesItems = ref([]);
 
 // const { recordsArr } = inject('dataProvider');
-const recordsArr = useState('recordsArr', () => []);
 
+const recordsArr = useState('recordsArr', () => []);
+const fetchFavorites = inject('fetchFavorites');
 watchEffect(() => {
+	fetchFavorites();
 	favoritesItems.value = recordsArr.value.filter(
 		(item) => item.isFavorite || false,
 	);
