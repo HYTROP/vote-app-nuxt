@@ -203,7 +203,7 @@ useHead({
 	meta: [
 		{
 			name: 'description',
-			content: 'Палитра талантов',
+			content: 'Палитра талантов 2024',
 		},
 	],
 });
