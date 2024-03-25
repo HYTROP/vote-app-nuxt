@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
 	ssr: true,
 	// target: 'static',
+  devtools: { enabled: true },
 	app: {
 		head: {
 			charset: 'utf-8',
@@ -14,6 +15,7 @@ export default defineNuxtConfig({
 		'@vueuse/nuxt',
 		'@nuxt/image',
 		'@nuxtjs/supabase',
+    '@pinia/nuxt',
 	],
 
 	supabase: {

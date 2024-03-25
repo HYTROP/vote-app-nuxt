@@ -1,11 +1,14 @@
 <template>
-	<div>
-		<div class="flex mb-3">
+	<LoaderSpin class="w-14 h-20" v-if="recordsArr.length === 0" />
+
+	<div v-else>
+		<div class="flex mb-2">
 			<h1
-				class="text-xl text-neutral-800 font-bold m-2 lg:flex md:grid-cols-2 md:mx-2"
+				class="text-xl text-neutral-800 font-bold m-2 lg:flex md:grid-cols-2 md:mx-3"
 			>
 				Результаты /
 			</h1>
+
 			<div class="m-2">
 				<label for="filterNominations" class="flex text-sm text-gray-700" />
 				<select
@@ -68,52 +71,15 @@
 </template>
 
 <script setup>
-const { recordsArr } = inject('dataProvider');
+// const { recordsArr } = inject('dataProvider');
+const recordsArr = useState('recordsArr', () => []);
+console.log(recordsArr.value);
 
 const filteredItems = ref([]);
-
+const data = ref([]);
+const matchItems = ref([]);
+const itemsWithPoints = ref([]);
 const supabase = useSupabaseClient();
-
-const { data } = await supabase.from('UserPoints').select('*');
-
-const cardAverages = [];
-data.forEach((item) => {
-	if (!(item.cardID in cardAverages)) {
-		cardAverages[item.cardID] = [];
-	}
-	cardAverages[item.cardID].push(item.points);
-});
-
-// среднее арифметическое
-for (const cardID in cardAverages) {
-	const pointsArray = cardAverages[cardID];
-	const average =
-		pointsArray.reduce((acc, curr) => acc + curr, 0) / pointsArray.length;
-	cardAverages[cardID] = average.toFixed(1);
-}
-// Добавление поля points к каждому элементу item
-const itemsWithPoints = recordsArr.value.map((item) => {
-	const points = cardAverages[item.photo] || 0; // Если нет данных по карточке, то баллы = 0
-	return { ...item, points };
-});
-
-// Сортировка по баллам
-const sortedItemsByPoints = itemsWithPoints.sort((a, b) => b.points - a.points);
-
-// Фильтрация с учетом обновленных данных
-const matchItems = sortedItemsByPoints.filter((item) => {
-	return item.points > 0; // Пример фильтрации элементов с ненулевыми баллами
-});
-
-const filterNominationsPoints = () => {
-	filteredItems.value = matchItems.filter((item) => {
-		if (selectFilter.value === 'Все') {
-			return matchItems;
-		} else {
-			return item.nomination === selectFilter.value;
-		}
-	});
-};
 
 const filterOptionsPoints = [
 	'Живопись',
@@ -124,14 +90,73 @@ const filterOptionsPoints = [
 
 const selectFilter = ref(filterOptionsPoints[0]);
 
-watchEffect(() => {
-	data;
-	// filterNominationsPoints();
-	selectFilter.value = filterOptionsPoints[0];
+const filterNominationsPoints = () => {
+	filteredItems.value = matchItems.value.filter((item) => {
+		if (selectFilter.value === 'Все') {
+			return matchItems;
+		} else {
+			return item.nomination === selectFilter.value;
+		}
+	});
+};
+
+onMounted(async () => {
+	const { data: responseData, error } = await supabase
+		.from('UserPoints')
+		.select('*');
+
+	if (error) {
+		console.error('Error fetching data:', error.message);
+		return;
+	}
+	data.value = responseData;
+
+	const cardAverages = [];
+	data.value.forEach((item) => {
+		if (!(item.cardID in cardAverages)) {
+			cardAverages[item.cardID] = [];
+		}
+		cardAverages[item.cardID].push(item.points);
+	});
+
+	// среднее арифметическое
+	for (const cardID in cardAverages) {
+		const pointsArray = cardAverages[cardID];
+		const average =
+			pointsArray.reduce((acc, curr) => acc + curr, 0) / pointsArray.length;
+		cardAverages[cardID] = average.toFixed(1);
+	}
+	if (!recordsArr.value.length) {
+		return;
+	}
+
+	// Добавление поля points к каждому элементу item
+	itemsWithPoints.value = recordsArr.value.map((item) => {
+		const points = cardAverages[item.photo] || 0;
+		// Если нет данных по карточке, то баллы = 0
+		return { ...item, points };
+	});
+
+	console.log(recordsArr.value);
+
+	console.log(itemsWithPoints.value);
+
+	// Сортировка по баллам
+	const sortedItemsByPoints = itemsWithPoints.value.sort(
+		(a, b) => b.points - a.points,
+	);
+
+	// Фильтрация с учетом обновленных данных
+	matchItems.value = sortedItemsByPoints.filter((item) => {
+		return item.points > 0; // Пример фильтрации элементов с ненулевыми баллами
+	});
+
+	filterNominationsPoints();
 });
 
-onMounted(() => {
-	filterNominationsPoints();
+watchEffect(() => {
+	itemsWithPoints;
+	selectFilter.value = filterOptionsPoints[0];
 });
 
 useHead({

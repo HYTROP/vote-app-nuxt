@@ -1,7 +1,5 @@
 <template>
-	<NuxtLayout>
-		<NuxtPage />
-	</NuxtLayout>
+	<NuxtLayout />
 </template>
 
 <script setup>
@@ -16,17 +14,11 @@ import {
 } from '../API/Api';
 
 const photosDrive = ref([]);
-const recordsArr = ref([]);
+const recordsArr = useState('recordsArr', () => []);
 const favoritesURLs = ref([]);
-const filteredDataArr = ref([]);
-
+const filteredDataArr = useState('filteredDataArr', () => []);
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
-
-provide('dataProvider', {
-	recordsArr,
-	favoritesURLs,
-});
 
 const fetchItems = async () => {
 	try {
@@ -100,9 +92,9 @@ onMounted(async () => {
 	await fetchFavorites();
 });
 
-watchEffect(async () => {
-	await fetchItems();
-	await fetchFavorites();
+watchEffect(() => {
+	fetchItems();
+	fetchFavorites();
 });
 
 // ---------------------
@@ -132,6 +124,11 @@ provide('filteredDataProvider', {
 	selectedFilters,
 	filterOptions,
 	filterDataFunc,
+});
+
+provide('dataProvider', {
+	recordsArr,
+	favoritesURLs,
 });
 
 const showModal = ref(false);
