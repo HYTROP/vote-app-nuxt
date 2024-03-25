@@ -73,7 +73,6 @@
 <script setup>
 // const { recordsArr } = inject('dataProvider');
 const recordsArr = useState('recordsArr', () => []);
-console.log(recordsArr.value);
 
 const filteredItems = ref([]);
 const data = ref([]);
@@ -136,10 +135,6 @@ onMounted(async () => {
 		// Если нет данных по карточке, то баллы = 0
 		return { ...item, points };
 	});
-
-	console.log(recordsArr.value);
-
-	console.log(itemsWithPoints.value);
 
 	// Сортировка по баллам
 	const sortedItemsByPoints = itemsWithPoints.value.sort(

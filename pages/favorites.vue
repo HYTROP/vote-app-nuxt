@@ -20,7 +20,6 @@ const favoritesItems = ref([]);
 
 // const { recordsArr } = inject('dataProvider');
 const recordsArr = useState('recordsArr', () => []);
-// console.log(recordsArr.value);
 
 watchEffect(() => {
 	favoritesItems.value = recordsArr.value.filter(

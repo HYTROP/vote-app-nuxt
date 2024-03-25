@@ -20,7 +20,7 @@ useHead({
 </script>
 
 <template>
-	<div v-auto-animate>
+	<div>
 		<h1
 			class="text-xl text-neutral-800 font-bold m-2 lg:flex md:grid-cols-2 md:mx-2"
 		>
