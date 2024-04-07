@@ -74,22 +74,28 @@ const setCardPoints = async (cardID, pointsValue) => {
 	}
 };
 
-const decreasePoints = () => {
-	if (points.value > 0) {
-		setCardPoints(props.cardID, +points.value - 1);
-	}
-};
-
-const increasePoints = () => {
-	if (points.value < 10) {
-		setCardPoints(props.cardID, +points.value + 1);
-	}
+const setPoints = (pointsValue) => {
+	setCardPoints(props.cardID, pointsValue + 1);
 };
 </script>
 
 <template>
 	<div class="flex m-1">
-		<div class="flex items-center">
+		<div class="items-center">
+			<label for="rating" class="block text-sm font-medium text-white"
+				>Ваша оценка:</label
+			>
+			<div
+				v-for="i in 10"
+				:key="i"
+				@click="setPoints(i - 1)"
+				class="inline-block m-1 rounded-full w-6 h-6 border-2 border-indigo-400 text-center text-sm cursor-pointer"
+				:class="{ 'bg-gray-400': points == i }"
+			>
+				{{ i }}
+			</div>
+		</div>
+		<!-- <div class="flex items-center">
 			<button
 				@click="decreasePoints"
 				class="px-4 py-1 bg-neutral-600 rounded-lg cursor-pointer"
@@ -103,6 +109,6 @@ const increasePoints = () => {
 			>
 				+
 			</button>
-		</div>
+		</div> -->
 	</div>
 </template>

@@ -1,5 +1,8 @@
 <template>
-	<NuxtLayout />
+	<NuxtLoadingIndicator color="red" />
+	<NuxtLayout>
+		<NuxtPage />
+	</NuxtLayout>
 </template>
 
 <script setup>
@@ -16,7 +19,8 @@ import {
 const photosDrive = ref([]);
 const recordsArr = useState('recordsArr', () => []);
 const favoritesURLs = ref([]);
-const filteredDataArr = useState('filteredDataArr', () => []);
+const filteredDataArr = ref([]);
+
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
@@ -86,22 +90,29 @@ const fetchFavorites = async () => {
 	favoritesURLs.value = data.favoritePhotoURLs;
 };
 
-onMounted(async () => {
-	await fetchItems();
-	filterDataFunc();
-	if (user.value) {
-		await fetchFavorites();
+// --------------------- points filter
+const filteredItemsWithPoints = useState('filteredItemsWithPoints', () => []);
+const data = ref([]);
+const itemsWithPointsApp = ref([]);
+const havePoints = ref([]);
+const dontHavePoints = ref([]);
+
+const filterIsPointedOptions = ['Все', 'Без оценки', 'С оценкой'];
+const selectedPointsFilters = ref(filterIsPointedOptions[0]);
+
+const filterCardsWithPointsFuc = (filteredData) => {
+	if (filteredData === undefined) {
+		return console.log('Нет данных');
+	} else {
+		if (selectedPointsFilters.value === 'Все') {
+			return filteredData;
+		} else if (selectedPointsFilters.value === 'Без оценки') {
+			return (itemsWithPointsApp.value = dontHavePoints.value);
+		} else if (selectedPointsFilters.value === 'С оценкой') {
+			return (itemsWithPointsApp.value = havePoints.value);
+		}
 	}
-});
-
-provide('fetchFavorites', fetchFavorites);
-
-watchEffect(() => {
-	fetchItems();
-	// fetchFavorites();
-});
-
-// ---------------------
+};
 
 const filterOptions = [
 	'Все',
@@ -120,7 +131,65 @@ const filterDataFunc = () => {
 			return item.nomination === selectedFilters.value;
 		}
 	});
+	// console.log(filteredDataArr.value);
+	// filterCardsWithPointsFuc(filteredDataArr.value);
 };
+
+// watchEffect(() => {
+// 	filterDataFunc();
+
+// });
+
+const fetchingCardsWithPoints = async () => {
+	// console.log('fetchingCardsWithPoints');
+	const { data: responseData, error } = await supabase
+		.from('UserPoints')
+		.select('*')
+		.eq('userID', user.value.id);
+
+	if (error) {
+		console.log('Error loading card points:', error.message);
+		throw error;
+	}
+
+	data.value = responseData;
+
+	const cardWithPoints = [];
+	data.value.forEach((item) => {
+		if (!(item.cardID in cardWithPoints)) {
+			cardWithPoints[item.cardID] = [];
+		}
+		cardWithPoints[item.cardID].push(item.points);
+	});
+
+	// Добавление поля points к каждому элементу item
+
+	itemsWithPointsApp.value = recordsArr.value.map((item) => {
+		return { ...item, points: cardWithPoints[item.photo] || 0 };
+	});
+
+	// Фильтрация с учетом обновленных данных
+	havePoints.value = itemsWithPointsApp.value.filter((item) => {
+		return item.points;
+	});
+	dontHavePoints.value = itemsWithPointsApp.value.filter((item) => {
+		return !item.points;
+	});
+
+	// console.log(dontHavePoints.value);
+
+	// filterCardsWithPointsFuc();
+};
+
+onMounted(async () => {
+	await fetchItems();
+	filterDataFunc();
+	await fetchingCardsWithPoints();
+	filterCardsWithPointsFuc();
+});
+
+provide('fetchFavorites', fetchFavorites);
+
 // ---------------------
 
 provide('filteredDataProvider', {
@@ -128,6 +197,14 @@ provide('filteredDataProvider', {
 	selectedFilters,
 	filterOptions,
 	filterDataFunc,
+});
+
+provide('filteredPointsDataProvider', {
+	itemsWithPointsApp,
+	filteredItemsWithPoints,
+	selectedPointsFilters,
+	filterIsPointedOptions,
+	filterCardsWithPointsFuc,
 });
 
 provide('dataProvider', {

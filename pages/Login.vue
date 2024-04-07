@@ -39,8 +39,8 @@
 						<label
 							for="password"
 							class="block text-sm font-medium leading-6 text-gray-900"
-							>Пароль</label
-						>
+							>Пароль
+						</label>
 						<div class="text-sm">
 							<a
 								href="#"

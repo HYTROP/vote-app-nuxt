@@ -27,6 +27,17 @@ const onClickFavorite = async (item) => {
 	item.isFavorite = data.favoritePhotoURLs.includes(item.photo);
 	favoritesURLs.value = updatedURLs;
 };
+// const checkCardPoints = async (cardID) => {
+// 	try {
+// 		const { data: existingPoints, error } = await supabase
+// 			.from('UserPoints')
+// 			.select('*')
+// 			.eq('cardID', cardID)
+// 			.eq('userID', user.value.id);
+// 	} catch (error) {
+// 		console.error('Error checking if card has points:', error.message);
+// 	}
+// };
 </script>
 
 <template>
