@@ -18,9 +18,8 @@
 <script setup>
 const favoritesItems = ref([]);
 
-// const { recordsArr } = inject('dataProvider');
-
 const recordsArr = useState('recordsArr', () => []);
+
 const fetchFavorites = inject('fetchFavorites');
 watchEffect(() => {
 	fetchFavorites();

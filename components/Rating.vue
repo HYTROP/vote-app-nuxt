@@ -95,20 +95,5 @@ const setPoints = (pointsValue) => {
 				{{ i }}
 			</div>
 		</div>
-		<!-- <div class="flex items-center">
-			<button
-				@click="decreasePoints"
-				class="px-4 py-1 bg-neutral-600 rounded-lg cursor-pointer"
-			>
-				-
-			</button>
-			<span class="mx-4">{{ points }}</span>
-			<button
-				@click="increasePoints"
-				class="px-4 py-1 bg-neutral-600 rounded-lg cursor-pointer"
-			>
-				+
-			</button>
-		</div> -->
 	</div>
 </template>

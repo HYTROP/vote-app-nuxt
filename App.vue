@@ -1,8 +1,6 @@
 <template>
 	<NuxtLoadingIndicator color="red" />
-	<NuxtLayout>
-		<NuxtPage />
-	</NuxtLayout>
+	<NuxtLayout />
 </template>
 
 <script setup>
@@ -19,8 +17,11 @@ import {
 const photosDrive = ref([]);
 const recordsArr = useState('recordsArr', () => []);
 const favoritesURLs = ref([]);
-const filteredDataArr = ref([]);
+const filteredDataArr = useState('filteredDataArr', () => []);
 
+// --------------------- points filter
+const filteredItemsWithPoints = useState('filteredItemsWithPoints', () => []);
+const itemsWithPointsApp = ref([]);
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
@@ -60,6 +61,7 @@ const fetchItems = async () => {
 				'photo',
 				'bio',
 				'city',
+				'points',
 			];
 			const arrayOfObjects = arr.map((subArray) => {
 				const obj = {};
@@ -67,17 +69,41 @@ const fetchItems = async () => {
 					obj[keys[index]] = value;
 				});
 				obj.isFavorite = favoritesURLs.value.includes(obj.photo);
+				obj.points = 0;
 				return obj;
 			});
 			return arrayOfObjects;
 		};
 		recordsArr.value = convertToObjects(recordsArr.value);
+		// console.log(recordsArr.value);
 	} catch (error) {
 		throw new Error('Ошибка при получении записей:', error);
 	}
 };
 const getPhotoUrl = (id) => {
 	return `https://lh3.googleusercontent.com/d/${id}=s1620`;
+};
+
+const fetchingCardsWithPoints = async () => {
+	const { data: responseData, error } = await supabase
+		.from('UserPoints')
+		.select('*')
+		.eq('userID', user.value.id);
+
+	if (error) {
+		console.log('Error loading card points:', error.message);
+		throw error;
+	}
+
+	const cardWithPoints = {};
+	responseData.forEach((item) => {
+		cardWithPoints[item.cardID] = item.points;
+	});
+
+	// Добавление поля points к каждому элементу item
+	recordsArr.value = recordsArr.value?.map((item) => {
+		return { ...item, points: cardWithPoints[item.photo] || 0 };
+	});
 };
 
 const fetchFavorites = async () => {
@@ -90,27 +116,17 @@ const fetchFavorites = async () => {
 	favoritesURLs.value = data.favoritePhotoURLs;
 };
 
-// --------------------- points filter
-const filteredItemsWithPoints = useState('filteredItemsWithPoints', () => []);
-const data = ref([]);
-const itemsWithPointsApp = ref([]);
-const havePoints = ref([]);
-const dontHavePoints = ref([]);
-
 const filterIsPointedOptions = ['Все', 'Без оценки', 'С оценкой'];
 const selectedPointsFilters = ref(filterIsPointedOptions[0]);
 
-const filterCardsWithPointsFuc = (filteredData) => {
-	if (filteredData === undefined) {
-		return console.log('Нет данных');
-	} else {
-		if (selectedPointsFilters.value === 'Все') {
-			return filteredData;
-		} else if (selectedPointsFilters.value === 'Без оценки') {
-			return (itemsWithPointsApp.value = dontHavePoints.value);
-		} else if (selectedPointsFilters.value === 'С оценкой') {
-			return (itemsWithPointsApp.value = havePoints.value);
-		}
+const filterCardsWithPointsFuc = (item) => {
+	switch (selectedPointsFilters.value) {
+		case 'Все':
+			return true;
+		case 'Без оценки':
+			return item.points == 0;
+		case 'С оценкой':
+			return item.points > 0;
 	}
 };
 
@@ -123,71 +139,29 @@ const filterOptions = [
 ];
 const selectedFilters = ref(filterOptions[0]);
 
-const filterDataFunc = () => {
-	filteredDataArr.value = recordsArr.value.filter((item) => {
-		if (selectedFilters.value === 'Все') {
-			return recordsArr.value;
-		} else {
-			return item.nomination === selectedFilters.value;
-		}
-	});
-	// console.log(filteredDataArr.value);
-	// filterCardsWithPointsFuc(filteredDataArr.value);
+const filterDataByNominations = (item) =>
+	selectedFilters.value === 'Все'
+		? true
+		: item.nomination === selectedFilters.value;
+
+const filterData = () => {
+	const temp = recordsArr.value.filter(filterDataByNominations);
+	itemsWithPointsApp.value = temp.filter(filterCardsWithPointsFuc);
+	// console.log('itemsWithPointsApp.value', itemsWithPointsApp.value.length);
+	filteredDataArr.value = temp;
 };
 
-// watchEffect(() => {
-// 	filterDataFunc();
-
-// });
-
-const fetchingCardsWithPoints = async () => {
-	// console.log('fetchingCardsWithPoints');
-	const { data: responseData, error } = await supabase
-		.from('UserPoints')
-		.select('*')
-		.eq('userID', user.value.id);
-
-	if (error) {
-		console.log('Error loading card points:', error.message);
-		throw error;
-	}
-
-	data.value = responseData;
-
-	const cardWithPoints = [];
-	data.value.forEach((item) => {
-		if (!(item.cardID in cardWithPoints)) {
-			cardWithPoints[item.cardID] = [];
-		}
-		cardWithPoints[item.cardID].push(item.points);
-	});
-
-	// Добавление поля points к каждому элементу item
-
-	itemsWithPointsApp.value = recordsArr.value.map((item) => {
-		return { ...item, points: cardWithPoints[item.photo] || 0 };
-	});
-
-	// Фильтрация с учетом обновленных данных
-	havePoints.value = itemsWithPointsApp.value.filter((item) => {
-		return item.points;
-	});
-	dontHavePoints.value = itemsWithPointsApp.value.filter((item) => {
-		return !item.points;
-	});
-
-	// console.log(dontHavePoints.value);
-
-	// filterCardsWithPointsFuc();
-};
+watchEffect(() => {
+	filterData();
+});
 
 onMounted(async () => {
 	await fetchItems();
-	filterDataFunc();
+	await fetchFavorites();
 	await fetchingCardsWithPoints();
-	filterCardsWithPointsFuc();
 });
 
+provide('fetchItems', fetchItems);
 provide('fetchFavorites', fetchFavorites);
 
 // ---------------------
@@ -196,7 +170,7 @@ provide('filteredDataProvider', {
 	filteredDataArr,
 	selectedFilters,
 	filterOptions,
-	filterDataFunc,
+	filterDataFunc: filterData,
 });
 
 provide('filteredPointsDataProvider', {
@@ -204,7 +178,7 @@ provide('filteredPointsDataProvider', {
 	filteredItemsWithPoints,
 	selectedPointsFilters,
 	filterIsPointedOptions,
-	filterCardsWithPointsFuc,
+	filterData,
 });
 
 provide('dataProvider', {

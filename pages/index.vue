@@ -12,12 +12,12 @@ const {
 	selectedPointsFilters,
 	filterIsPointedOptions,
 	filterCardsWithPointsFuc,
-	filteredItemsWithPoints,
 	itemsWithPointsApp,
 } = inject('filteredPointsDataProvider');
 
 // console.log('filteredItemsWithPoints', filteredItemsWithPoints.value);
 
+// ---------------------
 useHead({
 	title: 'Палитра талантов | Галерея',
 	meta: [
@@ -35,10 +35,13 @@ useHead({
 			class="text-xl text-neutral-800 font-bold m-2 lg:flex md:grid-cols-2 md:mx-2"
 		>
 			Галерея / {{ selectedFilters }} ({{ filteredDataArr.length }}) /
-			{{ selectedPointsFilters }} ({{ itemsWithPointsApp.length }})
+			{{ selectedPointsFilters }}
+			({{ itemsWithPointsApp.length }})
 		</h1>
+
 		<div class="flex justify-stretch">
 			<label for="nominations" class="text-sm text-gray-700" />
+
 			<select
 				v-if="filteredDataArr.length > 0"
 				id="nominations"
@@ -62,7 +65,7 @@ useHead({
 				id="points"
 				v-model="selectedPointsFilters"
 				class="w-[150px] truncate p-1 m-2 border-2 border-indigo-400 rounded-lg appearance-auto"
-				@change="filterCardsWithPointsFuc"
+				@change="filterData"
 			>
 				<option
 					v-for="option in filterIsPointedOptions"
@@ -74,7 +77,7 @@ useHead({
 			</select>
 		</div>
 
-		<LoaderSpin v-if="!itemsWithPointsApp.length" class="w-20 h-14" />
+		<!-- <LoaderSpin v-if="!filteredDataArr.length" class="w-20 h-14" /> -->
 
 		<CardList :dataArray="itemsWithPointsApp" />
 	</div>

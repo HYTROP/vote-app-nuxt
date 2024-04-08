@@ -92,6 +92,8 @@ const email = ref('');
 const password = ref('');
 const errorMsg = ref('');
 
+const fetchItems = inject('fetchItems');
+
 async function signIn() {
 	try {
 		const { error } = await supabase.auth.signInWithPassword({
@@ -101,6 +103,8 @@ async function signIn() {
 		if (error) {
 			throw error;
 		}
+    console.log('Войдите в аккаунт');
+    fetchItems()
 
 		router.push('/');
 	} catch (error) {
