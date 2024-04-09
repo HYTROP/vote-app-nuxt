@@ -15,8 +15,6 @@ const {
 	itemsWithPointsApp,
 } = inject('filteredPointsDataProvider');
 
-// console.log('filteredItemsWithPoints', filteredItemsWithPoints.value);
-
 // ---------------------
 useHead({
 	title: 'Палитра талантов | Галерея',
@@ -43,7 +41,7 @@ useHead({
 			<label for="nominations" class="text-sm text-gray-700" />
 
 			<select
-				v-if="filteredDataArr.length > 0"
+				v-if="itemsWithPointsApp.length > 0"
 				id="nominations"
 				v-model="selectedFilters"
 				class="w-[150px] truncate p-1 m-2 border-2 border-indigo-400 rounded-lg appearance-auto"
@@ -61,7 +59,7 @@ useHead({
 			<!-- points filter -->
 			<label for="points" class="text-sm text-gray-700" />
 			<select
-				v-if="filteredDataArr.length > 0"
+				v-if="itemsWithPointsApp.length > 0"
 				id="points"
 				v-model="selectedPointsFilters"
 				class="w-[150px] truncate p-1 m-2 border-2 border-indigo-400 rounded-lg appearance-auto"

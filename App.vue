@@ -22,6 +22,9 @@ const filteredDataArr = useState('filteredDataArr', () => []);
 // --------------------- points filter
 const filteredItemsWithPoints = useState('filteredItemsWithPoints', () => []);
 const itemsWithPointsApp = ref([]);
+
+const matchItems = useState('matchItems', () => []);
+
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
@@ -115,6 +118,48 @@ const fetchFavorites = async () => {
 	favoritesURLs.value = data.favoritePhotoURLs;
 };
 
+const fetchAllUsersPoints = async () => {
+	const { data: responseData, error } = await supabase
+		.from('UserPoints')
+		.select('*');
+
+	if (error) {
+		console.error('Error fetching data:', error.message);
+		return;
+	}
+
+	const cardAverages = [];
+	responseData.forEach((item) => {
+		if (!(item.cardID in cardAverages)) {
+			cardAverages[item.cardID] = [];
+		}
+		cardAverages[item.cardID].push(item.points);
+	});
+
+	// Среднее арифметическое
+	for (const cardID in cardAverages) {
+		const pointsArray = cardAverages[cardID];
+		const average =
+			pointsArray.reduce((acc, curr) => acc + curr, 0) / pointsArray.length;
+		cardAverages[cardID] = average.toFixed(1);
+	}
+
+	// Добавление поля points к каждому элементу item
+	const itemsWithPoints = recordsArr.value.map((item) => {
+		const points = cardAverages[item.photo] || 0;
+		return { ...item, points };
+	});
+
+	// Сортировка по баллам
+	matchItems.value = itemsWithPoints
+		.sort((a, b) => b.points - a.points)
+		.filter((item) => {
+			return item.points > 0;
+		});
+};
+
+// console.log('matchItems', matchItems);
+
 const filterIsPointedOptions = ['Все', 'Без оценки', 'С оценкой'];
 const selectedPointsFilters = ref(filterIsPointedOptions[0]);
 
@@ -157,8 +202,9 @@ watchEffect(() => {
 onMounted(async () => {
 	if (user.value) {
 		await fetchFavorites();
-		await fetchingCardsWithPoints();
 		await fetchItems();
+		await fetchingCardsWithPoints();
+		await fetchAllUsersPoints();
 	}
 });
 
@@ -184,6 +230,7 @@ provide('filteredPointsDataProvider', {
 });
 
 provide('dataProvider', {
+	matchItems,
 	recordsArr,
 	favoritesURLs,
 });
