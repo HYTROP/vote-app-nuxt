@@ -8,12 +8,8 @@ definePageMeta({
 const { filteredDataArr, filterDataFunc, selectedFilters, filterOptions } =
 	inject('filteredDataProvider');
 
-const {
-	selectedPointsFilters,
-	filterIsPointedOptions,
-	filterCardsWithPointsFuc,
-	itemsWithPointsApp,
-} = inject('filteredPointsDataProvider');
+const { selectedPointsFilters, filterIsPointedOptions, itemsWithPointsApp } =
+	inject('filteredPointsDataProvider');
 
 // ---------------------
 useHead({
