@@ -34,11 +34,11 @@ const {
 						alt="photo"
 						class="md:min-h-[45vh] md:min-w-[45vh] box-border"
 					/>
-					<div class="flex justify-between">
+					<div class="flex justify-center">
 						<LikeBtn
 							@click="onClickFavorite(personInfo)"
 							:isFavorite="personInfo.isFavorite"
-							class="m-2 relative right-0 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
+							class="m-2 relative right-0 w-5 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
 						/>
 					</div>
 					<Rating class="text-xl text-yellow-100" :cardID="selectedPhotoURL" />

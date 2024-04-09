@@ -19,8 +19,9 @@ const { openModal } = inject('modalActions');
 			<Skeleton v-if="!record.photo" />
 			<NuxtImg
 				:src="record.photo"
-				sizes="xs:100vw sm:100vw md:50vw lg:33vw xl:25vw 2xl:20vw"
+				sizes="xs:90vw sm:100vw md:100vw lg:50vw xl:33vw 2xl:25vw"
 				quality="10"
+				preload
 				loading="lazy"
 				alt="photo"
 				class="justify-items-stretch"
@@ -39,7 +40,7 @@ const { openModal } = inject('modalActions');
 				<LikeBtn
 					@click="onClickFavorite(record)"
 					:isFavorite="record.isFavorite"
-					class="m-2 relative right-0 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
+					class="m-4 relative right-0 w-6 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
 				/>
 			</div>
 		</div>

@@ -89,8 +89,8 @@ const setPoints = (pointsValue) => {
 				v-for="i in 10"
 				:key="i"
 				@click="setPoints(i - 1)"
-				class="inline-block m-1 rounded-full w-6 h-6 border-2 border-indigo-400 text-center text-sm cursor-pointer"
-				:class="{ 'bg-gray-400': points == i }"
+				class="inline-block m-1 rounded-full w-6 h-6 border-2 border-indigo-400 text-center text-sm text-orange-100 cursor-pointer"
+				:class="{ 'bg-indigo-400': points == i }"
 			>
 				{{ i }}
 			</div>
