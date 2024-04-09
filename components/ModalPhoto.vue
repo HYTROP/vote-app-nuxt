@@ -17,12 +17,11 @@ const {
 
 <template>
 	<div v-if="showModal" class="modal">
-		<span class="close" @click="closeModal">×</span>
+		<span class="close fixed top-0 right-10" @click="closeModal">×</span>
 
-		<div>
-			<span class="prev z-20 text-lg" @click="prevImage">&#10094;</span>
-			<span class="next z-20 text-lg" @click="nextImage">&#10095;</span>
-		</div>
+		<span class="prev text-2xl" @click="prevImage">&#10094;</span>
+		<span class="next text-2xl" @click="nextImage">&#10095;</span>
+
 		<div class="flex-col justify-center items-center">
 			<div
 				class="flex justify-center items-center pt-20 pr-8 pb-0 pl-8 sm:justify-center md:max-h-[80%]"
@@ -81,7 +80,6 @@ const {
 }
 
 .close {
-	position: absolute;
 	top: 0px;
 	right: 0px;
 	color: #aaaaaa;
@@ -95,20 +93,21 @@ const {
 	color: #f4a6a6;
 	text-decoration: none;
 	cursor: pointer;
+	position: fixed;
 }
 
 .prev,
 .next {
-	position: absolute;
-	top: 50%;
+	position: fixed;
+	top: 33%;
 	width: auto;
 	margin-top: -22px;
 	padding: 16px;
 	color: white;
 	font-weight: bold;
-	font-size: 28px;
-	transition: 0.6s ease;
-	border-radius: 0 3px 3px 0;
+	font-size: 32px;
+	transition: 0.5s ease-in-out;
+	border-radius: 12px 12px 12px 12px;
 	user-select: none;
 	cursor: pointer;
 }
