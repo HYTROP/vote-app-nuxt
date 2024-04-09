@@ -34,17 +34,17 @@
 				<table class="w-full">
 					<thead class="text-left text-sm md:text-xl text-neutral-600">
 						<tr class="border-b">
-							<th class="w-[100px]">Место</th>
-							<th class="w-[100px]">Баллы</th>
-							<th class="w-[200px]">ФИО</th>
-							<th class="w-[200px]">Номинация</th>
+							<th class="">Место</th>
+							<th class="">Баллы</th>
+							<th class="">ФИО</th>
+							<th class="">Номинация</th>
 							<th>Работа</th>
 						</tr>
 					</thead>
 					<tbody v-for="(item, index) in filteredItems" class="border-b-2">
 						<tr class="gap-x-2">
 							<td
-								class="text-xl md:text-2xl font-bold text-indigo-600"
+								class="text-xl md:text-2xl font-bold h-20 text-indigo-600"
 								:class="{ 'text-yellow-600': index == 0 }"
 							>
 								#
