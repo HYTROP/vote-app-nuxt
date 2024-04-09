@@ -16,7 +16,7 @@ const { openModal } = inject('modalActions');
 			@click="openModal(record.photo, index)"
 			class="sm:max-h-[223px] sm:max-w-[317px] mb-8 cursor-pointer md:hover:scale-125 transition duration-500 overflow-clip"
 		>
-			<Skeleton v-if="!record.photo" />
+			<Skeleton v-if="record.photo < 20" />
 			<NuxtImg
 				:src="record.photo"
 				sizes="xs:100vw sm:100vw md:50vw lg:33vw xl:25vw 2xl:20vw"

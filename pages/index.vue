@@ -77,7 +77,7 @@ useHead({
 			</select>
 		</div>
 
-		<!-- <LoaderSpin v-if="!filteredDataArr.length" class="w-20 h-14" /> -->
+		<LoaderSpin v-if="!itemsWithPointsApp.length" class="w-20 h-14" />
 
 		<CardList :dataArray="itemsWithPointsApp" />
 	</div>

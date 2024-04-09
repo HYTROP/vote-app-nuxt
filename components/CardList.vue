@@ -27,21 +27,10 @@ const onClickFavorite = async (item) => {
 	item.isFavorite = data.favoritePhotoURLs.includes(item.photo);
 	favoritesURLs.value = updatedURLs;
 };
-// const checkCardPoints = async (cardID) => {
-// 	try {
-// 		const { data: existingPoints, error } = await supabase
-// 			.from('UserPoints')
-// 			.select('*')
-// 			.eq('cardID', cardID)
-// 			.eq('userID', user.value.id);
-// 	} catch (error) {
-// 		console.error('Error checking if card has points:', error.message);
-// 	}
-// };
 </script>
 
 <template>
-	<Skeleton v-if="!dataArray" />
+	<!-- <Skeleton v-if="dataArray.length < 20" /> -->
 	<div
 		class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 lg:m-2 gap-8 sm:m-3 my-3"
 	>

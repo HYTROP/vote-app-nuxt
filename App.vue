@@ -16,7 +16,7 @@ import {
 
 const photosDrive = ref([]);
 const recordsArr = useState('recordsArr', () => []);
-const favoritesURLs = ref([]);
+const favoritesURLs = useState('favoritesURLs', () => []);
 const filteredDataArr = useState('filteredDataArr', () => []);
 
 // --------------------- points filter
@@ -75,7 +75,6 @@ const fetchItems = async () => {
 			return arrayOfObjects;
 		};
 		recordsArr.value = convertToObjects(recordsArr.value);
-		// console.log(recordsArr.value);
 	} catch (error) {
 		throw new Error('Ошибка при получении записей:', error);
 	}
@@ -147,22 +146,25 @@ const filterDataByNominations = (item) =>
 const filterData = () => {
 	const temp = recordsArr.value.filter(filterDataByNominations);
 	itemsWithPointsApp.value = temp.filter(filterCardsWithPointsFuc);
-	// console.log('itemsWithPointsApp.value', itemsWithPointsApp.value.length);
 	filteredDataArr.value = temp;
 };
 
 watchEffect(() => {
+	user.value;
 	filterData();
 });
 
 onMounted(async () => {
-	await fetchItems();
-	await fetchFavorites();
-	await fetchingCardsWithPoints();
+	if (user.value) {
+		await fetchFavorites();
+		await fetchingCardsWithPoints();
+		await fetchItems();
+	}
 });
 
 provide('fetchItems', fetchItems);
 provide('fetchFavorites', fetchFavorites);
+provide('filterData', filterData);
 
 // ---------------------
 

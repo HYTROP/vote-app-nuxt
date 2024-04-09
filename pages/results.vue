@@ -71,13 +71,13 @@
 </template>
 
 <script setup>
-// const { recordsArr } = inject('dataProvider');
-const recordsArr = useState('recordsArr', () => []);
+// const recordsArr = useState('recordsArr', () => []);
+const { recordsArr } = inject('dataProvider', () => []);
+console.log('recordsArr', recordsArr);
 
-const filteredItems = ref([]);
-const data = ref([]);
+const filteredItems = useState('filteredItems', () => []);
 const matchItems = ref([]);
-const itemsWithPoints = ref([]);
+
 const supabase = useSupabaseClient();
 
 const filterOptionsPoints = [
@@ -86,20 +86,9 @@ const filterOptionsPoints = [
 	'Фотография',
 	'ДПИ (Декоративно-прикладное искусство)',
 ];
-
 const selectFilter = ref(filterOptionsPoints[0]);
 
-const filterNominationsPoints = () => {
-	filteredItems.value = matchItems.value.filter((item) => {
-		if (selectFilter.value === 'Все') {
-			return matchItems;
-		} else {
-			return item.nomination === selectFilter.value;
-		}
-	});
-};
-
-onMounted(async () => {
+const fetchAllUsersPoints = async () => {
 	const { data: responseData, error } = await supabase
 		.from('UserPoints')
 		.select('*');
@@ -108,10 +97,10 @@ onMounted(async () => {
 		console.error('Error fetching data:', error.message);
 		return;
 	}
-	data.value = responseData;
+	console.log('fetchAllUsersPoints', responseData);
 
 	const cardAverages = [];
-	data.value.forEach((item) => {
+	responseData.forEach((item) => {
 		if (!(item.cardID in cardAverages)) {
 			cardAverages[item.cardID] = [];
 		}
@@ -125,33 +114,38 @@ onMounted(async () => {
 			pointsArray.reduce((acc, curr) => acc + curr, 0) / pointsArray.length;
 		cardAverages[cardID] = average.toFixed(1);
 	}
-	if (!recordsArr.value.length) {
-		return;
-	}
-
 	// Добавление поля points к каждому элементу item
-	itemsWithPoints.value = recordsArr.value.map((item) => {
+	const itemsWithPoints = recordsArr.value.map((item) => {
 		const points = cardAverages[item.photo] || 0;
-		// Если нет данных по карточке, то баллы = 0
 		return { ...item, points };
 	});
 
 	// Сортировка по баллам
-	const sortedItemsByPoints = itemsWithPoints.value.sort(
+	const sortedItemsByPoints = itemsWithPoints.sort(
 		(a, b) => b.points - a.points,
 	);
 
+	// console.log(sortedItemsByPoints);
+
 	// Фильтрация с учетом обновленных данных
 	matchItems.value = sortedItemsByPoints.filter((item) => {
-		return item.points > 0; // Пример фильтрации элементов с ненулевыми баллами
+		return item.points > 0;
 	});
+};
 
+const filterNominationsPoints = () => {
+	filteredItems.value = matchItems.value.filter(
+		(item) => item.nomination === selectFilter.value,
+	);
+};
+
+onMounted(async () => {
+	await fetchAllUsersPoints();
 	filterNominationsPoints();
 });
 
 watchEffect(() => {
-	itemsWithPoints;
-	selectFilter.value = filterOptionsPoints[0];
+	fetchAllUsersPoints();
 });
 
 useHead({

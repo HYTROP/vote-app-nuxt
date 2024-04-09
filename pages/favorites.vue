@@ -6,8 +6,8 @@
 			Избранное /
 		</h1>
 
-		<p v-if="favoritesItems.length === 0" class="text-2xl text-center">
-			В выбранной категории пока ничего нет
+		<p v-if="!favoritesItems.length" class="text-2xl text-center">
+			В выбранной категории пока ничего нет...
 		</p>
 		<LoaderSpin class="w-14 h-20" v-if="favoritesItems.length === 0" />
 
@@ -16,13 +16,15 @@
 </template>
 
 <script setup>
-const favoritesItems = ref([]);
+const favoritesItems = useState('favoritesItems', () => []);
 
-const recordsArr = useState('recordsArr', () => []);
+const { recordsArr } = inject('dataProvider', () => []);
 
-const fetchFavorites = inject('fetchFavorites');
 watchEffect(() => {
-	fetchFavorites();
+	favoritesItems.value;
+});
+
+onMounted(() => {
 	favoritesItems.value = recordsArr.value.filter(
 		(item) => item.isFavorite || false,
 	);
