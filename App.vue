@@ -78,8 +78,6 @@ const fetchItems = async () => {
 			})
 			.filter((item) => item !== null);
 
-		console.log('записи получены>>', recordsArr.value);
-
 		const convertToObjects = (arr) => {
 			const keys = [
 				'fio',
