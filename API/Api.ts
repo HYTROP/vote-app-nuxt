@@ -8,23 +8,14 @@ export const _DRIVE_URL_BASE = 'https://www.googleapis.com/drive/v3/files';
 
 const folderId = '1HTf8I35XQflhavhCRBJSKFqMxZsOLxJu';
 
-let nextPageToken = '';
+// let nextPageToken = '';
 
 export const params = {
 	q: `'${folderId}' in parents`,
 	key: _API_KEY,
-	pageSize: 100,
+	pageSize: 1000,
 };
-
-export const paramsForNextPage = {
-	q: `'${folderId}' in parents`,
-	key: _API_KEY,
-	pageSize: 100,
-	pageToken: nextPageToken, // добавьте nextPageToken для получения следующей страницы
-};
-
 export const paramsSheets = {
 	range: sheetRange,
-	pageSize: 100,
-	pageToken: nextPageToken,
+	pageSize: 1000,
 };
