@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<p v-if="matchItems.length == 0">Идет загрузка...</p>
+		<p v-if="matchItems.length == 0" class="text-2xl text-center">
+			Идет загрузка...
+		</p>
 		<LoaderSpin class="w-14 h-20" v-if="matchItems.length == 0" />
 
 		<div v-else>

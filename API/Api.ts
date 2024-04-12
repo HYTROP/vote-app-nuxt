@@ -18,5 +18,4 @@ export const params = {
 export const paramsSheets = {
 	range: sheetRange,
 	pageSize: 1000,
-	pageToken: '',
 };

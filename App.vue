@@ -43,7 +43,7 @@ const fetchDataDrive = async () => {
 const fetchDataSheets = async () => {
 	try {
 		const responseSheets = await axios.get(
-			`https://sheets.googleapis.com/v4/spreadsheets/${_GOOGLE_SHEETS_KEY}/values${sheetRange}?key=${_API_KEY}`,
+			`https://sheets.googleapis.com/v4/spreadsheets/${_GOOGLE_SHEETS_KEY}/values/${sheetRange}?key=${_API_KEY}`,
 			{ paramsSheets },
 		);
 		return responseSheets.data.values;

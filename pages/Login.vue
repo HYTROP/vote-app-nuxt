@@ -103,8 +103,8 @@ async function signIn() {
 		if (error) {
 			throw error;
 		}
-
-		fetchItems();
+    console.log('Войдите в аккаунт');
+    fetchItems()
 
 		router.push('/');
 	} catch (error) {
