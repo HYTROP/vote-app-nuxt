@@ -74,6 +74,7 @@ useHead({
 		<LoaderSpin v-if="!itemsWithPointsApp.length" class="w-20 h-14" />
 
 		<CardList :dataArray="itemsWithPointsApp" />
+		<ShowMoreBtn class="fixed bottom-0" />
 	</div>
 </template>
 

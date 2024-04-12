@@ -52,67 +52,6 @@ const fetchDataSheets = async () => {
 	}
 };
 
-// const fetchNextItems = async () => {
-// 	try {
-// 		const responseDrive = await axios.get(
-// 			'https://www.googleapis.com/drive/v3/files',
-// 			{ ...params, pageToken },
-// 		);
-// 		photosDrive.value = photosDrive.value.concat(responseDrive.data.files);
-// 		pageToken = responseDrive.data.nextPageToken;
-
-// 		const responseSheets = await axios.get(
-// 			`https://sheets.googleapis.com/v4/spreadsheets/${_GOOGLE_SHEETS_KEY}/values/${sheetRange}?key=${_API_KEY}`,
-// 		);
-// 		recordsArr.value = valuesFromSheets
-// 			.map((item) => {
-// 				console.log(item);
-// 				if (item[6] === undefined || item[6] === '') return null;
-// 				const result = item;
-// 				const separate = result[6].split('/');
-// 				const nameUrl = decodeURIComponent(separate[separate.length - 1]);
-
-// 				const obj = photosDrive.value.find((photo) => photo.name === nameUrl);
-
-// 				if (obj) {
-// 					result[6] = getPhotoUrl(obj.id);
-// 					return result;
-// 				} else {
-// 					return null;
-// 				}
-// 			})
-// 			.filter((item) => item !== null);
-
-// 		const convertToObjects = (arr) => {
-// 			const keys = [
-// 				'fio',
-// 				'email',
-// 				'phone',
-// 				'age',
-// 				'nomination',
-// 				'info',
-// 				'photo',
-// 				'bio',
-// 				'city',
-// 				'points',
-// 			];
-// 			const arrayOfObjects = arr.map((subArray) => {
-// 				const obj = {};
-// 				subArray.forEach((value, index) => {
-// 					obj[keys[index]] = value;
-// 				});
-// 				obj.isFavorite = favoritesURLs.value.includes(obj.photo);
-// 				obj.points = 0;
-// 				return obj;
-// 			});
-// 			return arrayOfObjects;
-// 		};
-// 		recordsArr.value = convertToObjects(recordsArr.value);
-// 	} catch (error) {
-// 		console.error(error);
-// 	}
-// };
-
 const fetchItems = async () => {
 	try {
 		const filesFromDrive = await fetchDataDrive();
@@ -123,7 +62,6 @@ const fetchItems = async () => {
 		// декодирование ссылки на фото и фильтрация
 		recordsArr.value = valuesFromSheets
 			.map((item) => {
-				console.log(item);
 				if (item[6] === undefined || item[6] === '') return null;
 				const result = item;
 				const separate = result[6].split('/');
@@ -139,8 +77,6 @@ const fetchItems = async () => {
 				}
 			})
 			.filter((item) => item !== null);
-
-		console.log('записи получены>>', recordsArr.value);
 
 		const convertToObjects = (arr) => {
 			const keys = [
