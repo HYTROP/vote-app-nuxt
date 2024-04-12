@@ -8,10 +8,6 @@
 	</div>
 </template>
 
-<script setup>
-function showMore() {
-	console.log('show more');
-}
-</script>
+<script setup></script>
 
 <style></style>
