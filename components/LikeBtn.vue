@@ -39,4 +39,8 @@
 const props = defineProps({
 	isFavorite: Boolean,
 });
+
+// onMounted(() => {
+// 	console.log(props.isFavorite);
+// });
 </script>

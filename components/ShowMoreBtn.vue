@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<button
-			class="text-2xl w-full h-12 bg-indigo-400 outline-none border border-b-8"
+			type="button"
+			class="rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 		>
 			Показать еще
 		</button>

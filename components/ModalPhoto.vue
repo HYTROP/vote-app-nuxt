@@ -1,26 +1,24 @@
 <script setup>
-defineProps({
-	onClickFavorite: Function,
-	showModal: Boolean,
-	isFavorite: Boolean,
-});
+const { showModal, personInfo, selectedPhotoURL } = defineProps([
+	'showModal',
+	'personInfo',
+	'selectedPhotoURL',
+]);
 
-const {
-	closeModal,
-	nextImage,
-	prevImage,
-	selectedPhotoURL,
-	personInfo,
-	showModal,
-} = inject('modalActions');
+const useStore = useMyFetchItemsStore();
+const actClickFavorite = useStore.actClickFavorite;
+
+const emit = defineEmits(['closeModal', 'nextImage', 'prevImage']);
 </script>
 
 <template>
 	<div v-if="showModal" class="modal">
-		<span class="close fixed top-0 right-10" @click="closeModal">×</span>
+		<div class="close fixed">
+			<span @click="$emit('closeModal')">×</span>
+		</div>
 
-		<span class="prev text-2xl" @click="prevImage">&#10094;</span>
-		<span class="next text-2xl" @click="nextImage">&#10095;</span>
+		<span class="prev text-2xl" @click="$emit('prevImage')">&#10094;</span>
+		<span class="next text-2xl" @click="$emit('nextImage')">&#10095;</span>
 
 		<div class="flex-col justify-center items-center">
 			<div
@@ -28,23 +26,23 @@ const {
 			>
 				<div class="md:max-w-[90%]">
 					<NuxtImg
-						:src="selectedPhotoURL"
+						:src="personInfo.photo"
 						quality="100"
 						alt="photo"
 						class="md:min-h-[45vh] md:min-w-[45vh] box-border"
 					/>
 					<div class="flex justify-center">
 						<LikeBtn
-							@click="onClickFavorite(personInfo)"
+							@click="actClickFavorite(personInfo)"
 							:isFavorite="personInfo.isFavorite"
 							class="m-2 relative right-0 w-5 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
 						/>
 					</div>
-					<Rating class="text-xl text-yellow-100" :cardID="selectedPhotoURL" />
+					<Rating class="text-xl text-yellow-100" :cardURL="personInfo.photo" />
 				</div>
 			</div>
 
-			<div class="flex pl-10 pr-10">
+			<div class="flex px-10 py-10">
 				<div class="sm:ml-0 mt-4">
 					<p class="text-white text-md mb-1 max-w-[250px]">
 						{{ personInfo.fio }}
@@ -76,22 +74,23 @@ const {
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.87);
+	background-color: rgba(0, 0, 0, 0.88);
 }
 
 .close {
 	top: 0px;
-	right: 0px;
+	right: 10px;
 	color: #aaaaaa;
-	font-size: 52px;
+	font-size: 62px;
 	font-weight: bold;
 	cursor: pointer;
 }
 
 .close:hover,
 .close:focus {
-	color: #f4a6a6;
+	color: #e9e9e9;
 	text-decoration: none;
+	transition: all 0.3s ease-in-out;
 	cursor: pointer;
 	position: fixed;
 }

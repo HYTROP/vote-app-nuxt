@@ -3,20 +3,18 @@ const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const points = ref(0);
 
-const props = defineProps({
-	cardID: String,
-});
+const { cardURL } = defineProps(['cardURL']);
 
 onMounted(() => {
-	loadCardPoints(props.cardID);
+	loadCardPoints(cardURL);
 });
 
-const loadCardPoints = async (cardID) => {
+const loadCardPoints = async (cardURL) => {
 	try {
 		const { data, error } = await supabase
 			.from('UserPoints')
 			.select('points')
-			.eq('cardID', cardID)
+			.eq('cardURL', cardURL)
 			.eq('userID', user.value.id);
 
 		if (error) {
@@ -34,9 +32,9 @@ const loadCardPoints = async (cardID) => {
 	}
 };
 
-// Обновляем данные о баллах при изменении cardID
+// Обновляем данные о баллах при изменении cardURL
 watch(
-	() => props.cardID,
+	() => cardURL,
 	async (newVal, oldVal) => {
 		if (newVal !== oldVal) {
 			await loadCardPoints(newVal);
@@ -44,28 +42,32 @@ watch(
 	},
 );
 
-const setCardPoints = async (cardID, pointsValue) => {
+const setCardPoints = async (cardURL, pointsValue) => {
 	try {
-		// Проверяем, существует ли запись для этого cardID
+		// Проверяем, существует ли запись для этого cardURL
 		const { data: existingPoints, error } = await supabase
 			.from('UserPoints')
 			.select('*')
-			.eq('cardID', cardID)
+			.eq('cardURL', cardURL)
 			.eq('userID', user.value.id);
+
+		if (error) {
+			throw error;
+		}
 
 		if (existingPoints.length > 0) {
 			// Если запись уже существует, обновляем количество баллов
 			await supabase
 				.from('UserPoints')
 				.update({ points: pointsValue })
-				.eq('cardID', cardID)
+				.eq('cardURL', cardURL)
 				.eq('userID', user.value.id);
 		} else {
 			// Если записи нет, создаем новую
 			await supabase
 				.from('UserPoints')
 				.insert([
-					{ cardID: cardID, userID: user.value.id, points: pointsValue },
+					{ cardURL: cardURL, userID: user.value.id, points: pointsValue },
 				]);
 		}
 		points.value = pointsValue;
@@ -75,7 +77,7 @@ const setCardPoints = async (cardID, pointsValue) => {
 };
 
 const setPoints = (pointsValue) => {
-	setCardPoints(props.cardID, pointsValue + 1);
+	setCardPoints(cardURL, pointsValue + 1);
 };
 </script>
 
@@ -89,7 +91,7 @@ const setPoints = (pointsValue) => {
 				v-for="i in 10"
 				:key="i"
 				@click="setPoints(i - 1)"
-				class="inline-block m-1 rounded-full w-6 h-6 border-2 border-indigo-400 text-center text-sm text-orange-100 cursor-pointer"
+				class="inline-block m-1 rounded-full hover:scale-125 hover:transition-all hover:duration-300 w-6 h-6 border-2 border-indigo-400 text-center text-sm text-orange-100 cursor-pointer"
 				:class="{ 'bg-indigo-400': points == i }"
 			>
 				{{ i }}

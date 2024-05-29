@@ -1,3 +1,43 @@
+<script setup>
+const { matchItems } = storeToRefs(useMyFetchItemsStore());
+
+const fetchAllUsersPoints = useMyFetchItemsStore().fetchAllUsersPoints;
+const filteredItems = ref([]);
+
+const filterNominationsPoints = () => {
+	filteredItems.value = matchItems.value.filter(
+		(item) => item.nomination === selectFilterResults.value,
+	);
+};
+
+const filterOptionsPoints = [
+	'Живопись',
+	'Рисунок',
+	'Фотография',
+	'ДПИ (Декоративно-прикладное искусство)',
+];
+
+const selectFilterResults = ref(filterOptionsPoints[0]);
+
+onMounted(async () => {
+	await fetchAllUsersPoints();
+});
+
+watchEffect(() => {
+	filterNominationsPoints();
+});
+
+useHead({
+	title: 'Палитра талантов | Результаты',
+	meta: [
+		{
+			name: 'description',
+			content: 'Результаты',
+		},
+	],
+});
+</script>
+
 <template>
 	<div>
 		<p v-if="matchItems.length == 0" class="text-2xl text-center">
@@ -66,7 +106,7 @@
 									<NuxtImg
 										:src="item.photo"
 										alt="photo"
-										class="max-w-[200px] max-h-[150px] cursor-pointer hover:scale-150 transition duration-500 ease-in-out"
+										class="max-w-[200px] max-h-[150px] cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
 									/>
 								</div>
 							</td>
@@ -77,46 +117,5 @@
 		</div>
 	</div>
 </template>
-
-<script setup>
-// const recordsArr = useState('recordsArr', () => []);
-const { matchItems } = inject('dataProvider', () => []);
-const filteredItems = ref([]);
-
-const filterNominationsPoints = () => {
-	filteredItems.value = matchItems.value.filter(
-		(item) => item.nomination === selectFilterResults.value,
-	);
-};
-
-const filterOptionsPoints = [
-	'Живопись',
-	'Рисунок',
-	'Фотография',
-	'ДПИ (Декоративно-прикладное искусство)',
-];
-
-const selectFilterResults = ref(filterOptionsPoints[0]);
-
-// onMounted(() => {
-// 	filteredItems.value;
-// 	// selectFilterResults.value;
-// 	filterNominationsPoints();
-// });
-
-watchEffect(() => {
-	filterNominationsPoints();
-});
-
-useHead({
-	title: 'Палитра талантов | Результаты',
-	meta: [
-		{
-			name: 'description',
-			content: 'Результаты',
-		},
-	],
-});
-</script>
 
 <style scoped></style>

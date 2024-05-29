@@ -21,31 +21,15 @@
 						<form @submit.prevent="signUp">
 							<div class="grid gap-y-4">
 								<div>
-									<label for="email" class="block text-sm text-black mb-2"
-										>Ваше имя</label
+									<label for="userName" class="block text-sm text-black mb-2"
+										>Ваше ФИО</label
 									>
 									<div class="relative">
 										<input
-											id="first-name"
-											v-model="firstName"
-											type="first-name"
-											name="first-name"
-											class="py-3 px-4 block w-full rounded-lg text-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800"
-											required
-											aria-describedby="email-error"
-										/>
-									</div>
-								</div>
-								<div>
-									<label for="email" class="block text-sm text-black mb-2"
-										>Фамилия</label
-									>
-									<div class="relative">
-										<input
-											id="last-name"
-											v-model="lastName"
-											type="last-name"
-											name="last-name"
+											id="userName"
+											v-model="userName"
+											type="userName"
+											name="userName"
 											class="py-3 px-4 block w-full rounded-lg text-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-gray-800"
 											required
 											aria-describedby="email-error"
@@ -68,8 +52,7 @@
 										/>
 									</div>
 									<p id="email-error" class="hidden text-xs text-red-600 mt-2">
-										Please include a valid email address so we can get back to
-										you
+										Пожалуйста, укажите действующий адрес электронной почты
 									</p>
 								</div>
 
@@ -107,7 +90,9 @@
 							</div>
 						</form>
 						<!-- End Form -->
-						{{ errorMsg }}
+						<div class="text-red-600 m-4">
+							{{ errorMsg }}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -129,12 +114,11 @@ const successMsg = ref('');
 async function signUp() {
 	try {
 		const { data: userData, error } = await supabase.auth.signUp({
-			firstName: firstName.value,
-			lastName: lastName.value,
+			userName: userName.value,
 			email: email.value,
 			password: password.value,
 			options: {
-				emailRedirectTo: 'https://vote-app-nuxt.vercel.app/login',
+				emailRedirectTo: 'https://localhost:3000/login',
 			},
 		});
 
@@ -147,7 +131,9 @@ async function signUp() {
 				.from('favorites')
 				.insert([
 					{
+						userName: userData.user.username,
 						userID: userData.user.id,
+						favoritePhotoURLs: [],
 					},
 				])
 				.select();
@@ -164,8 +150,7 @@ async function signUp() {
 		}, 2000);
 
 		// clear form
-		firstName.value = '';
-		lastName.value = '';
+		userName.value = '';
 		email.value = '';
 		password.value = '';
 		errorMsg.value = '';

@@ -3,23 +3,17 @@ export default defineNuxtConfig({
 	ssr: true,
 
 	devtools: { enabled: true },
-	app: {
-		head: {
-			charset: 'utf-8',
-			viewport: 'width=device-width, initial-scale=1',
-		},
-	},
 	modules: [
 		'@formkit/auto-animate/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
 		'@nuxt/image',
 		'@nuxtjs/supabase',
+		'@pinia-plugin-persistedstate/nuxt',
 		'@pinia/nuxt',
 	],
 
 	supabase: {
-		// redirect: false,
 		redirectOptions: {
 			login: '/signup',
 			callback: '/login',
@@ -38,5 +32,20 @@ export default defineNuxtConfig({
 	},
 	image: {
 		domains: [''],
+	},
+
+	piniaPersistedstate: {
+		storage: 'localStorage',
+	},
+	pinia: {
+		storesDirs: ['./stores/**'],
+	},
+
+	imports: {
+		dirs: ['stores'],
+	},
+
+	router: {
+		middleware: ['auth'],
 	},
 });
