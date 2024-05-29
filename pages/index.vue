@@ -32,7 +32,7 @@ useHead({
 
 <template>
 	<div>
-		<div class="flex flex-col" v-if="recordsArr.length">
+		<div class="flex flex-col" v-if="recordsArr?.length">
 			<ProgressBarFetch :show="isLoaded" />
 			<h1
 				class="text-xl text-neutral-800 font-bold mx-0 my-3 sm:m-2 lg:flex md:grid-cols-2 md:mx-2"
@@ -45,9 +45,9 @@ useHead({
 
 			<div class="gap-5 sm:m-2 sm:my-2 sm:flex justify-end items-center">
 				<span class="text-sm text-gray-700">Выберите фильтр</span>
-				<SelectByNomination v-if="recordsArr.length > 0" />
+				<SelectByNomination v-if="recordsArr?.length > 0" />
 
-				<SelectByPoints v-if="recordsArr.length > 0" />
+				<SelectByPoints v-if="recordsArr?.length > 0" />
 			</div>
 		</div>
 
@@ -68,8 +68,8 @@ useHead({
 			</option>
 		</select> -->
 
-		<LoaderSpin v-if="!recordsArr.length" class="w-20 h-14" />
-		<CardList v-if="recordsArr.length" :recordsArr="recordsArr" />
+		<LoaderSpin v-if="!recordsArr?.length" class="w-20 h-14" />
+		<CardList v-if="recordsArr?.length" :recordsArr="recordsArr" />
 
 		<Pagination v-if="!isLoaded" class="my-12" />
 	</div>

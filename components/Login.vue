@@ -101,7 +101,6 @@ async function signIn() {
 		if (error) {
 			throw error;
 		}
-		useMyFetchItemsStore().fetchItems();
 
 		router.push('/');
 	} catch (error) {

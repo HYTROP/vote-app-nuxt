@@ -25,7 +25,7 @@
 						: 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
 				"
 				class="inline-flex items-center border-t-2 cursor-pointer border-transparent px-5 pt-5 text-sm font-medium"
-				@click="useMyFetchItemsStore().fetchItems((currentPage = page))"
+				@click="currentPage = page"
 				>{{ page }}
 			</span>
 		</div>
@@ -48,22 +48,14 @@
 <script setup>
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/vue/20/solid';
 
-const currentPage = ref(1);
-
-const totalPages = ref(89);
+const {currentPage, totalPages} = storeToRefs(useMyFetchItemsStore());
 
 const nextPage = () => {
-	if (currentPage.value < totalPages.value) {
-		currentPage.value++;
-		useMyFetchItemsStore().fetchItems(currentPage.value);
-	}
+	if (currentPage.value < totalPages.value) ++currentPage.value
 };
 
 const previousPage = () => {
-	if (currentPage.value > 1) {
-		currentPage.value--;
-		useMyFetchItemsStore().fetchItems(currentPage.value);
-	}
+	if (currentPage.value > 1) --currentPage.value
 };
 </script>
 

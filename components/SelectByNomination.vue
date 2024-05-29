@@ -4,9 +4,7 @@
 		:disabled="isLoaded"
 		v-model="selectedFilters"
 		@update:model-value="
-			selectedFilters.name === 'Все'
-				? useMyFetchItemsStore().fetchItems()
-				: useMyFetchItemsStore().fetchItems(selectedFilters)
+			someFilterDataByNomination = selectedFilters
 		"
 	>
 		<div class="relative mt-2">
@@ -85,6 +83,8 @@ const nominations = [
 	{ id: 4, name: 'Фотография' },
 	{ id: 5, name: 'ДПИ (Декоративно-прикладное искусство)' },
 ];
+
+const someFilterDataByNomination = storeToRefs(useMyFetchItemsStore()).someFilterDataByNomination;
 
 const isLoaded = ref(false);
 

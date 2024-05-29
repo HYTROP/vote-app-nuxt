@@ -20,7 +20,6 @@ const emit = defineEmits(['openModal']);
 			<NuxtImg
 				v-else
 				:src="record.photo"
-				sizes="xs:90vw sm:100vw md:100vw lg:50vw xl:33vw 2xl:25vw"
 				quality="10"
 				loading="lazy"
 				alt="photo"

@@ -3,9 +3,7 @@
 		as="div"
 		v-model="selectedPointsFilters"
 		@update:model-value="
-			selectedPointsFilters.name === 'Все'
-				? fetchItems()
-				: fetchItems(selectedPointsFilters)
+			someFilterByPoints = selectedPointsFilters
 		"
 	>
 		<div class="relative mt-2">
@@ -81,11 +79,10 @@ const marks = [
 	{ id: 3, name: 'С оценкой' },
 ];
 
-const someFilterByPoints = ref('filterPointsRef');
+const someFilterByPoints = storeToRefs(useMyFetchItemsStore()).someFilterByPoints;
 
 const selectedPointsFilters = ref(marks[0]);
 
-const { fetchItems } = useMyFetchItemsStore();
 
 const filterCardsWithPointsFuc = (item) => {
 	console.log('filterCardsWithPointsFuc');
