@@ -2,6 +2,7 @@
 const props = defineProps({
 	recordsArr: Array,
 });
+
 const { recordsArr } = toRefs(props);
 
 const showModal = ref(false);
@@ -15,10 +16,10 @@ const openModal = (modalPhotoURL, index) => {
 	selectedPhotoURL.value = modalPhotoURL;
 	showModal.value = true;
 	currentIndex.value = index;
-	const findPerson = recordsArr.value.find(
+	personInfo.value = recordsArr.value.find(
 		(item) => item.photo === modalPhotoURL,
 	);
-	personInfo.value = findPerson;
+
 	document.body.style.overflow = 'hidden';
 };
 

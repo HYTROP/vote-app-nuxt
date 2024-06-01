@@ -5,11 +5,12 @@ const points = ref(0);
 
 const { cardURL } = defineProps(['cardURL']);
 
-onMounted(() => {
-	loadCardPoints(cardURL);
+onMounted(async () => {
+	await loadCardPoints(cardURL);
 });
 
 const loadCardPoints = async (cardURL) => {
+	console.log('i am func');
 	try {
 		const { data, error } = await supabase
 			.from('UserPoints')
@@ -40,9 +41,11 @@ watch(
 			await loadCardPoints(newVal);
 		}
 	},
+	// console.log(cardURL),
 );
 
 const setCardPoints = async (cardURL, pointsValue) => {
+	console.log('i am func 2');
 	try {
 		// Проверяем, существует ли запись для этого cardURL
 		const { data: existingPoints, error } = await supabase
