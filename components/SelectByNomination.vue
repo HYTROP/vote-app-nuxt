@@ -3,9 +3,7 @@
 		as="div"
 		:disabled="isLoaded"
 		v-model="selectedFilters"
-		@update:model-value="
-			someFilterDataByNomination = selectedFilters
-		"
+		@update:model-value="someFilterDataByNomination = selectedFilters"
 	>
 		<div class="relative mt-2">
 			<ListboxButton
@@ -27,7 +25,7 @@
 				leave-to-class="opacity-0"
 			>
 				<ListboxOptions
-					class="absolute w-[180px] mt-1 max-h-60 truncate rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+					class="absolute w-[180px] z-10 mt-1 max-h-60 truncate rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
 				>
 					<ListboxOption
 						as="template"
@@ -84,43 +82,11 @@ const nominations = [
 	{ id: 5, name: 'ДПИ (Декоративно-прикладное искусство)' },
 ];
 
-const someFilterDataByNomination = storeToRefs(useMyFetchItemsStore()).someFilterDataByNomination;
+const someFilterDataByNomination = storeToRefs(
+	useMyFetchItemsStore(),
+).someFilterDataByNomination;
 
 const isLoaded = ref(false);
 
-// const { selectedFilters } = storeToRefs(useMySelectByNominationsStore());
-
-// const { allRecordsFromDBREF } = storeToRefs(useMyFetchItemsStore());
-
-// const { filteredDataArr } = storeToRefs(useMySelectByNominationsStore());
-
 const selectedFilters = ref(nominations[0]);
-
-// const filterDataByNominations = (item) => {
-// 	console.log(item);
-// 	selectedFilters.value.name === 'Все'
-// 		? true
-// 		: item.nomination === selectedFilters.value.id;
-// };
-
-// const filterData = () => {
-// 	console.log('filterData');
-// 	const temp = allRecordsFromDBREF.value.filter(filterDataByNominations);
-// 	itemsWithPointsApp.value = temp.filter(
-// 		useMySelectByPointsStore().filterCardsWithPointsFuc(),
-// 	);
-// 	filteredDataArr.value = temp;
-// };
-
-// const filterData = () => {
-// 	const temp = recordsArr.value.filter(filterDataByNominations);
-// 	itemsWithPointsApp.value = temp.filter(filterCardsWithPointsFuc());
-// 	filteredDataArr.value = temp;
-
-// 	isLoaded.value = true;
-// };
-
-// watchEffect(() => {
-// 	filterData();
-// });
 </script>

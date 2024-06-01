@@ -1,6 +1,6 @@
 <template>
 	<header
-		class="flex z-10 w-full bg-indigo-600/90 text-sm py-3 px-2 lg:px-8 sm:py-0 sticky top-0 backdrop-blur-lg"
+		class="flex z-20 w-full bg-indigo-600/90 text-sm py-3 px-2 lg:px-8 sm:py-0 sticky top-0 backdrop-blur-lg"
 	>
 		<nav
 			class="relative w-full mx-auto sm:flex sm:items-center"

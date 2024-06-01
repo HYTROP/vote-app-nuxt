@@ -51,23 +51,6 @@ useHead({
 			</div>
 		</div>
 
-		<!-- 
-		<select
-			v-if="itemsWithPointsApp.length > 0"
-			id="points"
-			v-model="selectedPointsFilters"
-			class="w-[150px] truncate p-1 m-2 border-2 border-indigo-400 rounded-lg appearance-auto"
-			@change="filterData"
-		>
-			<option
-				v-for="option in filterIsPointedOptions"
-				:key="option"
-				class="border-none"
-			>
-				{{ option }}
-			</option>
-		</select> -->
-
 		<LoaderSpin v-if="!recordsArr?.length" class="w-20 h-14" />
 		<CardList v-if="recordsArr?.length" :recordsArr="recordsArr" />
 
