@@ -104,8 +104,7 @@
 const router = useRouter();
 const supabase = useSupabaseClient();
 
-const firstName = ref('');
-const lastName = ref('');
+const userName = ref('');
 const email = ref('');
 const password = ref(null);
 const errorMsg = ref(null);
@@ -118,7 +117,7 @@ async function signUp() {
 			email: email.value,
 			password: password.value,
 			options: {
-				emailRedirectTo: 'https://localhost:3000/login',
+				emailRedirectTo: 'https://vote-admin.vercel.app/login',
 			},
 		});
 

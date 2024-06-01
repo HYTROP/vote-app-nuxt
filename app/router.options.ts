@@ -29,5 +29,11 @@ export default <RouterConfig>{
 			meta: { requiresAuth: true, name: 'Результаты' },
 			component: () => import('~/pages/results.vue'),
 		},
+		{
+			name: 'forgot-password',
+			path: '/forgot-password',
+			meta: { requiresAuth: true, name: 'Восстановить пароль' },
+			component: () => import('~/components/Forgot-password.vue'),
+		},
 	],
 };
