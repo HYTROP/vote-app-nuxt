@@ -82,14 +82,16 @@ const setPoints = (pointsValue) => {
 <template>
 	<div class="flex">
 		<div class="items-center">
-			<label for="rating" class="block text-sm font-medium text-white"
+			<label
+				for="rating"
+				class="block text-sm sm:text-base m-1 font-medium text-white"
 				>Ваша оценка:</label
 			>
 			<div
 				v-for="i in 10"
 				:key="i"
 				@click="setPoints(i - 1)"
-				class="inline-block ml-1.5 rounded-full hover:scale-125 hover:transition-all hover:duration-300 w-6 h-6 border-2 border-indigo-400 text-center text-sm text-orange-100 cursor-pointer"
+				class="inline-block ml-1.5 sm:ml-3 rounded-full hover:scale-125 hover:transition-all hover:duration-300 w-6 h-6 border-2 border-indigo-400 text-center text-sm text-orange-100 cursor-pointer"
 				:class="{ 'bg-indigo-400 scale-125': points == i }"
 			>
 				{{ i }}
