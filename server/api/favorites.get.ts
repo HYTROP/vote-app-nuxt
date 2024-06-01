@@ -3,9 +3,6 @@ import { serverSupabaseUser } from '#supabase/server';
 
 export default defineEventHandler(async (event) => {
 	const user = await serverSupabaseUser(event);
-
-	console.log(user);
-
 	const { page } = getQuery(event);
 
 	const limit = 30;

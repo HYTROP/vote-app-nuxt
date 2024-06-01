@@ -3,14 +3,12 @@ const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const points = ref(0);
 
-const { cardURL } = defineProps(['cardURL']);
-
-onMounted(async () => {
-	await loadCardPoints(cardURL);
+const props = defineProps({
+	cardURL: String,
 });
+const { cardURL } = toRefs(props);
 
 const loadCardPoints = async (cardURL) => {
-	console.log('i am func');
 	try {
 		const { data, error } = await supabase
 			.from('UserPoints')
@@ -35,23 +33,20 @@ const loadCardPoints = async (cardURL) => {
 
 // Обновляем данные о баллах при изменении cardURL
 watch(
-	() => cardURL,
-	async (newVal, oldVal) => {
-		if (newVal !== oldVal) {
-			await loadCardPoints(newVal);
-		}
+	cardURL,
+	async (newValue) => {
+		await loadCardPoints(newValue);
 	},
-	// console.log(cardURL),
+	{ immediate: true },
 );
 
 const setCardPoints = async (cardURL, pointsValue) => {
-	console.log('i am func 2');
 	try {
 		// Проверяем, существует ли запись для этого cardURL
 		const { data: existingPoints, error } = await supabase
 			.from('UserPoints')
 			.select('*')
-			.eq('cardURL', cardURL)
+			.eq('cardURL', cardURL.value)
 			.eq('userID', user.value.id);
 
 		if (error) {
@@ -63,7 +58,7 @@ const setCardPoints = async (cardURL, pointsValue) => {
 			await supabase
 				.from('UserPoints')
 				.update({ points: pointsValue })
-				.eq('cardURL', cardURL)
+				.eq('cardURL', cardURL.value)
 				.eq('userID', user.value.id);
 		} else {
 			// Если записи нет, создаем новую
@@ -80,7 +75,7 @@ const setCardPoints = async (cardURL, pointsValue) => {
 };
 
 const setPoints = (pointsValue) => {
-	setCardPoints(cardURL, pointsValue + 1);
+	setCardPoints(cardURL.value, pointsValue + 1);
 };
 </script>
 
@@ -95,7 +90,7 @@ const setPoints = (pointsValue) => {
 				:key="i"
 				@click="setPoints(i - 1)"
 				class="inline-block m-1 rounded-full hover:scale-125 hover:transition-all hover:duration-300 w-6 h-6 border-2 border-indigo-400 text-center text-sm text-orange-100 cursor-pointer"
-				:class="{ 'bg-indigo-400': points == i }"
+				:class="{ 'bg-indigo-400 scale-125': points == i }"
 			>
 				{{ i }}
 			</div>

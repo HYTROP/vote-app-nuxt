@@ -71,10 +71,10 @@ const prevImage = () => {
 
 		<ModalPhoto
 			:showModal="showModal"
+			:personInfo="personInfo"
 			@closeModal="closeModal"
 			@nextImage="nextImage"
 			@prevImage="prevImage"
-			:personInfo="personInfo"
 		/>
 	</div>
 </template>

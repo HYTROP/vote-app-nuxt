@@ -1,9 +1,12 @@
 <script setup>
-const { showModal, personInfo, selectedPhotoURL } = defineProps([
-	'showModal',
-	'personInfo',
-	'selectedPhotoURL',
-]);
+// const { showModal, personInfo } = defineProps(['showModal', 'personInfo']);
+
+const props = defineProps({
+	showModal: Boolean,
+	personInfo: Object,
+});
+
+const { showModal, personInfo } = toRefs(props);
 
 const useStore = useMyFetchItemsStore();
 const actClickFavorite = useStore.actClickFavorite;

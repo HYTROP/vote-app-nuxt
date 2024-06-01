@@ -2,9 +2,7 @@
 	<Listbox
 		as="div"
 		v-model="selectedPointsFilters"
-		@update:model-value="
-			someFilterByPoints = selectedPointsFilters
-		"
+		@update:model-value="someFilterByPoints = selectedPointsFilters"
 	>
 		<div class="relative mt-2">
 			<ListboxButton
@@ -79,21 +77,9 @@ const marks = [
 	{ id: 3, name: 'С оценкой' },
 ];
 
-const someFilterByPoints = storeToRefs(useMyFetchItemsStore()).someFilterByPoints;
+const someFilterByPoints = storeToRefs(
+	useMyFetchItemsStore(),
+).someFilterByPoints;
 
 const selectedPointsFilters = ref(marks[0]);
-
-
-const filterCardsWithPointsFuc = (item) => {
-	console.log('filterCardsWithPointsFuc');
-
-	switch (selectedPointsFilters.value) {
-		case 'Все':
-			return true;
-		case 'Без оценки':
-			return item.points == 0;
-		case 'С оценкой':
-			return item.points > 0;
-	}
-};
 </script>
