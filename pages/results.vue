@@ -41,7 +41,7 @@ useHead({
 <template>
 	<div>
 		<p v-if="matchItems.length == 0" class="text-2xl text-center">
-			Идет загрузка...
+			Ни одной фотографии не было оценено
 		</p>
 		<LoaderSpin class="w-14 h-20" v-if="matchItems.length == 0" />
 
