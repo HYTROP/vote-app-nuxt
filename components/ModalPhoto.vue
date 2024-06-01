@@ -25,7 +25,7 @@ const emit = defineEmits(['closeModal', 'nextImage', 'prevImage']);
 
 		<div class="flex-col justify-center items-center">
 			<div
-				class="flex justify-center items-center pt-20 pr-8 pb-0 pl-8 sm:justify-center md:max-h-[80%]"
+				class="flex justify-center items-center pt-20 sm:pt-20 pb-0 pl-8 pr-8 sm:justify-center md:max-h-[80%]"
 			>
 				<div class="md:max-w-[90%]">
 					<NuxtImg
@@ -41,7 +41,7 @@ const emit = defineEmits(['closeModal', 'nextImage', 'prevImage']);
 							class="m-2 relative right-0 w-5 h-6 cursor-pointer hover:scale-125 transition duration-500 ease-in-out"
 						/>
 					</div>
-					<Rating class="text-xl text-yellow-100" :cardURL="personInfo.photo" />
+					<Rating class="text-sm text-yellow-100" :cardURL="personInfo.photo" />
 				</div>
 			</div>
 
