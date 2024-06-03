@@ -22,7 +22,7 @@
 				leave-to-class="opacity-0"
 			>
 				<ListboxOptions
-					class="absolute w-[180px] mt-1 max-h-60 truncate rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+					class="absolute w-[180px] z-10 mt-1 max-h-60 truncate rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
 				>
 					<ListboxOption
 						as="template"

@@ -57,8 +57,10 @@ useHead({
 		</div>
 
 		<LoaderSpin v-if="!recordsArr?.length" class="w-20 h-14" />
+
 		<CardList v-if="recordsArr?.length" :recordsArr="recordsArr" />
-		<div v-else>
+
+		<div v-if="!recordsArr?.length">
 			<p>Вами пока не поставлена ни одна оценка!</p>
 			<ButtonBack />
 		</div>
