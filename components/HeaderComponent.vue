@@ -67,17 +67,17 @@
 				>
 					<NuxtLink
 						to="/"
-						class="sm:flex font-medium text-white/[.9] hover:text-white sm:py-6"
+						class="font-medium text-white/[.8] hover:text-white hover:scale-105 hover:transition-all sm:py-6"
 						>ГАЛЕРЕЯ
 					</NuxtLink>
 					<NuxtLink
 						to="/favorites"
-						class="font-medium text-white/[.9] hover:text-white sm:py-6"
+						class="font-medium text-white/[.8] hover:text-white sm:py-6 hover:scale-105 hover:transition-all"
 						>ИЗБРАННОЕ
 					</NuxtLink>
 					<NuxtLink
 						to="/results"
-						class="font-medium text-white/[.9] hover:text-white sm:py-6"
+						class="font-medium text-white/[.8] hover:text-white sm:py-6 hover:scale-105 hover:transition-all"
 						>РЕЗУЛЬТАТЫ
 					</NuxtLink>
 					<!-- LOGGING -->
