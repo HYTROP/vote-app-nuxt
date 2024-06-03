@@ -34,8 +34,10 @@ const loadCardPoints = async (cardURL) => {
 // Обновляем данные о баллах при изменении cardURL
 watch(
 	cardURL,
-	async (newValue) => {
-		await loadCardPoints(newValue);
+	async (newValue, oldValue) => {
+		if (newValue !== oldValue) {
+			await loadCardPoints(newValue);
+		}
 	},
 	{ immediate: true },
 );
@@ -46,8 +48,11 @@ const setCardPoints = async (cardURL, pointsValue) => {
 		const { data: existingPoints, error } = await supabase
 			.from('UserPoints')
 			.select('*')
-			.eq('cardURL', cardURL.value)
+			.eq('cardURL', cardURL)
 			.eq('userID', user.value.id);
+
+		// console.log('existingPoints', existingPoints);
+		// console.log('pointsValue', pointsValue);
 
 		if (error) {
 			throw error;
@@ -58,7 +63,7 @@ const setCardPoints = async (cardURL, pointsValue) => {
 			await supabase
 				.from('UserPoints')
 				.update({ points: pointsValue })
-				.eq('cardURL', cardURL.value)
+				.eq('cardURL', cardURL)
 				.eq('userID', user.value.id);
 		} else {
 			// Если записи нет, создаем новую
@@ -75,7 +80,8 @@ const setCardPoints = async (cardURL, pointsValue) => {
 };
 
 const setPoints = (pointsValue) => {
-	setCardPoints(cardURL.value, pointsValue + 1);
+	console.log('pointsValue', pointsValue);
+	setCardPoints(cardURL.value, pointsValue);
 };
 </script>
 
@@ -90,7 +96,7 @@ const setPoints = (pointsValue) => {
 			<div
 				v-for="i in 10"
 				:key="i"
-				@click="setPoints(i - 1)"
+				@click="setPoints(i)"
 				class="inline-block ml-1.5 sm:ml-3 rounded-full hover:scale-125 hover:transition-all hover:duration-300 w-6 h-6 border-2 border-indigo-400 text-center text-sm text-orange-100 cursor-pointer"
 				:class="{ 'bg-indigo-400 scale-125': points == i }"
 			>
