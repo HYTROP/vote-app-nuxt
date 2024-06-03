@@ -6,6 +6,7 @@ export const useMyFetchItemsStore = defineStore('myFetchItemsStore', () => {
 	const currentPage = ref(1);
 	const someFilterDataByNomination = ref({ name: 'Все' });
 	const someFilterByPoints = ref({ name: 'Все' });
+	const someFilterDataByAges = ref({ name: 'Все' });
 	const totalPages = ref(0);
 
 	const allRecordsFromDBREF = ref([]);
@@ -22,7 +23,7 @@ export const useMyFetchItemsStore = defineStore('myFetchItemsStore', () => {
 
 	const fetchItems = async () => {
 		const { data } = await useFetch(
-			`/api/getHello?page=${currentPage.value}&nomination=${someFilterDataByNomination.value?.name}&points=${someFilterByPoints.value?.name}`,
+			`/api/getHello?page=${currentPage.value}&nomination=${someFilterDataByNomination.value?.name}&points=${someFilterByPoints.value?.name}&age=${someFilterDataByAges.value?.name}`,
 		);
 
 		const { data: responseData, count } = data.value;
@@ -42,9 +43,6 @@ export const useMyFetchItemsStore = defineStore('myFetchItemsStore', () => {
 	watchEffect(fetchItems);
 
 	const fetchFavorites = async () => {
-		// const { data } = await useFetch(`/api/favorites?userID=${user.value?.id}`);
-		// favoritePhotoURLs.value = data.value;
-
 		if (!user.value) return;
 		const { data, error } = await supabase
 			.from('favorites')
@@ -143,6 +141,7 @@ export const useMyFetchItemsStore = defineStore('myFetchItemsStore', () => {
 		currentPage,
 		someFilterDataByNomination,
 		someFilterByPoints,
+		someFilterDataByAges,
 		recordsArr,
 		favoritePhotoURLs,
 		matchItems,

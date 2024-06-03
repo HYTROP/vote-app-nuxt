@@ -43,18 +43,27 @@ useHead({
 				<!-- ({{ itemsWithPointsApp.length }}) -->
 			</h1>
 
-			<div class="gap-5 sm:m-2 sm:my-2 sm:flex justify-end items-center">
+			<div class="gap-5 sm:m-2 sm:my-2 justify-end items-center">
 				<span class="text-sm text-gray-700">Выберите фильтр</span>
-				<SelectByNomination v-if="recordsArr?.length > 0" />
 
-				<SelectByPoints v-if="recordsArr?.length > 0" />
+				<div class="flex flex-col sm:flex-row gap-0 sm:gap-5">
+					<SelectByNomination v-if="recordsArr?.length > 0" />
+
+					<SelectByPoints v-if="recordsArr?.length > 0" />
+
+					<SelectByAges v-if="recordsArr?.length > 0" />
+				</div>
 			</div>
 		</div>
 
 		<LoaderSpin v-if="!recordsArr?.length" class="w-20 h-14" />
 		<CardList v-if="recordsArr?.length" :recordsArr="recordsArr" />
+		<div v-else>
+			<p>Вами пока не поставлена ни одна оценка!</p>
+			<ButtonBack />
+		</div>
 
-		<Pagination v-if="!isLoaded" class="my-12" />
+		<Pagination v-if="recordsArr?.length" class="my-12" />
 	</div>
 </template>
 
