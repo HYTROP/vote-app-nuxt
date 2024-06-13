@@ -81,12 +81,13 @@ useHead({
 		<LoaderSpin class="w-14 h-20" v-if="matchItems.length == 0" />
 
 		<div v-else>
-			<div class="flex mb-2">
+			<div class="flex-1 mb-2">
 				<h1
 					class="text-xl text-neutral-800 font-bold m-2 lg:flex md:grid-cols-2 md:mx-3"
 				>
 					Результаты /
 				</h1>
+        
 
 				<div class="m-2">
 					<label for="filterNominations" class="flex text-sm text-gray-700" />
@@ -105,9 +106,9 @@ useHead({
 						</option>
 					</select>
 				</div>
-        <button @click="exportToCSVFile" class="bg-indigo-500 text-white  px-4 m-2 rounded hover:bg-indigo-600">
-        Скачать CSV
-      </button>
+          <button @click="exportToCSVFile" class="bg-indigo-500 text-white px-4 m-2 rounded hover:bg-indigo-600">
+          Скачать CSV
+        </button>
 			</div>
 
 			<div class="overflow-x-auto pl-2 p-4" v-auto-animate>
