@@ -19,6 +19,40 @@ const filterOptionsPoints = [
 
 const selectFilterResults = ref(filterOptionsPoints[0]);
 
+// console.log('filteredItems', filteredItems);
+
+const exportToCSVFile = () => {
+  // Преобразование данных в формат CSV
+  const csvData = matchItems.value.map((item) => {
+    return {
+      'ФИО': item.fio,
+      'Номинация': item.nomination,
+      'Баллы': item.points,
+    };
+  });
+  
+  // Заголовок CSV
+  const csvHeader = 'ФИО,Номинация,Баллы\n';
+  
+  // Преобразование данных в строки CSV
+  const csvRows = csvData.map((row) => {
+    return Object.values(row).join(',');
+  });
+  
+  // Объединение заголовка и строк
+  const csvString = csvHeader + csvRows.join('\n');
+
+  // Создание URL для CSV файла
+  const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.href = url;
+  link.setAttribute('download', 'results.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 onMounted(async () => {
 	await fetchAllUsersPoints();
 });
@@ -71,6 +105,9 @@ useHead({
 						</option>
 					</select>
 				</div>
+        <button @click="exportToCSVFile" class="bg-indigo-500 text-white  px-4 m-2 rounded hover:bg-indigo-600">
+        Скачать CSV
+      </button>
 			</div>
 
 			<div class="overflow-x-auto pl-2 p-4" v-auto-animate>
